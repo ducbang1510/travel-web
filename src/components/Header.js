@@ -39,7 +39,7 @@ export default function Header() {
           <div className="menu-area pull-left clearfix">
             <div className="logo-box">
               <figure className="logo">
-                <a href="/home.html">
+                <a href="/">
                   <img src="./assets/image/logo-3.png" alt="ImageLogo" />
                 </a>
               </figure>
@@ -57,7 +57,7 @@ export default function Header() {
               >
                 <ul className="navigation clearfix">
                   <li className="dropdown">
-                    <a href="/home.html">Home</a>
+                    <a href="/">Home</a>
                   </li>
                   <li className="dropdown">
                     <a href="/destination.html">Categories</a>
@@ -66,7 +66,7 @@ export default function Header() {
                     </ul>
                   </li>
                   <li className="dropdown">
-                    <a href="/tour.html">Tours</a>
+                    <a href="/tour-list">Tours</a>
                   </li>
                   <li className="dropdown">
                     <a href="/blog.html">Blog</a>
@@ -134,7 +134,7 @@ export default function Header() {
           <div className="outer-box">
             <div className="logo-box">
               <figure className="logo">
-                <a href="/home.html">
+                <a href="/">
                   <img src="./assets/image/logo.png" alt="ImageLogo" />
                 </a>
               </figure>

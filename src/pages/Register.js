@@ -1,7 +1,5 @@
 import React from 'react';
 import API, { endpoints } from '../API';
-import PageTitleRegis from '../components/PageTitleRegis'
-import MobileMenu from '../components/MobileMenu'
 import { Link } from 'react-router-dom'
 
 export default class Register extends React.Component {
@@ -52,8 +50,19 @@ export default class Register extends React.Component {
     render() {
         return (
             <>
-                <MobileMenu />
-                <PageTitleRegis />
+                <section
+                    className="page-title centred"
+                    style={{
+                    backgroundImage: "url(./assets/image/background/page-title-5.jpg)"
+                    }}
+                >
+                    <div className="auto-container">
+                    <div className="content-box">
+                        <h1>Sign Up</h1>
+                        <p>Discover your next great adventure</p>
+                    </div>
+                    </div>
+                </section>
                 <section className="register-section sec-pad">
                     <div className="anim-icon">
                         <div

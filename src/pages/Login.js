@@ -1,5 +1,3 @@
-import PageTitle from '../components/PageTitle'
-import MobileMenu from '../components/MobileMenu'
 import React, { useState } from 'react';
 import API, { endpoints } from '../API';
 import cookies from 'react-cookies'
@@ -46,8 +44,19 @@ export default function Login() {
     else
         return (
             <>
-                <MobileMenu />
-                <PageTitle />
+                <section
+                    className="page-title centred"
+                    style={{
+                    backgroundImage: "url(./assets/image/background/page-title-5.jpg)"
+                    }}
+                >
+                    <div className="auto-container">
+                    <div className="content-box">
+                        <h1>Sign In</h1>
+                        <p>Discover your next great adventure</p>
+                    </div>
+                    </div>
+                </section>
                 <section className="register-section sec-pad">
                     <div className="anim-icon">
                         <div
