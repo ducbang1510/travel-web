@@ -4,18 +4,28 @@ import { Link } from "react-router-dom";
 import cookies from 'react-cookies'
 import { useStore } from 'react-redux';
 
-export default function Header() {
+export default function Header(props) {
   const [categories, setCategories] = useState([])
 
   const store = useStore()
   const auth = store.getState()
 
+  // const searchTour = async (event) => {
+  //   console.info(searchTerm)
+  //   auth1.searchTour(`?search=${searchTerm}`)
+
+  //   event.preventDefault()
+  // }
+
+
+  // Load API Categories
   useEffect(() => {
     API.get(endpoints['categories']).then(res => {
       setCategories(res.data)
     })
-  })
+  }, [])
 
+  // Load user
   let user = auth // user redux
   if (cookies.load("user") != null) {
     user = cookies.load("user")
@@ -31,6 +41,7 @@ export default function Header() {
           <li><a href="/logout">Đăng xuất</a></li>
       </>
   }
+
   return (
     <header className="main-header style-three">
       {}
@@ -80,7 +91,7 @@ export default function Header() {
             </nav>
           </div>
           <ul className="menu-right-content pull-right clearfix">
-            <li className="search-box-outer">
+            {/* <li className="search-box-outer">
               <div className="dropdown">
                 <button
                   className="search-box-btn"
@@ -97,14 +108,13 @@ export default function Header() {
                   aria-labelledby="dropdownMenu3"
                 >
                   <div className="form-container">
-                    <form method="post" action="blog.html">
+                    <form onSubmit={searchTour}>
                       <div className="form-group">
                         <input
                           type="search"
-                          name="search-field"
-                          defaultValue
                           placeholder="Search...."
-                          required
+                          value={searchTerm}
+                          onChange={event => setSearchTerm(event.target.value)}
                         />
                         <button type="submit" className="search-btn">
                           <span className="fas fa-search" />
@@ -114,7 +124,7 @@ export default function Header() {
                   </div>
                 </div>
               </div>
-            </li>
+            </li> */}
             <li className="user-link">
               <Link to="/login">
                 <i className="far fa-user" />
@@ -129,7 +139,7 @@ export default function Header() {
         </div>
       </div>
       {}
-      <div className="sticky-header">
+      {/* <div className="sticky-header">
         <div className="auto-container">
           <div className="outer-box">
             <div className="logo-box">
@@ -160,13 +170,13 @@ export default function Header() {
                     aria-labelledby="dropdownMenu4"
                   >
                     <div className="form-container">
-                      <form method="post" action="blog.html">
+                      <form onSubmit={(event) => searchTour(event)}>
                         <div className="form-group">
                           <input
                             type="search"
-                            name="search-field"
-                            defaultValue
                             placeholder="Search...."
+                            value={searchTerm}
+                            onChange={event => setSearchTerm(event.target.value)}
                             required
                           />
                           <button type="submit" className="search-btn">
@@ -186,7 +196,7 @@ export default function Header() {
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 }

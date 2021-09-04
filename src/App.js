@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Logout from './Logout'
 import Header from './components/Header'
@@ -10,7 +11,8 @@ import Register from './pages/Register'
 import Home from './pages/Home';
 import TourList from './pages/TourList';
 
-export default function App() {
+export default function App(props) {
+
   return (
     <div className="boxed_wrapper">
       <BrowserRouter>

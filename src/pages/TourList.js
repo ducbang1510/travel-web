@@ -4,12 +4,17 @@ import API, { endpoints } from '../API';
 import TourPageTitle from '../components/tour/TourPageTitle';
 
 export default function TourList() {
-    const [tours, setTours] = useState([])
     const [count, setCount] = useState(0)
+    const [tourList, setTourList] = useState([])
+
     const [cName, setcName] = useState('wrapper list')
     const [cList, setcList] = useState('list-view on')
     const [cGrid, setcGrid] = useState('grid-view')
 
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchRes, setSearchRes] = useState([])
+
+    // Change List and Grid view for page tour list
     const listOn = () => {
         setcName('wrapper list') 
         setcList('list-view on') 
@@ -21,11 +26,12 @@ export default function TourList() {
         setcList('list-view') 
         setcGrid('grid-view on')
     }
-
-    const loadTour = (page = "?page1") => {
+    
+    // Load API Tour-list
+    const loadTour = (page = "?page=1") => {
         API.get(`${endpoints['tours']}${page}`).then(res => {
             console.info(res.data)
-            setTours(res.data.results)
+            setTourList(res.data.results)
             setCount(res.data.count)
         })
     }
@@ -39,11 +45,48 @@ export default function TourList() {
         loadTour(location.search)
     }, [location.search])
 
+    // Pagination
     let items = []
     for(let i = 0; i < Math.ceil(count/4); i++)
         items.push(
-            <li><a href={"/tour-list?page=" + (i + 1)}>{i + 1}</a></li>
+            <li><a href={"/tour-list?page=" + (i + 1)} className="current">{i + 1}</a></li>
         )
+
+    // Function Search Tour
+    const searchTour = (event, search = `?search=${searchTerm}`) => {
+        event.preventDefault()
+        API.get(`${endpoints['tours']}${search}`).then(res => {
+            console.info(res.data)
+            setSearchRes(res.data.results)
+        })
+    }
+
+    // Render tour list
+    let tours = <></>
+
+    if (searchRes.length === 0) {
+        tours = <>
+            <div className="tour-grid-content">
+                <div className="row clearfix">
+                    {tourList.map(t => <TourItem tour={t} />)}
+                </div>
+            </div>
+            <div className="tour-list-content list-item">
+                {tourList.map(t => <TourItem2 tour={t} />)}
+            </div>
+        </>
+    } else {
+        tours = <>
+            <div className="tour-grid-content">
+                <div className="row clearfix">
+                    {searchRes.map(t => <TourItem tour={t} />)}
+                </div>
+            </div>
+            <div className="tour-list-content list-item">
+                {searchRes.map(t => <TourItem2 tour={t} />)}
+            </div>
+        </>
+    }
 
     return (
         <>
@@ -79,29 +122,11 @@ export default function TourList() {
                                 </div>
                             </div>
                             <div className={cName}>
-                                <div className="tour-grid-content">
-                                    <div className="row clearfix">
-                                        {tours.map(t => <TourItem tour={t} />)}
-                                    </div>
-                                </div>
-                                <div className="tour-list-content list-item">
-                                    {tours.map(t => <TourItem2 tour={t} />)}
-                                </div>
+                                {tours}
                             </div>
                             <div className="pagination-wrapper">
                                 <ul className="pagination clearfix">
                                     {items}
-                                    {/* <li>
-                                        <a href="/tour.html" className="current">
-                                            1
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/tour.html">2</a>
-                                    </li>
-                                    <li>
-                                        <a href="/tour.html">3</a>
-                                    </li> */}
                                     <li>
                                         <a href="/tour.html">
                                             <i className="fas fa-long-arrow-alt-right" />
@@ -116,17 +141,13 @@ export default function TourList() {
                                     <div className="widget-title">
                                         <h3>Search</h3>
                                     </div>
-                                    <form
-                                        action="./destination-details.html"
-                                        method="post"
-                                        className="search-form"
-                                    >
+                                    <form onSubmit={searchTour} className="search-form">
                                         <div className="form-group">
                                             <input
                                                 type="search"
-                                                name="search-field"
                                                 placeholder="Search"
-                                                required
+                                                value={searchTerm}
+                                                onChange={event => setSearchTerm(event.target.value)}
                                             />
                                             <button type="submit">
                                                 <i className="fas fa-search" />
