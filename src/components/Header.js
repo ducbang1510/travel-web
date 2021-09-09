@@ -3,6 +3,7 @@ import API, { endpoints } from '../API'
 import { Link } from "react-router-dom";
 import cookies from 'react-cookies'
 import { useStore } from 'react-redux';
+import logo from "../static/image/logo-3.png" // "./assets/image/logo-3.png"
 
 export default function Header(props) {
   const [categories, setCategories] = useState([])
@@ -51,7 +52,7 @@ export default function Header(props) {
             <div className="logo-box">
               <figure className="logo">
                 <a href="/">
-                  <img src="./assets/image/logo-3.png" alt="ImageLogo" />
+                  <img src={logo} alt="ImageLogo" />
                 </a>
               </figure>
             </div>
