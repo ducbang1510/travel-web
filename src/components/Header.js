@@ -3,7 +3,7 @@ import API, { endpoints } from '../API'
 import { Link } from "react-router-dom";
 import cookies from 'react-cookies'
 import { useStore } from 'react-redux';
-import logo from "../static/image/logo-3.png" // "./assets/image/logo-3.png"
+import logo from "../static/image/logo-3.png"
 
 export default function Header(props) {
   const [categories, setCategories] = useState([])

@@ -2,6 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import API, { endpoints } from "../API";
 
+import pageTitle3 from "../static/image/background/page-title-3.jpg"
+import des4 from "../static/image/destination/destination-4.jpg"
+import des5 from "../static/image/destination/destination-5.jpg"
+import des6 from "../static/image/destination/destination-6.jpg"
+import des7 from "../static/image/destination/destination-7.jpg"
+import des8 from "../static/image/destination/destination-8.jpg"
+import advice1 from "../static/image/advice/advice-1.jpg"
+
+
 export default function TourDetail() {
     const [tour, setTour] = useState([])
 
@@ -20,11 +29,11 @@ export default function TourDetail() {
 
     return (
         <>
-            <section className="page-title style-three" style={{ backgroundImage: "url(./assets/image/background/page-title-3.jpg)" }}>
+            <section className="page-title style-three" style={{ backgroundImage: `url(${pageTitle3})` }}>
                 <div className="auto-container">
                     <div className="inner-box">
                         <div className="rating"><span><i className="fas fa-star"></i>{tour.rating}</span></div>
-                        <h2>{tour.tour_name}</h2>
+                        <h2 style={{ width: "750px" }}>{tour.tour_name}</h2>
                         <h3>{tour.price_of_tour}<span> / Per person</span></h3>
                     </div>
                 </div>
@@ -152,36 +161,36 @@ export default function TourDetail() {
                                     </div>
                                     <div className="image-box clearfix">
                                         <figure className="image">
-                                            <img src="./assets/image/destination/destination-4.jpg" alt="ImageDetail" />
-                                            <a href="./assets/image/destination/destination-4.jpg"
+                                            <img src={des4} alt="ImageDetail" />
+                                            <a href={des4}
                                                 className="view-btn lightbox-image" data-fancybox="gallery">
                                                 <i className="far fa-plus-square"></i>
                                             </a>
                                         </figure>
                                         <figure className="image">
-                                            <img src="./assets/image/destination/destination-5.jpg" alt="ImageDetail" />
-                                            <a href="./assets/image/destination/destination-5.jpg"
+                                            <img src={des5} alt="ImageDetail" />
+                                            <a href={des5}
                                                 className="view-btn lightbox-image" data-fancybox="gallery">
                                                 <i className="far fa-plus-square"></i>
                                             </a>
                                         </figure>
                                         <figure className="image">
-                                            <img src="./assets/image/destination/destination-6.jpg" alt="ImageDetail" />
-                                            <a href="./assets/image/destination/destination-6.jpg"
+                                            <img src={des6} alt="ImageDetail" />
+                                            <a href={des6}
                                                 className="view-btn lightbox-image" data-fancybox="gallery">
                                                 <i className="far fa-plus-square"></i>
                                             </a>
                                         </figure>
                                         <figure className="image">
-                                            <img src="./assets/image/destination/destination-7.jpg" alt="ImageDetail" />
-                                            <a href="./assets/image/destination/destination-7.jpg"
+                                            <img src={des7} alt="ImageDetail" />
+                                            <a href={des7}
                                                 className="view-btn lightbox-image" data-fancybox="gallery">
                                                 <i className="far fa-plus-square"></i>
                                             </a>
                                         </figure>
                                         <figure className="image">
-                                            <img src="./assets/image/destination/destination-8.jpg" alt="ImageDetail" />
-                                            <a href="./assets/image/destination/destination-8.jpg"
+                                            <img src={des8} alt="ImageDetail" />
+                                            <a href={des8}
                                                 className="view-btn lightbox-image" data-fancybox="gallery">
                                                 <i className="far fa-plus-square"></i>
                                             </a>
@@ -324,7 +333,7 @@ export default function TourDetail() {
                                 </div>
                                 <div className="advice-widget">
                                     <div className="inner-box"
-                                        style={{ backgroundImage: "url(./assets/image/advice/advice-1.jpg)" }}>
+                                        style={{ backgroundImage: `url(${advice1})` }}>
                                         <div className="text">
                                             <h2>Get <br />25% Off <br />On New York Tours</h2>
                                         </div>

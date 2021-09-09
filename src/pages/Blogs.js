@@ -1,9 +1,20 @@
 import React from 'react';
 
+import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import new9 from "../static/image/news/news-9.jpg"
+import new10 from "../static/image/news/news-10.jpg"
+import new11 from "../static/image/news/news-11.jpg"
+import new12 from "../static/image/news/news-12.jpg"
+import new13 from "../static/image/news/news-13.jpg"
+import post1 from "../static/image/news/post-1.png"
+import post2 from "../static/image/news/post-2.png"
+import post3 from "../static/image/news/post-3.png"
+import advice1 from "../static/image/advice/advice-1.jpg"
+
 function Blogs(props) {
     return (
         <>
-            <section className="page-title centred" style={{ backgroundImage: "url(./assets/image/background/page-title-5.jpg);" }}>
+            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
                     <div className="content-box">
                         <h1>Blog Standard</h1>
@@ -26,7 +37,7 @@ function Blogs(props) {
                                         <figure className="image-box">
                                             <a href="/blog-details">
                                                 <img
-                                                    src="./assets/image/news/news-9.jpg"
+                                                    src={new9}
                                                     alt="ImageBlog"
                                                 />
                                             </a>
@@ -73,7 +84,7 @@ function Blogs(props) {
                                         <figure className="image-box">
                                             <a href="/blog-details">
                                                 <img
-                                                    src="./assets/image/news/news-10.jpg"
+                                                    src={new10}
                                                     alt="ImageBlog"
                                                 />
                                             </a>
@@ -120,7 +131,7 @@ function Blogs(props) {
                                         <figure className="image-box">
                                             <a href="/blog-details">
                                                 <img
-                                                    src="./assets/image/news/news-11.jpg"
+                                                    src={new11}
                                                     alt="ImageBlog"
                                                 />
                                             </a>
@@ -167,7 +178,7 @@ function Blogs(props) {
                                         <figure className="image-box">
                                             <a href="/blog-details">
                                                 <img
-                                                    src="./assets/image/news/news-12.jpg"
+                                                    src={new12}
                                                     alt="ImageBlog"
                                                 />
                                             </a>
@@ -214,7 +225,7 @@ function Blogs(props) {
                                         <figure className="image-box">
                                             <a href="/blog-details">
                                                 <img
-                                                    src="./assets/image/news/news-13.jpg"
+                                                    src={new13}
                                                     alt="ImageBlog"
                                                 />
                                             </a>
@@ -333,7 +344,7 @@ function Blogs(props) {
                                         <div className="post">
                                             <figure className="post-thumb">
                                                 <a href="/blog-details">
-                                                    <img src="./assets/image/news/post-1.png" alt="" />
+                                                    <img src={post1} alt="" />
                                                 </a>
                                             </figure>
                                             <span className="post-date">April 18, 2020</span>
@@ -346,7 +357,7 @@ function Blogs(props) {
                                         <div className="post">
                                             <figure className="post-thumb">
                                                 <a href="/blog-details">
-                                                    <img src="./assets/image/news/post-2.png" alt="" />
+                                                    <img src={post2} alt="" />
                                                 </a>
                                             </figure>
                                             <span className="post-date">April 17, 2020</span>
@@ -359,7 +370,7 @@ function Blogs(props) {
                                         <div className="post">
                                             <figure className="post-thumb">
                                                 <a href="/blog-details">
-                                                    <img src="./assets/image/news/post-3.png" alt="" />
+                                                    <img src={post3} alt="" />
                                                 </a>
                                             </figure>
                                             <span className="post-date">April 16, 2020</span>
@@ -375,7 +386,7 @@ function Blogs(props) {
                                     <div
                                         className="inner-box"
                                         style={{
-                                            backgroundImage: "url(./assets/image/advice/advice-1.jpg)"
+                                            backgroundImage: `url(${advice1})`
                                         }}
                                     >
                                         <div className="text">

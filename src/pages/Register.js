@@ -2,6 +2,10 @@ import React from 'react';
 import API, { endpoints } from '../API';
 import { Link } from 'react-router-dom'
 
+import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import shape16 from "../static/image/shape/shape-16.png"
+import shape17 from "../static/image/shape/shape-17.png"
+
 export default class Register extends React.Component {
     constructor() {
         super();
@@ -53,7 +57,7 @@ export default class Register extends React.Component {
                 <section
                     className="page-title centred"
                     style={{
-                    backgroundImage: "url(./assets/image/background/page-title-5.jpg)"
+                    backgroundImage: `url(${pageTitle5})`
                     }}
                 >
                     <div className="auto-container">
@@ -68,13 +72,13 @@ export default class Register extends React.Component {
                         <div
                             className="icon anim-icon-1"
                             style={{
-                                backgroundImage: "url(./assets/image/shape/shape-16.png)"
+                                backgroundImage: `url(${shape16})`
                             }}
                         />
                         <div
                             className="icon anim-icon-2"
                             style={{
-                                backgroundImage: "url(./assets/image/shape/shape-17.png)"
+                                backgroundImage: `url(${shape17})`
                             }}
                         />
                     </div>

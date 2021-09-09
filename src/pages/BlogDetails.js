@@ -1,9 +1,22 @@
 import React from 'react';
 
+import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import new9 from "../static/image/news/news-9.jpg"
+import des1 from "../static/image/destination/destination-1.jpg"
+import des2 from "../static/image/destination/destination-2.jpg"
+import des3 from "../static/image/destination/destination-3.jpg"
+import comment1 from "../static/image/news/comment-1.png"
+import comment2 from "../static/image/news/comment-2.png"
+import comment3 from "../static/image/news/comment-3.png"
+import post1 from "../static/image/news/post-1.png"
+import post2 from "../static/image/news/post-2.png"
+import post3 from "../static/image/news/post-3.png"
+import advice1 from "../static/image/advice/advice-1.jpg"
+
 function BlogDetails(props) {
     return (
         <>
-            <section className="page-title centred" style={{ backgroundImage: "url(./assets/image/background/page-title-5.jpg)" }}>
+            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
                     <div className="content-box">
                         <h1>Blog Details</h1>
@@ -36,7 +49,7 @@ function BlogDetails(props) {
                                         </div>
                                         <figure className="image-box">
                                             <img
-                                                src="./assets/image/news/news-9.jpg"
+                                                src={new9}
                                                 alt="ImageBlog"
                                             />
                                             <span className="post-date">
@@ -67,19 +80,19 @@ function BlogDetails(props) {
                                 <div className="image-box clearfix">
                                     <figure className="image">
                                         <img
-                                            src="./assets/image/destination/destination-1.jpg"
+                                            src={des1}
                                             alt="ImageDestination"
                                         />
                                     </figure>
                                     <figure className="image">
                                         <img
-                                            src="./assets/image/destination/destination-2.jpg"
+                                            src={des2}
                                             alt="ImageDestination"
                                         />
                                     </figure>
                                     <figure className="image">
                                         <img
-                                            src="./assets/image/destination/destination-3.jpg"
+                                            src={des3}
                                             alt="ImageDestination"
                                         />
                                     </figure>
@@ -140,7 +153,7 @@ function BlogDetails(props) {
                                     <div className="comment">
                                         <figure className="thumb-box">
                                             <img
-                                                src="./assets/image/news/comment-1.png"
+                                                src={comment1}
                                                 alt="ImageComment"
                                             />
                                         </figure>
@@ -164,7 +177,7 @@ function BlogDetails(props) {
                                     <div className="comment">
                                         <figure className="thumb-box">
                                             <img
-                                                src="./assets/image/news/comment-2.png"
+                                                src={comment2}
                                                 alt="ImageComment"
                                             />
                                         </figure>
@@ -188,7 +201,7 @@ function BlogDetails(props) {
                                     <div className="comment">
                                         <figure className="thumb-box">
                                             <img
-                                                src="./assets/image/news/comment-3.png"
+                                                src={comment3}
                                                 alt="ImageComment"
                                             />
                                         </figure>
@@ -341,7 +354,7 @@ function BlogDetails(props) {
                                             <figure className="post-thumb">
                                                 <a href="/blog-details.html">
                                                     <img
-                                                        src="./assets/image/news/post-1.png"
+                                                        src={post1}
                                                         alt="ImagePost"
                                                     />
                                                 </a>
@@ -357,7 +370,7 @@ function BlogDetails(props) {
                                             <figure className="post-thumb">
                                                 <a href="/blog-details.html">
                                                     <img
-                                                        src="./assets/image/news/post-2.png"
+                                                        src={post2}
                                                         alt="ImagePost"
                                                     />
                                                 </a>
@@ -373,7 +386,7 @@ function BlogDetails(props) {
                                             <figure className="post-thumb">
                                                 <a href="/blog-details.html">
                                                     <img
-                                                        src="./assets/image/news/post-3.png"
+                                                        src={post3}
                                                         alt="ImagePost"
                                                     />
                                                 </a>
@@ -391,7 +404,7 @@ function BlogDetails(props) {
                                     <div
                                         className="inner-box"
                                         style={{
-                                            backgroundImage: "url(./assets/image/advice/advice-1.jpg)"
+                                            backgroundImage: `url(${advice1})`
                                         }}
                                     >
                                         <div className="text">

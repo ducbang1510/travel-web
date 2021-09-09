@@ -4,6 +4,10 @@ import cookies from 'react-cookies'
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
+import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import shape16 from "../static/image/shape/shape-16.png"
+import shape17 from "../static/image/shape/shape-17.png"
+
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -47,7 +51,7 @@ export default function Login() {
                 <section
                     className="page-title centred"
                     style={{
-                    backgroundImage: "url(./assets/image/background/page-title-5.jpg)"
+                    backgroundImage: `url(${pageTitle5})`
                     }}
                 >
                     <div className="auto-container">
@@ -62,13 +66,13 @@ export default function Login() {
                         <div
                             className="icon anim-icon-1"
                             style={{
-                                backgroundImage: "url(./assets/image/shape/shape-16.png)"
+                                backgroundImage: `url(${shape16})`
                             }}
                         />
                         <div
                             className="icon anim-icon-2"
                             style={{
-                                backgroundImage: "url(./assets/image/shape/shape-17.png)"
+                                backgroundImage: `url(${shape17})`
                             }}
                         />
                     </div>

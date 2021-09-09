@@ -1,5 +1,13 @@
 import React from "react";
 
+import shape11 from '../static/image/shape/shape-11.png'
+import footerLogo from '../static/image/footer-logo.png'
+import footerGallery1 from '../static/image/footer-gallery/footer-gallery-1.jpg'
+import footerGallery2 from '../static/image/footer-gallery/footer-gallery-2.jpg'
+import footerGallery3 from '../static/image/footer-gallery/footer-gallery-3.jpg'
+import footerGallery4 from '../static/image/footer-gallery/footer-gallery-4.jpg'
+import footerGallery5 from '../static/image/footer-gallery/footer-gallery-5.jpg'
+import footerGallery6 from '../static/image/footer-gallery/footer-gallery-6.jpg'
 class Footer extends React.Component {
   render() {
     return (
@@ -8,7 +16,7 @@ class Footer extends React.Component {
           <div
             className="vector-bg"
             style={{
-              backgroundImage: "url(./assets/image/shape/shape-11.png)"
+              backgroundImage: `url(${shape11})`
             }}
           />
           <div className="auto-container">
@@ -18,7 +26,7 @@ class Footer extends React.Component {
                   <figure className="footer-logo">
                     <a href="/home.html">
                       <img
-                        src="./assets/image/footer-logo.png"
+                        src={footerLogo}
                         alt="ImageLogo"
                       />
                     </a>
@@ -99,7 +107,7 @@ class Footer extends React.Component {
                         <figure className="image-box">
                           <a href="/">
                             <img
-                              src="./assets/image/footer-gallery/footer-gallery-1.jpg"
+                              src={footerGallery1}
                               alt="ImageFooter"
                             />
                           </a>
@@ -109,7 +117,7 @@ class Footer extends React.Component {
                         <figure className="image-box">
                           <a href="/">
                             <img
-                              src="./assets/image/footer-gallery/footer-gallery-2.jpg"
+                              src={footerGallery2}
                               alt="ImageFooter"
                             />
                           </a>
@@ -119,7 +127,7 @@ class Footer extends React.Component {
                         <figure className="image-box">
                           <a href="/">
                             <img
-                              src="./assets/image/footer-gallery/footer-gallery-3.jpg"
+                              src={footerGallery3}
                               alt="ImageFooter"
                             />
                           </a>
@@ -129,7 +137,7 @@ class Footer extends React.Component {
                         <figure className="image-box">
                           <a href="/">
                             <img
-                              src="./assets/image/footer-gallery/footer-gallery-4.jpg"
+                              src={footerGallery4}
                               alt="ImageFooter"
                             />
                           </a>
@@ -139,7 +147,7 @@ class Footer extends React.Component {
                         <figure className="image-box">
                           <a href="/">
                             <img
-                              src="./assets/image/footer-gallery/footer-gallery-5.jpg"
+                              src={footerGallery5}
                               alt="ImageFooter"
                             />
                           </a>
@@ -149,7 +157,7 @@ class Footer extends React.Component {
                         <figure className="image-box">
                           <a href="/">
                             <img
-                              src="./assets/image/footer-gallery/footer-gallery-6.jpg"
+                              src={footerGallery6}
                               alt="ImageFooter"
                             />
                           </a>

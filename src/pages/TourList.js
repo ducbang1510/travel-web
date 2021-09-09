@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import API, { endpoints } from '../API';
 import TourPageTitle from '../components/tour/TourPageTitle';
 
+import advice1 from "../static/image/advice/advice-1.jpg"
+
 export default function TourList() {
     const [count, setCount] = useState(0)
     const [tourList, setTourList] = useState([])
@@ -411,7 +413,7 @@ export default function TourList() {
                                     <div
                                         className="inner-box"
                                         style={{
-                                            backgroundImage: "url(./assets/image/advice/advice-1.jpg)"
+                                            backgroundImage: `url(${advice1})`
                                         }}
                                     >
                                         <div className="text">
@@ -452,7 +454,7 @@ class TourItem extends React.Component {
                                 </span>
                             </div>
                             <h3>
-                                <a href={'/tour-detail/' + this.props.tour.id} >
+                                <a data-toggle="tooltip" title={this.props.tour.tour_name} href={'/tour-detail/' + this.props.tour.id} >
                                     {this.props.tour.tour_name}
                                 </a>
                             </h3>
@@ -505,7 +507,7 @@ class TourItem2 extends React.Component {
                             </span>
                         </div>
                         <h3>
-                            <a href={'/tour-detail/' + this.props.tour.id} >
+                            <a data-toggle="tooltip" title={this.props.tour.tour_name} href={'/tour-detail/' + this.props.tour.id} >
                                 {this.props.tour.tour_name}
                             </a>
                         </h3>

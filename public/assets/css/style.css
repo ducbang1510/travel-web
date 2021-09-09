@@ -2068,6 +2068,12 @@ div#mCSB_1_container {
 .tour-block-one .inner-box .lower-content h3 a {
     display: inline-block;
     color: #061a3a;
+    line-height: 30px;
+    height: 60px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .tour-block-one .inner-box .lower-content h3 a:hover {}
@@ -4152,6 +4158,12 @@ div#mCSB_1_container {
 .tour-block-two .inner-box .content-box h3 a {
     display: inline-block;
     color: #061a3a;
+    line-height: 30px;
+    height: 60px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .tour-block-two .inner-box .content-box h3 a:hover {}
