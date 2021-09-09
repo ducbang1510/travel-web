@@ -11,6 +11,8 @@ import Register from './pages/Register'
 import Home from './pages/Home';
 import TourList from './pages/TourList';
 import TourDetail from './pages/TourDetail';
+import Blogs from './pages/Blogs';
+import BlogDetails from './pages/BlogDetails';
 import { TourProvider } from './contexts/TourContext';
 
 export default function App(props) {
@@ -25,11 +27,16 @@ export default function App(props) {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/tour-list" component={TourList} />
-          {/* <Route exact path="/tour-detail">
+          <Route exact path="/tour-detail">
             <TourDetail />
+          </Route>
+          <Route exact path="/tour-detail/:tourId" component={TourDetail} />
+          <Route exact path="/blogs" component={Blogs} />
+          {/* <Route exact path="/blog-details/:blogId">
+            <BlogDetails />
           </Route> */}
-          <Route exact path="/tour-detail/:id">
-            <TourDetail />
+          <Route exact path="/blog-details">
+            <BlogDetails />
           </Route>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />

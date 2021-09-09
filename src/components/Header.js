@@ -80,7 +80,7 @@ export default function Header(props) {
                     <a href="/tour-list">Tours</a>
                   </li>
                   <li className="dropdown">
-                    <a href="/blog.html">Blog</a>
+                    <a href="/blogs">Blog</a>
                   </li>
                   <li className="current dropdown">
                     <a href="/about-us.html">About Us</a>

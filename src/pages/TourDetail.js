@@ -4,9 +4,8 @@ import API, { endpoints } from "../API";
 
 export default function TourDetail() {
     const [tour, setTour] = useState([])
-    const tourId = useParams()
-    console.info(tourId)
 
+    const { tourId } = useParams()
 
     const getTour = () => {
         API.get(`${endpoints['tours']}${tourId}/`).then(res => {
@@ -24,9 +23,9 @@ export default function TourDetail() {
             <section className="page-title style-three" style={{ backgroundImage: "url(./assets/image/background/page-title-3.jpg)" }}>
                 <div className="auto-container">
                     <div className="inner-box">
-                        <div className="rating"><span><i className="fas fa-star"></i>8.0 Superb</span></div>
+                        <div className="rating"><span><i className="fas fa-star"></i>{tour.rating}</span></div>
                         <h2>{tour.tour_name}</h2>
-                        <h3>$170.00<span> / Per person</span></h3>
+                        <h3>{tour.price_of_tour}<span> / Per person</span></h3>
                     </div>
                 </div>
             </section>
