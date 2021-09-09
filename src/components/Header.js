@@ -73,7 +73,7 @@ export default function Header(props) {
                   <li className="dropdown">
                     <a href="/destination.html">Categories</a>
                     <ul>
-                      {categories.map(c => <li><a href="/">{c.name}</a></li>)}
+                      {categories.map(c => <li key={c.id}><a href="/">{c.name}</a></li>)}
                     </ul>
                   </li>
                   <li className="dropdown">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class TourDetailsSection extends Component {
+export default class TourDetailSection extends Component {
     render() {
         return (
             <>
@@ -252,13 +252,13 @@ export default class TourDetailsSection extends Component {
                                         <form action="tour-details.html" method="post" className="comment-form">
                                             <div className="row clearfix">
                                                 <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                                                    <input type="text" name="name" placeholder="Your Name" required=""/>
+                                                    <input type="text" name="name" placeholder="Your Name" required/>
                                                 </div>
                                                 <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                                                    <input type="email" name="email" placeholder="Email Address" required=""/>
+                                                    <input type="email" name="email" placeholder="Email Address" required/>
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                    <input type="text" name="review" placeholder="Review Title" required=""/>
+                                                    <input type="text" name="review" placeholder="Review Title" required/>
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 form-group">
                                                     <textarea name="message" placeholder="Write Message"></textarea>
@@ -273,39 +273,6 @@ export default class TourDetailsSection extends Component {
                             </div>
                             <div className="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                                 <div className="default-sidebar tour-sidebar ml-20">
-                                    <div className="form-widget">
-                                        <div className="widget-title">
-                                            <h3>Book This Tour</h3>
-                                        </div>
-                                        {/* <form action="tour-details.html" method="post" className="tour-form">
-                                            <div className="form-group">
-                                                <input type="text" name="name" placeholder="Your Name" required="">
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="email" name="email" placeholder="Your Email" required="">
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="text" name="phone" placeholder="Phone" required="">
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="text" name="tickets" placeholder="Tickets" required="">
-                                            </div>
-                                            <div className="form-group">
-                                                <input type="text" name="date" placeholder="dd/mm/yy" id="datepicker">
-                                            </div>
-                                            <div className="form-group">
-                                                <textarea name="message" placeholder="Message"></textarea>
-                                            </div>
-                                            <div className="form-group message-btn">
-                                                <button type="submit" className="theme-btn">
-                                                    <a href="/booking-1.html" style="color:#fff">Book Tour</a>
-                                                </button>
-                                            </div>
-                                        </form> */}
-                                        <a href="/booking-1.html" style={{color:"#fff"}}>
-                                            <button type="submit" className="theme-btn">Book Tour</button>
-                                        </a>
-                                    </div>
                                     <div className="sidebar-widget downloads-widget">
                                         <div className="widget-title">
                                             <h3>Downloads</h3>
@@ -337,6 +304,14 @@ export default class TourDetailsSection extends Component {
                                                 <h2>Get <br />25% Off <br />On New York Tours</h2>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className="form-widget">
+                                        <div className="widget-title">
+                                            <h3>Book This Tour</h3>
+                                        </div>
+                                        <a href="/booking-1.html" style={{color:"#fff"}}>
+                                            <button type="submit" className="theme-btn">Book Tour</button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

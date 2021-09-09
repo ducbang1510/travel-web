@@ -4,12 +4,8 @@ import FormInner from "../FormInner"
 class TourPageTitle extends React.Component {
   render() {
     return (
-      <section
-        className="page-title style-two centred"
-        style={{
-          backgroundImage: "url(./assets/image/background/page-title-2.jpg)"
-        }}
-      >
+      <section className="page-title style-two centred"
+        style={{ backgroundImage: "url(./assets/image/background/page-title-2.jpg)" }}>
         <div className="auto-container">
           <div className="content-box">
             <h1>Tours Grid</h1>

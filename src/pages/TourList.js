@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import API, { endpoints } from '../API';
 import TourPageTitle from '../components/tour/TourPageTitle';
 
@@ -56,11 +56,9 @@ export default function TourList() {
     const searchTour = (event, search = `?search=${searchTerm}`) => {
         event.preventDefault()
         API.get(`${endpoints['tours']}${search}`).then(res => {
-            console.info(res.data)
             setSearchRes(res.data.results)
         })
     }
-
     // Render tour list
     let tours = <></>
 
@@ -441,8 +439,8 @@ class TourItem extends React.Component {
                 <div className="tour-block-one">
                     <div className="inner-box">
                         <figure className="image-box">
-                            <img src="./assets/image/tour/tour-12.jpg" alt="ImageTour" />
-                            <a href="/tour-details.html">
+                            <img style={{width: '370px', height: '270px'}} src={this.props.tour.image} alt="ImageTour" />
+                            <a href={'/tour-detail/' + this.props.tour.id} >
                                 <i className="fas fa-link" />
                             </a>
                         </figure>
@@ -454,11 +452,11 @@ class TourItem extends React.Component {
                                 </span>
                             </div>
                             <h3>
-                                <a href="/tour-details.html">
+                                <a href={'/tour-detail/' + this.props.tour.id} >
                                     {this.props.tour.tour_name}
                                 </a>
                             </h3>
-                            <h4>
+                            <h4 >
                                 {this.props.tour.price_of_tour} <span>/ Per person</span>
                             </h4>
                             <ul className="info clearfix">
@@ -474,7 +472,8 @@ class TourItem extends React.Component {
                                 {this.props.tour.depart_date}
                             </p>
                             <div className="btn-box">
-                                <a href="/tour-details.html">See Details</a>
+                                {/* <a href={'/tour-detail/' + this.props.tour.id} >See Details</a> */}
+                                <Link to={'/tour-detail/' + this.props.tour.id}>See Details</Link>
                             </div>
                         </div>
                     </div>
@@ -490,11 +489,11 @@ class TourItem2 extends React.Component {
             <div className="tour-block-two">
                 <div className="inner-box">
                     <figure className="image-box">
-                        <img
-                            src="./assets/image/tour/tour-4.jpg"
+                        <img style={{width: '190px', height: '227px'}}
+                            src={this.props.tour.image}
                             alt="ImageTour"
                         />
-                        <a href="/tour-details.html">
+                        <a href={'/tour-detail/' + this.props.tour.id} >
                             <i className="fas fa-link" />
                         </a>
                     </figure>
@@ -506,7 +505,9 @@ class TourItem2 extends React.Component {
                             </span>
                         </div>
                         <h3>
-                            <a href="/tour-details.html">{this.props.tour.tour_name}</a>
+                            <a href={'/tour-detail/' + this.props.tour.id} >
+                                {this.props.tour.tour_name}
+                            </a>
                         </h3>
                         <h4>
                             {this.props.tour.price_of_tour}<span> / Per person</span>
@@ -515,7 +516,8 @@ class TourItem2 extends React.Component {
                             {this.props.tour.depart_date}
                         </p>
                         <div className="btn-box">
-                            <a href="/tour-details.html">See Details</a>
+                            {/* <a href={'/tour-detail/' + this.props.tour.id} >See Details</a> */}
+                            <Link to={`/tour-detail/${this.props.tour.id}`}>See Details</Link>
                         </div>
                     </div>
                 </div>
