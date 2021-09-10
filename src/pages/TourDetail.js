@@ -27,6 +27,8 @@ export default function TourDetail() {
         getTour()
     }, [])
 
+    let services = tour.service
+
     return (
         <>
             <section className="page-title style-three" style={{ backgroundImage: `url(${pageTitle3})` }}>
@@ -34,7 +36,7 @@ export default function TourDetail() {
                     <div className="inner-box">
                         <div className="rating"><span><i className="fas fa-star"></i>{tour.rating}</span></div>
                         <h2 style={{ width: "750px" }}>{tour.tour_name}</h2>
-                        <h3>{tour.price_of_tour}<span> / Per person</span></h3>
+                        <h3>{tour.price_of_tour}đ<span> / 1 người</span></h3>
                     </div>
                 </div>
             </section>
@@ -46,55 +48,33 @@ export default function TourDetail() {
                             <div className="tour-details-content">
                                 <div className="inner-box">
                                     <div className="text">
-                                        <h2>Overview</h2>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                            culpa qui officia deserunt mollit anim id est laborum.</p>
-                                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                            doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                            veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                                        <h2>Mô tả</h2>
+                                        <p dangerouslySetInnerHTML={{__html: `${tour.description}`}} />
                                         <ul className="info-list clearfix">
-                                            <li><i className="far fa-clock"></i>5 Days</li>
+                                            <li><i className="far fa-clock"></i>{tour.duration}</li>
                                             <li><i className="far fa-user"></i>Age 15+</li>
-                                            <li><i className="far fa-map"></i>G87P, Birmingham</li>
+                                            <li><i className="far fa-map"></i>Đang cập nhật</li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div className="overview-inner">
                                     <ul className="overview-list clearfix">
-                                        <li><span>Destination:</span>New York City</li>
-                                        <li><span>Departure:</span>Yes Requard</li>
-                                        <li><span>Departure Time:</span>New York City</li>
-                                        <li><span>Return Time:</span>English & Spanish</li>
-                                        <li className="clearfix"><span>Included:</span>
+                                        <li><span>Điểm đến:</span>Đang cập nhật</li>
+                                        <li><span>Điểm khởi hành:</span>{tour.departure}</li>
+                                        <li><span>Thời gian khởi hành:</span>{tour.depart_date}</li>
+                                        <li className="clearfix"><span>Bao gồm:</span>
                                             <ul className="included-list clearfix">
-                                                <li>Air fares</li>
-                                                <li>4 Nights Hotel Accomodation</li>
-                                                <li>Entrance Fees</li>
-                                                <li>Tour Guide</li>
-                                            </ul>
-                                        </li>
-                                        <li className="clearfix"><span>Excluded:</span>
-                                            <ul className="excluded-list clearfix">
-                                                <li>Air fares</li>
-                                                <li>Air fares</li>
-                                                <li>Air fares</li>
-                                                <li>Air fares</li>
+                                                {services.map(s => <li key={s.id}>{s.name}</li>)}
                                             </ul>
                                         </li>
                                     </ul>
                                 </div>
                                 <div className="tour-plan">
                                     <div className="text">
-                                        <h2>Tour Plan</h2>
-                                        <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                                            qui officia deserunt mollit anim id est laborum.</p>
+                                        <h2>Kế hoạch tour</h2>
+                                        <p dangerouslySetInnerHTML={{__html: `${tour.tour_plan}`}} />
                                     </div>
-                                    <div className="content-box">
+                                    {/* <div className="content-box">
                                         <div className="single-box">
                                             <span>01</span>
                                             <h4>8:00 am to 10:00 am</h4>
@@ -134,7 +114,7 @@ export default function TourDetail() {
                                                 <li>Entrance Fees</li>
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="location-map">
                                     <div className="text">
@@ -341,10 +321,10 @@ export default function TourDetail() {
                                 </div>
                                 <div className="form-widget">
                                     <div className="widget-title">
-                                        <h3>Book This Tour</h3>
+                                        <h3>Đặt Tour</h3>
                                     </div>
                                     <a href="/booking-1.html" style={{ color: "#fff" }}>
-                                        <button type="submit" className="theme-btn">Book Tour</button>
+                                        <button type="submit" className="theme-btn">Nhấn vào đây</button>
                                     </a>
                                 </div>
                             </div>

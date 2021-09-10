@@ -1,12 +1,14 @@
 import React from "react";
 
+import deals1 from "../../static/image/background/deals-1.jpg"
+
 class DealsSection extends React.Component {
   render() {
     return (
       <section
         className="deals-section"
         style={{
-          backgroundImage: "url(./assets/image/background/deals-1.jpg)"
+          backgroundImage: `url(${deals1})`
         }}
       >
         <div className="auto-container">

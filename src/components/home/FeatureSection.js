@@ -1,5 +1,14 @@
 import React from "react";
 
+import feature1 from "../../static/image/feature/feature-1.jpg"
+import feature2 from "../../static/image/feature/feature-2.jpg"
+import feature3 from "../../static/image/feature/feature-3.jpg"
+import feature4 from "../../static/image/feature/feature-4.jpg"
+import reputation from "../../static/image/feature/reputation.png"
+import reliability from "../../static/image/feature/reliability.png"
+import experience from "../../static/image/feature/experience.png"
+import motivation from "../../static/image/feature/motivation.png"
+
 class FeatureSection extends React.Component {
   render() {
     return (
@@ -18,13 +27,13 @@ class FeatureSection extends React.Component {
               >
                 <div className="inner-box">
                   <figure className="image-box">
-                    <img src="./assets/image/feature/feature-1.jpg" alt="" />
+                    <img src={feature1} alt="" />
                   </figure>
                   <div className="lower-content">
                     <div className="icon-box">
                       <img
                         className="icon-feature"
-                        src="./assets/image/feature/reputation.png"
+                        src={reputation}
                         alt="Icon"
                       />
                     </div>
@@ -41,13 +50,13 @@ class FeatureSection extends React.Component {
               >
                 <div className="inner-box">
                   <figure className="image-box">
-                    <img src="./assets/image/feature/feature-2.jpg" alt="" />
+                    <img src={feature2} alt="" />
                   </figure>
                   <div className="lower-content">
                     <div className="icon-box">
                       <img
                         className="icon-feature"
-                        src="./assets/image/feature/reliability.png"
+                        src={reliability}
                         alt="Icon"
                       />
                     </div>
@@ -64,13 +73,13 @@ class FeatureSection extends React.Component {
               >
                 <div className="inner-box">
                   <figure className="image-box">
-                    <img src="./assets/image/feature/feature-3.jpg" alt="" />
+                    <img src={feature3} alt="" />
                   </figure>
                   <div className="lower-content">
                     <div className="icon-box">
                       <img
                         className="icon-feature"
-                        src="./assets/image/feature/experience.png"
+                        src={experience}
                         alt="Icon"
                       />
                     </div>
@@ -87,13 +96,13 @@ class FeatureSection extends React.Component {
               >
                 <div className="inner-box">
                   <figure className="image-box">
-                    <img src="./assets/image/feature/feature-4.jpg" alt="" />
+                    <img src={feature4} alt="" />
                   </figure>
                   <div className="lower-content">
                     <div className="icon-box">
                       <img
                         className="icon-feature"
-                        src="./assets/image/feature/motivation.png"
+                        src={motivation}
                         alt="Icon"
                       />
                     </div>

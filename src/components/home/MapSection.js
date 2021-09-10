@@ -1,5 +1,9 @@
 import React from "react";
 
+import shape9 from "../../static/image/shape/shape-9.png"
+import map1 from "../../static/image/shape/map-1.png"
+import marker1 from "../../static/image/icon/marker-1.png"
+
 class MapSection extends React.Component {
   render() {
     return (
@@ -7,7 +11,7 @@ class MapSection extends React.Component {
         <div
           className="pattern-layer"
           style={{
-            backgroundImage: "url(./assets/image/shape/shape-9.png)"
+            backgroundImage: `url(${shape9})`
           }}
         />
         <div className="outer-container">
@@ -18,13 +22,13 @@ class MapSection extends React.Component {
           <div
             className="map-inner"
             style={{
-              backgroundImage: "url(./assets/image/shape/map-1.png)"
+              backgroundImage: `url(${map1})`
             }}
           >
             <div className="map-content clearfix">
               <div className="single-location-box">
                 <figure className="map-marker">
-                  <img src="./assets/image/icon/marker-1.png" alt="" />
+                  <img src={marker1} alt="" />
                   <span>1</span>
                 </figure>
                 <div className="address-box">
@@ -37,7 +41,7 @@ class MapSection extends React.Component {
               </div>
               <div className="single-location-box">
                 <figure className="map-marker">
-                  <img src="./assets/image/icon/marker-1.png" alt="" />
+                  <img src={marker1} alt="" />
                   <span>2</span>
                 </figure>
                 <div className="address-box">
@@ -50,7 +54,7 @@ class MapSection extends React.Component {
               </div>
               <div className="single-location-box current">
                 <figure className="map-marker">
-                  <img src="./assets/image/icon/marker-1.png" alt="" />
+                  <img src={marker1} alt="" />
                   <span>3</span>
                 </figure>
                 <div className="address-box">
@@ -63,7 +67,7 @@ class MapSection extends React.Component {
               </div>
               <div className="single-location-box">
                 <figure className="map-marker">
-                  <img src="./assets/image/icon/marker-1.png" alt="" />
+                  <img src={marker1} alt="" />
                   <span>4</span>
                 </figure>
                 <div className="address-box">

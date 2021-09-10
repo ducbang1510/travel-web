@@ -1,5 +1,12 @@
 import React from "react";
 
+import animicon1 from "../../static/image/icon/anim-icon-1.png"
+import shape3 from "../../static/image/shape/shape-3.png"
+import place1 from "../../static/image/place/place-1.jpg"
+import place2 from "../../static/image/place/place-2.jpg"
+import place3 from "../../static/image/place/place-3.jpg"
+import place4 from "../../static/image/place/place-4.jpg"
+
 class PlaceSection extends React.Component {
   render() {
     return (
@@ -8,19 +15,19 @@ class PlaceSection extends React.Component {
           <div
             className="icon anim-icon-1"
             style={{
-              backgroundImage: "url(./assets/image/icon/anim-icon-1.png)"
+              backgroundImage: `url(${animicon1})`
             }}
           />
           <div
             className="icon anim-icon-2"
             style={{
-              backgroundImage: "url(./assets/image/shape/shape-3.png)"
+              backgroundImage: `url(${shape3})`
             }}
           />
           <div
             className="icon anim-icon-3"
             style={{
-              backgroundImage: "url(./assets/image/shape/shape-3.png)"
+              backgroundImage: `url(${shape3})`
             }}
           />
         </div>
@@ -43,7 +50,7 @@ class PlaceSection extends React.Component {
                 <div className="inner-box">
                   <figure className="image-box">
                     <img
-                      src="./assets/image/place/place-1.jpg"
+                      src={place1}
                       alt="ImagePlace"
                     />
                   </figure>
@@ -60,7 +67,7 @@ class PlaceSection extends React.Component {
                 <div className="inner-box">
                   <figure className="image-box">
                     <img
-                      src="./assets/image/place/place-2.jpg"
+                      src={place2}
                       alt="ImagePlace"
                     />
                   </figure>
@@ -77,7 +84,7 @@ class PlaceSection extends React.Component {
                 <div className="inner-box">
                   <figure className="image-box">
                     <img
-                      src="./assets/image/place/place-3.jpg"
+                      src={place3}
                       alt="ImagePlace"
                     />
                   </figure>
@@ -94,7 +101,7 @@ class PlaceSection extends React.Component {
                 <div className="inner-box">
                   <figure className="image-box">
                     <img
-                      src="./assets/image/place/place-4.jpg"
+                      src={place4}
                       alt="ImagePlace"
                     />
                   </figure>

@@ -11,14 +11,6 @@ export default function Header(props) {
   const store = useStore()
   const auth = store.getState()
 
-  // const searchTour = async (event) => {
-  //   console.info(searchTerm)
-  //   auth1.searchTour(`?search=${searchTerm}`)
-
-  //   event.preventDefault()
-  // }
-
-
   // Load API Categories
   useEffect(() => {
     API.get(endpoints['categories']).then(res => {
@@ -43,8 +35,14 @@ export default function Header(props) {
       </>
   }
 
+  const sticky_header = {
+    backgroundColor: '#fff',
+    position: 'fixed',
+    boxShadow: 'rgba(0, 0, 0, 0.4) 0px 0px 10px'
+  }
+
   return (
-    <header className="main-header style-three">
+    <header style={sticky_header} className="main-header style-three">
       {}
       <div className="header-lower">
         <div className="outer-box clearfix">
@@ -63,10 +61,7 @@ export default function Header(props) {
               <i className="icon-bar" />
             </div>
             <nav className="main-menu navbar-expand-md navbar-light">
-              <div
-                className="collapse navbar-collapse show clearfix"
-                id="navbarSupportedContent"
-              >
+              <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                 <ul className="navigation clearfix">
                   <li className="dropdown">
                     <a href="/">Home</a>

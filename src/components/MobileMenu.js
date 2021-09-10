@@ -1,5 +1,6 @@
 import React from "react";
 
+import logo2 from '../static/image/logo-2.png'
 class MobileMenu extends React.Component {
   render() {
     return (
@@ -11,10 +12,12 @@ class MobileMenu extends React.Component {
         <nav className="menu-box">
           <div className="nav-logo">
             <a href="/home.html">
-              <img src="./assets/image/logo-2.png" alt="ImageLogo" title />
+              <img src={logo2} alt="ImageLogo"/>
             </a>
           </div>
-          <div className="menu-outer">{}</div>
+          <div className="menu-outer">
+            {}
+          </div>
           <div className="contact-info">
             <h4>Contact Info</h4>
             <ul>

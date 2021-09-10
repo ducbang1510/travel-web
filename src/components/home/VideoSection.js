@@ -1,12 +1,14 @@
 import React from "react";
 
+import video1 from "../../static/image/background/video-1.jpg"
+
 class VideoSection extends React.Component {
   render() {
     return (
       <section
         className="video-section centred"
         style={{
-          backgroundImage: "url(./assets/image/background/video-1.jpg)"
+          backgroundImage: `url(${video1})`
         }}
       >
         <div className="auto-container">

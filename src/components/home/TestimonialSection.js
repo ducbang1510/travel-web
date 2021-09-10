@@ -1,5 +1,10 @@
 import React from "react";
 
+import testimonial1 from "../../static/image/testimonial/testimonial-1.png"
+import testimonial2 from "../../static/image/testimonial/testimonial-2.png"
+import testimonial3 from "../../static/image/testimonial/testimonial-3.png"
+import quote1 from "../../static/image/icon/quote-1.png"
+
 class TestimonialSection extends React.Component {
   render() {
     return (
@@ -33,7 +38,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -47,7 +52,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-1.png"
+                      src={testimonial1}
                       alt=""
                     />
                   </figure>
@@ -77,7 +82,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -91,7 +96,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-2.png"
+                      src={testimonial2}
                       alt=""
                     />
                   </figure>
@@ -121,7 +126,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -135,7 +140,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-3.png"
+                      src={testimonial3}
                       alt=""
                     />
                   </figure>
@@ -165,7 +170,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -179,7 +184,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-1.png"
+                      src={testimonial1}
                       alt=""
                     />
                   </figure>
@@ -209,7 +214,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -223,7 +228,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-2.png"
+                      src={testimonial2}
                       alt=""
                     />
                   </figure>
@@ -253,7 +258,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -267,7 +272,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-3.png"
+                      src={testimonial3}
                       alt=""
                     />
                   </figure>
@@ -297,7 +302,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -311,7 +316,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-1.png"
+                      src={testimonial1}
                       alt=""
                     />
                   </figure>
@@ -341,7 +346,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -355,7 +360,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-2.png"
+                      src={testimonial2}
                       alt=""
                     />
                   </figure>
@@ -385,7 +390,7 @@ class TestimonialSection extends React.Component {
                   <div
                     className="icon"
                     style={{
-                      backgroundImage: "url(./assets/image/icon/quote-1.png)"
+                      backgroundImage: `url(${quote1})`
                     }}
                   />
                   <p>
@@ -399,7 +404,7 @@ class TestimonialSection extends React.Component {
                   <span className="designation">Traveler</span>
                   <figure className="thumb-box">
                     <img
-                      src="./assets/image/testimonial/testimonial-3.png"
+                      src={testimonial3}
                       alt=""
                     />
                   </figure>

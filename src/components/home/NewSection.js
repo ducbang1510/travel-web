@@ -1,5 +1,10 @@
 import React from "react";
 
+import shape10 from "../../static/image/shape/shape-10.png"
+import news1 from "../../static/image/news/news-1.jpg"
+import news2 from "../../static/image/news/news-2.jpg"
+import news3 from "../../static/image/news/news-3.jpg"
+
 class NewSection extends React.Component {
   render() {
     return (
@@ -7,7 +12,7 @@ class NewSection extends React.Component {
         <div
           className="pattern-layer"
           style={{
-            backgroundImage: "url(./assets/image/shape/shape-10.png)"
+            backgroundImage: `url(${shape10})`
           }}
         />
         <div className="auto-container">
@@ -28,7 +33,7 @@ class NewSection extends React.Component {
                 <div className="inner-box">
                   <figure className="image-box">
                     <a href="/blog-details.html">
-                      <img src="./assets/image/news/news-1.jpg" alt="" />
+                      <img src={news1} alt="" />
                     </a>
                     <span className="post-date">
                       <i className="far fa-calendar-alt" />5 Oct, 2020
@@ -71,7 +76,7 @@ class NewSection extends React.Component {
                 <div className="inner-box">
                   <figure className="image-box">
                     <a href="/blog-details.html">
-                      <img src="./assets/image/news/news-2.jpg" alt="" />
+                      <img src={news2} alt="" />
                     </a>
                     <span className="post-date">
                       <i className="far fa-calendar-alt" />4 Oct, 2020
@@ -114,7 +119,7 @@ class NewSection extends React.Component {
                 <div className="inner-box">
                   <figure className="image-box">
                     <a href="/blog-details.html">
-                      <img src="./assets/image/news/news-3.jpg" alt="" />
+                      <img src={news3} alt="" />
                     </a>
                     <span className="post-date">
                       <i className="far fa-calendar-alt" />3 Oct, 2020

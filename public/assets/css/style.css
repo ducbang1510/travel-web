@@ -1447,6 +1447,7 @@ div#mCSB_1_container {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    margin-top: 100px;
 }
 
 .banner-section:before {

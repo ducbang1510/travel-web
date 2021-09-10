@@ -1,5 +1,11 @@
 import React from "react";
 
+import shape3 from "../../static/image/shape/shape-3.png"
+import shape5 from "../../static/image/shape/shape-5.png"
+import shape6 from "../../static/image/shape/shape-6.png"
+import shape7 from "../../static/image/shape/shape-7.png"
+import shape8 from "../../static/image/shape/shape-8.png"
+
 class FunfactSection extends React.Component {
   render() {
     return (
@@ -8,13 +14,13 @@ class FunfactSection extends React.Component {
           <div
             className="icon anim-icon-1"
             style={{
-              backgroundImage: "url(./assets/image/shape/shape-3.png)"
+              backgroundImage: `url(${shape3})`
             }}
           />
           <div
             className="icon anim-icon-2"
             style={{
-              backgroundImage: "url(./assets/image/shape/shape-3.png)"
+              backgroundImage: `url(${shape3})`
             }}
           />
         </div>
@@ -27,7 +33,7 @@ class FunfactSection extends React.Component {
                     <div
                       className="pattern"
                       style={{
-                        backgroundImage: "url(./assets/image/shape/shape-5.png)"
+                        backgroundImage: `url(${shape5})`
                       }}
                     />
                     <div className="count-outer count-box">
@@ -50,7 +56,7 @@ class FunfactSection extends React.Component {
                     <div
                       className="pattern"
                       style={{
-                        backgroundImage: "url(./assets/image/shape/shape-6.png)"
+                        backgroundImage: `url(${shape6})`
                       }}
                     />
                     <div className="count-outer count-box">
@@ -73,7 +79,7 @@ class FunfactSection extends React.Component {
                     <div
                       className="pattern"
                       style={{
-                        backgroundImage: "url(./assets/image/shape/shape-7.png)"
+                        backgroundImage: `url(${shape7})`
                       }}
                     />
                     <div className="count-outer count-box">
@@ -96,7 +102,7 @@ class FunfactSection extends React.Component {
                     <div
                       className="pattern"
                       style={{
-                        backgroundImage: "url(./assets/image/shape/shape-8.png)"
+                        backgroundImage: `url(${shape8})`
                       }}
                     />
                     <div className="count-outer count-box">

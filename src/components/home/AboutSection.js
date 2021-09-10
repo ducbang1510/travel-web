@@ -1,5 +1,10 @@
 import React from "react";
 
+import shape2 from "../../static/image/shape/shape-2.png"
+import shape3 from "../../static/image/shape/shape-3.png"
+import about2 from "../../static/image/about/about-2.jpg"
+
+
 class AboutSection extends React.Component {
   render() {
     return (
@@ -7,7 +12,7 @@ class AboutSection extends React.Component {
         <div
           className="pattern-layer"
           style={{
-            backgroundImage: "url(./assets/image/shape/shape-2.png)"
+            backgroundImage: `url(${shape2})`
           }}
         />
         <div className="auto-container">
@@ -19,13 +24,13 @@ class AboutSection extends React.Component {
                     <div
                       className="shape-1"
                       style={{
-                        backgroundImage: "url(./assets/image/shape/shape-2.png)"
+                        backgroundImage: `url(${shape2})`
                       }}
                     />
                     <div
                       className="shape-2"
                       style={{
-                        backgroundImage: "url(./assets/image/shape/shape-3.png)"
+                        backgroundImage: `url(${shape3})`
                       }}
                     />
                   </div>
@@ -34,12 +39,12 @@ class AboutSection extends React.Component {
                     <div
                       className="shape-3"
                       style={{
-                        backgroundImage: "url(./assets/image/shape/shape-3.png)"
+                        backgroundImage: `url(${shape3})`
                       }}
                     />
                   </figure>
                   <figure className="image image-2">
-                    <img src="./assets/image/about/about-2.jpg" alt="" />
+                    <img src={about2} alt="" />
                   </figure>
                   <div className="video-content">
                     <h3>Find Your Best Destination</h3>

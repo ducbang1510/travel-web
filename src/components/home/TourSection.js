@@ -1,5 +1,10 @@
 import React from "react";
 
+import shape4 from "../../static/image/shape/shape-4.png"
+import tour1 from "../../static/image/tour/tour-1.jpg"
+import tour2 from "../../static/image/tour/tour-2.jpg"
+import tour3 from "../../static/image/tour/tour-3.jpg"
+
 class TourSection extends React.Component {
   render() {
     return (
@@ -7,7 +12,7 @@ class TourSection extends React.Component {
         <div
           className="pattern-layer"
           style={{
-            backgroundImage: "url(./assets/image/shape/shape-4.png)"
+            backgroundImage: `url(${shape4})`
           }}
         />
         <div className="auto-container">
@@ -24,7 +29,7 @@ class TourSection extends React.Component {
               >
                 <div className="inner-box">
                   <figure className="image-box">
-                    <img src="./assets/image/tour/tour-1.jpg" alt="ImageTour" />
+                    <img src={tour1} alt="ImageTour" />
                     <a href="/tour-details.html">
                       <i className="fas fa-link" />
                     </a>
@@ -67,7 +72,7 @@ class TourSection extends React.Component {
               >
                 <div className="inner-box">
                   <figure className="image-box">
-                    <img src="./assets/image/tour/tour-2.jpg" alt="ImageTour" />
+                    <img src={tour2} alt="ImageTour" />
                     <a href="/tour-details.html">
                       <i className="fas fa-link" />
                     </a>
@@ -110,7 +115,7 @@ class TourSection extends React.Component {
               >
                 <div className="inner-box">
                   <figure className="image-box">
-                    <img src="./assets/image/tour/tour-3.jpg" alt="ImageTour" />
+                    <img src={tour3} alt="ImageTour" />
                     <a href="/tour-details.html">
                       <i className="fas fa-link" />
                     </a>
