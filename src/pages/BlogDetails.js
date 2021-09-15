@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
 import new9 from "../static/image/news/news-9.jpg"
-import des1 from "../static/image/destination/destination-1.jpg"
-import des2 from "../static/image/destination/destination-2.jpg"
-import des3 from "../static/image/destination/destination-3.jpg"
 import comment1 from "../static/image/news/comment-1.png"
 import comment2 from "../static/image/news/comment-2.png"
 import comment3 from "../static/image/news/comment-3.png"
@@ -12,8 +10,24 @@ import post1 from "../static/image/news/post-1.png"
 import post2 from "../static/image/news/post-2.png"
 import post3 from "../static/image/news/post-3.png"
 import advice1 from "../static/image/advice/advice-1.jpg"
+import API, { endpoints } from '../API';
 
 function BlogDetails(props) {
+    const [blog, setBlog] = useState([])
+
+    const { blogId } = useParams()
+
+    const getTour = () => {
+        API.get(`${endpoints['blogs']}${blogId}/`).then(res => {
+            console.info(res.data)
+            setBlog(res.data)
+        })
+    }
+
+    useEffect(() => {
+        getTour()
+    }, [])
+
     return (
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
@@ -36,7 +50,7 @@ function BlogDetails(props) {
                                             <div className="category">
                                                 <a href="/blog-details.html">Lifestyle</a>
                                             </div>
-                                            <h2>Including animation in your design system</h2>
+                                            <h2>{blog.title}</h2>
                                             <ul className="post-info clearfix">
                                                 <li>
                                                     <span>By</span> <a href="/">Eva Green</a>
@@ -45,21 +59,26 @@ function BlogDetails(props) {
                                                 <li className="comment">
                                                     <a href="/">0 Comment</a>
                                                 </li>
+                                                <li>-</li>
+                                                <li>
+                                                    <a href="/">{blog.likes} likes</a>
+                                                </li>
                                             </ul>
                                         </div>
                                         <figure className="image-box">
-                                            <img
-                                                src={new9}
-                                                alt="ImageBlog"
-                                            />
+                                            <img src={new9} alt="ImageBlog"/>
                                             <span className="post-date">
                                                 <i className="far fa-calendar-alt" />
-                                                20 Oct, 2020
+                                                {blog.created_date}
                                             </span>
                                         </figure>
                                     </div>
                                 </div>
                                 <div className="text">
+                                    <p dangerouslySetInnerHTML={{__html: `${blog.content}`}} />
+                                </div>
+                                
+                                {/* <div className="text">
                                     <p>
                                         Lorem ipsum dolor sit amet consectur adip icing sed eiusmod
                                         tempor incididunt labore dolore magna aliqua enim minim
@@ -123,7 +142,7 @@ function BlogDetails(props) {
                                         tempora incidunt ut labore et dolore magnam aliquam quaerat
                                         voluptatem.
                                     </p>
-                                </div>
+                                </div> */}
                                 <div className="post-share-option clearfix">
                                     <div className="text pull-left">
                                         <h3>We Are Social On:</h3>

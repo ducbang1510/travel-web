@@ -127,7 +127,7 @@ export default function Header(props) {
               </Link>
             </li>
             <li className="btn-box">
-              <a href="/tour.html" className="theme-btn">
+              <a href="/tour-list" className="theme-btn">
                 Book A Tour
               </a>
             </li>

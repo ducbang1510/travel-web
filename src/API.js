@@ -6,6 +6,7 @@ export let endpoints = {
     'services': '/services/',
     'tour-images': '/tour-image/',
     'customers': '/customers/',
+    'blogs': '/blogs/',
     'users': '/users/',
     'current-user': '/users/current-user/',
     'login': '/o/token/',

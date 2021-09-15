@@ -13,12 +13,14 @@ import advice1 from "../static/image/advice/advice-1.jpg"
 
 export default function TourDetail() {
     const [tour, setTour] = useState([])
+    const [services, setServices] = useState([])
 
     const { tourId } = useParams()
 
     const getTour = () => {
         API.get(`${endpoints['tours']}${tourId}/`).then(res => {
             console.info(res.data)
+            setServices(res.data.service)
             setTour(res.data)
         })
     }
@@ -26,8 +28,6 @@ export default function TourDetail() {
     useEffect(() => {
         getTour()
     }, [])
-
-    let services = tour.service
 
     return (
         <>
@@ -79,32 +79,6 @@ export default function TourDetail() {
                                             <span>01</span>
                                             <h4>8:00 am to 10:00 am</h4>
                                             <h3>Day 1: Arrive South Africa Forest</h3>
-                                            <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                                                in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                            <ul className="list clearfix">
-                                                <li>Air fares</li>
-                                                <li>4 Nights Hotel Accomodation</li>
-                                                <li>Entrance Fees</li>
-                                            </ul>
-                                        </div>
-                                        <div className="single-box">
-                                            <span>02</span>
-                                            <h4>8:00 am to 10:00 am</h4>
-                                            <h3>Day 2: Arrive South Africa Forest</h3>
-                                            <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                                                in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                            <ul className="list clearfix">
-                                                <li>Air fares</li>
-                                                <li>4 Nights Hotel Accomodation</li>
-                                                <li>Entrance Fees</li>
-                                            </ul>
-                                        </div>
-                                        <div className="single-box">
-                                            <span>03</span>
-                                            <h4>8:00 am to 10:00 am</h4>
-                                            <h3>Day 3: Arrive South Africa Forest</h3>
                                             <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
                                                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
                                                 in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -323,7 +297,7 @@ export default function TourDetail() {
                                     <div className="widget-title">
                                         <h3>Đặt Tour</h3>
                                     </div>
-                                    <a href="/booking-1.html" style={{ color: "#fff" }}>
+                                    <a href="/booking-1" style={{ color: "#fff" }}>
                                         <button type="submit" className="theme-btn">Nhấn vào đây</button>
                                     </a>
                                 </div>

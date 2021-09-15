@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
-import new9 from "../static/image/news/news-9.jpg"
-import new10 from "../static/image/news/news-10.jpg"
-import new11 from "../static/image/news/news-11.jpg"
-import new12 from "../static/image/news/news-12.jpg"
-import new13 from "../static/image/news/news-13.jpg"
 import post1 from "../static/image/news/post-1.png"
 import post2 from "../static/image/news/post-2.png"
 import post3 from "../static/image/news/post-3.png"
 import advice1 from "../static/image/advice/advice-1.jpg"
+import API, { endpoints } from '../API';
+import { useLocation } from 'react-router';
 
 function Blogs(props) {
+    const [count, setCount] = useState(1)
+    const [listBlog, setListBlog] = useState([])
+
+    const loadBlogs = (page = "?page=1") => {
+        API.get(`${endpoints['blogs']}${page}`).then(res => {
+            console.info(res.data)
+            setListBlog(res.data.results)
+            setCount(res.data.count)
+        })
+    }
+
+    let location = useLocation()
+    useEffect(() => {
+        loadBlogs(location.search)
+    }, [location.search])
+
+    let items = []
+    for(let i = 0; i < Math.ceil(count/5); i++)
+        items.push(
+            <li><a href={"/blogs?page=" + (i + 1)} className="current">{i + 1}</a></li>
+        )
+
     return (
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
@@ -28,254 +47,10 @@ function Blogs(props) {
                     <div className="row clearfix">
                         <div className="col-lg-8 col-md-12 col-sm-12 content-side">
                             <div className="blog-standard-content">
-                                <div
-                                    className="news-block-one wow fadeInUp animated animated"
-                                    data-wow-delay="00ms"
-                                    data-wow-duration="1500ms"
-                                >
-                                    <div className="inner-box">
-                                        <figure className="image-box">
-                                            <a href="/blog-details">
-                                                <img
-                                                    src={new9}
-                                                    alt="ImageBlog"
-                                                />
-                                            </a>
-                                            <span className="post-date">
-                                                <i className="far fa-calendar-alt" />
-                                                20 Oct, 2020
-                                            </span>
-                                        </figure>
-                                        <div className="lower-content">
-                                            <div className="category">
-                                                <a href="/blog-details">Lifestyle</a>
-                                            </div>
-                                            <h2>
-                                                <a href="/blog-details">
-                                                    Including animation in your design system
-                                                </a>
-                                            </h2>
-                                            <ul className="post-info clearfix">
-                                                <li>
-                                                    <span>By</span> <a href="/">Eva Green</a>
-                                                </li>
-                                                <li> - October 20, 2020</li>
-                                            </ul>
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectur adip icing sed
-                                                eiusmod tempor incididunt labore dolore magna aliqua
-                                                enim minim veniam quis nostrud exercitation laboris nisi
-                                                ut aliquip ex commodo consequat duis aute irure.
-                                            </p>
-                                            <div className="btn-box">
-                                                <a href="/blog-details" className="theme-btn-two">
-                                                    See Details
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="news-block-one wow fadeInUp animated animated"
-                                    data-wow-delay="00ms"
-                                    data-wow-duration="1500ms"
-                                >
-                                    <div className="inner-box">
-                                        <figure className="image-box">
-                                            <a href="/blog-details">
-                                                <img
-                                                    src={new10}
-                                                    alt="ImageBlog"
-                                                />
-                                            </a>
-                                            <span className="post-date">
-                                                <i className="far fa-calendar-alt" />
-                                                20 Oct, 2020
-                                            </span>
-                                        </figure>
-                                        <div className="lower-content">
-                                            <div className="category">
-                                                <a href="/blog-details">Lifestyle</a>
-                                            </div>
-                                            <h2>
-                                                <a href="/blog-details">
-                                                    Strategic & commercial approach with issues.
-                                                </a>
-                                            </h2>
-                                            <ul className="post-info clearfix">
-                                                <li>
-                                                    <span>By</span> <a href="/">Eva Green</a>
-                                                </li>
-                                                <li> - October 20, 2020</li>
-                                            </ul>
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectur adip icing sed
-                                                eiusmod tempor incididunt labore dolore magna aliqua
-                                                enim minim veniam quis nostrud exercitation laboris nisi
-                                                ut aliquip ex commodo consequat duis aute irure.
-                                            </p>
-                                            <div className="btn-box">
-                                                <a href="/blog-details" className="theme-btn-two">
-                                                    See Details
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="news-block-one wow fadeInUp animated animated"
-                                    data-wow-delay="00ms"
-                                    data-wow-duration="1500ms"
-                                >
-                                    <div className="inner-box">
-                                        <figure className="image-box">
-                                            <a href="/blog-details">
-                                                <img
-                                                    src={new11}
-                                                    alt="ImageBlog"
-                                                />
-                                            </a>
-                                            <span className="post-date">
-                                                <i className="far fa-calendar-alt" />
-                                                20 Oct, 2020
-                                            </span>
-                                        </figure>
-                                        <div className="lower-content">
-                                            <div className="category">
-                                                <a href="/blog-details">Lifestyle</a>
-                                            </div>
-                                            <h2>
-                                                <a href="/blog-details">
-                                                    A digital prescription for the industry.
-                                                </a>
-                                            </h2>
-                                            <ul className="post-info clearfix">
-                                                <li>
-                                                    <span>By</span> <a href="/">Eva Green</a>
-                                                </li>
-                                                <li> - October 20, 2020</li>
-                                            </ul>
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectur adip icing sed
-                                                eiusmod tempor incididunt labore dolore magna aliqua
-                                                enim minim veniam quis nostrud exercitation laboris nisi
-                                                ut aliquip ex commodo consequat duis aute irure.
-                                            </p>
-                                            <div className="btn-box">
-                                                <a href="/blog-details" className="theme-btn-two">
-                                                    See Details
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="news-block-one wow fadeInUp animated animated"
-                                    data-wow-delay="00ms"
-                                    data-wow-duration="1500ms"
-                                >
-                                    <div className="inner-box">
-                                        <figure className="image-box">
-                                            <a href="/blog-details">
-                                                <img
-                                                    src={new12}
-                                                    alt="ImageBlog"
-                                                />
-                                            </a>
-                                            <span className="post-date">
-                                                <i className="far fa-calendar-alt" />
-                                                20 Oct, 2020
-                                            </span>
-                                        </figure>
-                                        <div className="lower-content">
-                                            <div className="category">
-                                                <a href="/blog-details">Lifestyle</a>
-                                            </div>
-                                            <h2>
-                                                <a href="/blog-details">
-                                                    Best interior design idea for your home.
-                                                </a>
-                                            </h2>
-                                            <ul className="post-info clearfix">
-                                                <li>
-                                                    <span>By</span> <a href="/">Eva Green</a>
-                                                </li>
-                                                <li> - October 20, 2020</li>
-                                            </ul>
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectur adip icing sed
-                                                eiusmod tempor incididunt labore dolore magna aliqua
-                                                enim minim veniam quis nostrud exercitation laboris nisi
-                                                ut aliquip ex commodo consequat duis aute irure.
-                                            </p>
-                                            <div className="btn-box">
-                                                <a href="/blog-details" className="theme-btn-two">
-                                                    See Details
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="news-block-one wow fadeInUp animated animated"
-                                    data-wow-delay="00ms"
-                                    data-wow-duration="1500ms"
-                                >
-                                    <div className="inner-box">
-                                        <figure className="image-box">
-                                            <a href="/blog-details">
-                                                <img
-                                                    src={new13}
-                                                    alt="ImageBlog"
-                                                />
-                                            </a>
-                                            <span className="post-date">
-                                                <i className="far fa-calendar-alt" />
-                                                20 Oct, 2020
-                                            </span>
-                                        </figure>
-                                        <div className="lower-content">
-                                            <div className="category">
-                                                <a href="/blog-details">Lifestyle</a>
-                                            </div>
-                                            <h2>
-                                                <a href="/blog-details">
-                                                    A digital prescription for the industry.
-                                                </a>
-                                            </h2>
-                                            <ul className="post-info clearfix">
-                                                <li>
-                                                    <span>By</span> <a href="/">Eva Green</a>
-                                                </li>
-                                                <li> - October 20, 2020</li>
-                                            </ul>
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectur adip icing sed
-                                                eiusmod tempor incididunt labore dolore magna aliqua
-                                                enim minim veniam quis nostrud exercitation laboris nisi
-                                                ut aliquip ex commodo consequat duis aute irure.
-                                            </p>
-                                            <div className="btn-box">
-                                                <a href="/blog-details" className="theme-btn-two">
-                                                    See Details
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {listBlog.map(b => <BlogItem blog={b} />)}
                                 <div className="pagination-wrapper">
                                     <ul className="pagination clearfix">
-                                        <li>
-                                            <a href="/blog.html" className="current">
-                                                1
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/blog.html">2</a>
-                                        </li>
-                                        <li>
-                                            <a href="/blog.html">3</a>
-                                        </li>
+                                        {items}
                                         <li>
                                             <a href="/blog.html">
                                                 <i className="fas fa-long-arrow-alt-right" />
@@ -408,3 +183,52 @@ function Blogs(props) {
 }
 
 export default Blogs;
+
+class BlogItem extends React.Component {
+    render() {
+        return (
+            <>
+                <div className="news-block-one wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
+                    <div className="inner-box">
+                        <figure className="image-box">
+                            <a href={"/blog-details/" + this.props.blog.id}>
+                                <img style={{width: "770px", height: "470px"}} src={this.props.blog.image} alt="ImageBlog"/>
+                            </a>
+                            <span className="post-date">
+                                <i className="far fa-calendar-alt" />
+                                {this.props.blog.created_date}
+                            </span>
+                        </figure>
+                        <div className="lower-content">
+                            <div className="category">
+                                <a href={"/blog-details/" + this.props.blog.id}>Lifestyle</a>
+                            </div>
+                            <h2>
+                                <a href={"/blog-details/" + this.props.blog.id}>
+                                    {this.props.blog.title}
+                                </a>
+                            </h2>
+                            <ul className="post-info clearfix">
+                                <li>
+                                    <span>By</span> <a href="/">Eva Green</a>
+                                </li>
+                                <li> - {this.props.blog.created_date}</li>
+                            </ul>
+                            {/* <p>
+                                Lorem ipsum dolor sit amet consectur adip icing sed
+                                eiusmod tempor incididunt labore dolore magna aliqua
+                                enim minim veniam quis nostrud exercitation laboris nisi
+                                ut aliquip ex commodo consequat duis aute irure.
+                            </p> */}
+                            <div className="btn-box">
+                                <a href={"/blog-details/" + this.props.blog.id} className="theme-btn-two">
+                                    See Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
+}

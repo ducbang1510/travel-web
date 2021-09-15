@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import API, { endpoints } from '../API';
-import TourPageTitle from '../components/tour/TourPageTitle';
+import FormInner from '../components/FormInner';
 
 import advice1 from "../static/image/advice/advice-1.jpg"
 
@@ -18,17 +18,17 @@ export default function TourList() {
 
     // Change List and Grid view for page tour list
     const listOn = () => {
-        setcName('wrapper list') 
-        setcList('list-view on') 
+        setcName('wrapper list')
+        setcList('list-view on')
         setcGrid('grid-view')
     }
 
     const gridOn = () => {
-        setcName('wrapper grid') 
-        setcList('list-view') 
+        setcName('wrapper grid')
+        setcList('list-view')
         setcGrid('grid-view on')
     }
-    
+
     // Load API Tour-list
     const loadTour = (page = "?page=1") => {
         API.get(`${endpoints['tours']}${page}`).then(res => {
@@ -37,10 +37,10 @@ export default function TourList() {
             setCount(res.data.count)
         })
     }
-    
-    useEffect(() => {
-        loadTour()
-    }, [])
+
+    // useEffect(() => {
+    //     loadTour()
+    // }, [])
 
     let location = useLocation()
     useEffect(() => {
@@ -49,7 +49,7 @@ export default function TourList() {
 
     // Pagination
     let items = []
-    for(let i = 0; i < Math.ceil(count/4); i++)
+    for (let i = 0; i < Math.ceil(count / 4); i++)
         items.push(
             <li><a href={"/tour-list?page=" + (i + 1)} className="current">{i + 1}</a></li>
         )
@@ -90,7 +90,21 @@ export default function TourList() {
 
     return (
         <>
-            <TourPageTitle />
+            <section className="page-title style-two centred"
+                style={{ backgroundImage: "url(./assets/image/background/page-title-2.jpg)" }}>
+                <div className="auto-container">
+                    <div className="content-box">
+                        <h1>Tours Grid</h1>
+                        <p>Discover your next great adventure</p>
+                    </div>
+                    <div className="form-inner">
+                        <form action="/home.html" method="post" className="booking-form clearfix">
+                            <FormInner />
+                        </form>
+                    </div>
+                </div>
+            </section>
+
             <section className="tours-page-section">
                 <div className="auto-container">
                     <div className="row clearfix">
@@ -441,7 +455,7 @@ class TourItem extends React.Component {
                 <div className="tour-block-one">
                     <div className="inner-box">
                         <figure className="image-box">
-                            <img style={{width: '370px', height: '270px'}} src={this.props.tour.image} alt="ImageTour" />
+                            <img style={{ width: '370px', height: '270px' }} src={this.props.tour.image} alt="ImageTour" />
                             <a href={'/tour-detail/' + this.props.tour.id} >
                                 <i className="fas fa-link" />
                             </a>
@@ -491,7 +505,7 @@ class TourItem2 extends React.Component {
             <div className="tour-block-two">
                 <div className="inner-box">
                     <figure className="image-box">
-                        <img style={{width: '190px', height: '227px'}}
+                        <img style={{ width: '190px', height: '227px' }}
                             src={this.props.tour.image}
                             alt="ImageTour"
                         />

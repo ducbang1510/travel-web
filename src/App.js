@@ -13,12 +13,13 @@ import TourList from './pages/TourList';
 import TourDetail from './pages/TourDetail';
 import Blogs from './pages/Blogs';
 import BlogDetails from './pages/BlogDetails';
-import { TourProvider } from './contexts/TourContext';
+import Booking1 from './pages/Booking1'
+import Booking2 from './pages/Booking2'
+import Booking3 from './pages/Booking3'
 
 export default function App(props) {
 
   return (
-    <TourProvider>
     <div className="boxed_wrapper">
       <BrowserRouter>
         <PreLoader />
@@ -27,17 +28,12 @@ export default function App(props) {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/tour-list" component={TourList} />
-          <Route exact path="/tour-detail">
-            <TourDetail />
-          </Route>
           <Route exact path="/tour-detail/:tourId" component={TourDetail} />
           <Route exact path="/blogs" component={Blogs} />
-          {/* <Route exact path="/blog-details/:blogId">
-            <BlogDetails />
-          </Route> */}
-          <Route exact path="/blog-details">
-            <BlogDetails />
-          </Route>
+          <Route exact path="/blog-details/:blogId" component={BlogDetails} />
+          <Route exact path="/booking-1" component={Booking1} />
+          <Route exact path="/booking-2" component={Booking2} />
+          <Route exact path="/booking-3" component={Booking3} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/logout" component={Logout} />
@@ -46,6 +42,5 @@ export default function App(props) {
         <ScrollTop />
       </BrowserRouter>
     </div>
-    </TourProvider>
   );
 }
