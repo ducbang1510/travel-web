@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import API, { endpoints } from "../API";
+import StarRating from "../components/StarRating";
 
 import pageTitle3 from "../static/image/background/page-title-3.jpg"
 import des4 from "../static/image/destination/destination-4.jpg"
@@ -14,6 +15,7 @@ import advice1 from "../static/image/advice/advice-1.jpg"
 export default function TourDetail() {
     const [tour, setTour] = useState([])
     const [services, setServices] = useState([])
+    const [rating, setRating] = useState(1)
 
     const { tourId } = useParams()
 
@@ -28,6 +30,11 @@ export default function TourDetail() {
     useEffect(() => {
         getTour()
     }, [])
+
+    const handleRatingChange = (value) => {
+        setRating(value)
+    }
+    console.log(rating)
 
     return (
         <>
@@ -46,6 +53,16 @@ export default function TourDetail() {
                     <div className="row clearfix">
                         <div className="col-lg-8 col-md-12 col-sm-12 content-side">
                             <div className="tour-details-content">
+                                <div>
+                                    <h2>Rating</h2>
+                                    <StarRating 
+                                    count={5}
+                                    size={20}
+                                    value={rating}
+                                    activeColor ={'gold'}
+                                    inactiveColor={'#ddd'}
+                                    onChange={handleRatingChange}  />
+                                </div>
                                 <div className="inner-box">
                                     <div className="text">
                                         <h2>Mô tả</h2>

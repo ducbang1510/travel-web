@@ -14,6 +14,8 @@ import API, { endpoints } from '../API';
 
 function BlogDetails(props) {
     const [blog, setBlog] = useState([])
+    const [likes, setLikes] = useState(0)
+    const [count, setCount] = useState(0)
 
     const { blogId } = useParams()
 
@@ -21,8 +23,40 @@ function BlogDetails(props) {
         API.get(`${endpoints['blogs']}${blogId}/`).then(res => {
             console.info(res.data)
             setBlog(res.data)
+            setLikes(res.data.likes)
         })
     }
+
+    let newLike
+    const clickLike = (event) => {
+        event.preventDefault()
+        setCount(count + 1)
+        if(parseInt(count) % 2 === 0)
+            newLike = likes + 1;
+        else
+            newLike = likes - 1;
+        setLikes(newLike)
+    }
+    console.log(likes)
+
+    const addLike = (like = likes) => {
+        if (likes > blog.likes) {
+            const formData = new FormData()
+            formData.append("likes", like)
+
+            API.patch(`${endpoints['blogs']}${blogId}/`, formData, {
+                header: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then((res) => {
+                console.info(res)
+            }).catch(err => console.error(err))
+        }
+    }
+
+    useEffect(() => {
+        addLike(likes)
+    }, [likes])
 
     useEffect(() => {
         getTour()
@@ -64,6 +98,12 @@ function BlogDetails(props) {
                                                     <a href="/">{blog.likes} likes</a>
                                                 </li>
                                             </ul>
+                                            <form onSubmit={addLike}>
+                                                <button onClick={clickLike} type="submit">
+                                                    <i className="fas fa-thumbs-up"></i>
+                                                    Likes
+                                                </button>
+                                            </form>
                                         </div>
                                         <figure className="image-box">
                                             <img src={new9} alt="ImageBlog"/>
