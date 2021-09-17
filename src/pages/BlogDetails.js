@@ -1,50 +1,102 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import API, { endpoints } from '../API';
+import { useStore } from 'react-redux';
+import cookies from 'react-cookies'
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
-import new9 from "../static/image/news/news-9.jpg"
-import comment1 from "../static/image/news/comment-1.png"
 import comment2 from "../static/image/news/comment-2.png"
-import comment3 from "../static/image/news/comment-3.png"
 import post1 from "../static/image/news/post-1.png"
 import post2 from "../static/image/news/post-2.png"
 import post3 from "../static/image/news/post-3.png"
 import advice1 from "../static/image/advice/advice-1.jpg"
-import API, { endpoints } from '../API';
 
 function BlogDetails(props) {
     const [blog, setBlog] = useState([])
-    const [likes, setLikes] = useState(0)
-    const [count, setCount] = useState(0)
+    const [isLike, setIsLike] = useState(false)
+    const [count, setCount] = useState(1)
+
+    const [comment, setComment] = useState([{ name_author: "", content: "" }])
+    const [listComment, setListComment] = useState([])
 
     const { blogId } = useParams()
 
+    // Get user for confirm
+    const store = useStore()
+    const auth = store.getState()
+    let user = auth // user redux
+    if (cookies.load("user") != null) {
+        user = cookies.load("user")
+    }
+
+    // Load detail of tour
     const getTour = () => {
         API.get(`${endpoints['blogs']}${blogId}/`).then(res => {
             console.info(res.data)
             setBlog(res.data)
-            setLikes(res.data.likes)
         })
     }
 
-    let newLike
+    // Load data of comment
+    const getComments = () => {
+        API.get(`${endpoints['blogs']}${blogId}/comments/`).then(res => {
+            setListComment(res.data)
+        })
+    }
+    
+    /* Handle like function */
     const clickLike = (event) => {
         event.preventDefault()
-        setCount(count + 1)
-        if(parseInt(count) % 2 === 0)
-            newLike = likes + 1;
-        else
-            newLike = likes - 1;
-        setLikes(newLike)
+        if (user != null) {
+            setCount(count + 1)
+            if(parseInt(count) % 2 === 0)
+                setIsLike(false);
+            else
+                setIsLike(true);
+        }
+        else {
+            alert("Hãy đăng nhập để có thể like")
+        }
+        
     }
-    console.log(likes)
 
-    const addLike = (like = likes) => {
-        if (likes > blog.likes) {
+    const addLike = (like = isLike) => {
+        const formData = new FormData()
+        if (like === true) {
+            formData.append("likes", parseInt(blog.likes) + 1)
+        } else {
+            formData.append("likes", parseInt(blog.likes) - 1)
+        }
+
+        API.patch(`${endpoints['blogs']}${blogId}/`, formData, {
+            header: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((res) => {
+            console.info(res)
+        }).catch(err => console.error(err))
+    }
+    /* End Like Function */
+    
+
+    /* Handle Comment Function */
+    const handleChange = (field, event) => {
+        comment[field] = event.target.value
+        setComment(comment)
+    }
+
+    const addComment = (event) => {
+        event.preventDefault()
+        if (user != null) {
             const formData = new FormData()
-            formData.append("likes", like)
 
-            API.patch(`${endpoints['blogs']}${blogId}/`, formData, {
+            for (let field in comment)
+                formData.append(field, comment[field])
+
+            formData.append("user", user.id)
+            formData.append("blog", blog.id)
+
+            API.post(endpoints['comments'], formData, {
                 header: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -52,15 +104,19 @@ function BlogDetails(props) {
                 console.info(res)
             }).catch(err => console.error(err))
         }
+        else {
+            alert("Hãy đăng nhập để có thể bình luận")
+        }
     }
+    /* End Comment Function */
 
+    // Call function when like change
     useEffect(() => {
-        addLike(likes)
-    }, [likes])
-
-    useEffect(() => {
+        if(count !== 1)
+            addLike(isLike)
         getTour()
-    }, [])
+        getComments()
+    }, [isLike])
 
     return (
         <>
@@ -82,20 +138,25 @@ function BlogDetails(props) {
                                     <div className="inner-box">
                                         <div className="lower-content">
                                             <div className="category">
-                                                <a href="/blog-details.html">Lifestyle</a>
+                                                <a href="true">
+                                                <span className="post-date">
+                                                    <i className="far fa-calendar-alt" />
+                                                    {blog.created_date}
+                                                </span>
+                                                </a>
                                             </div>
                                             <h2>{blog.title}</h2>
                                             <ul className="post-info clearfix">
                                                 <li>
-                                                    <span>By</span> <a href="/">Eva Green</a>
+                                                    <span>By</span> <a href="true">Eva Green</a>
                                                 </li>
                                                 <li>-</li>
                                                 <li className="comment">
-                                                    <a href="/">0 Comment</a>
+                                                    <a href="true">{listComment.length} Comment</a>
                                                 </li>
                                                 <li>-</li>
                                                 <li>
-                                                    <a href="/">{blog.likes} likes</a>
+                                                    <a href="true">{blog.likes} likes</a>
                                                 </li>
                                             </ul>
                                             <form onSubmit={addLike}>
@@ -105,84 +166,13 @@ function BlogDetails(props) {
                                                 </button>
                                             </form>
                                         </div>
-                                        <figure className="image-box">
-                                            <img src={new9} alt="ImageBlog"/>
-                                            <span className="post-date">
-                                                <i className="far fa-calendar-alt" />
-                                                {blog.created_date}
-                                            </span>
-                                        </figure>
                                     </div>
                                 </div>
+
                                 <div className="text">
                                     <p dangerouslySetInnerHTML={{__html: `${blog.content}`}} />
                                 </div>
-                                
-                                {/* <div className="text">
-                                    <p>
-                                        Lorem ipsum dolor sit amet consectur adip icing sed eiusmod
-                                        tempor incididunt labore dolore magna aliqua enim minim
-                                        veniam quis nostrud exercitation laboris nisi ut aliquip ex
-                                        commodo consequat duis aute irure dolor in reprehenderit in
-                                        voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    </p>
-                                    <p>
-                                        Excepteur sint occaecat cupidatat non proident, sunt in
-                                        culpa qui officia deserunt mollit anim id est laborum. Sed
-                                        ut perspiciatis unde omnis iste natus error sit voluptatem
-                                        accusantium doloremque laudantium, totam rem aperiam, eaque
-                                        ipsa quae ab illo inventore veritatis quasi architecto
-                                        beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                                        voluptatem quia voluptas sit aspernatur aut odit aut fugit.
-                                    </p>
-                                </div>
-                                <div className="image-box clearfix">
-                                    <figure className="image">
-                                        <img
-                                            src={des1}
-                                            alt="ImageDestination"
-                                        />
-                                    </figure>
-                                    <figure className="image">
-                                        <img
-                                            src={des2}
-                                            alt="ImageDestination"
-                                        />
-                                    </figure>
-                                    <figure className="image">
-                                        <img
-                                            src={des3}
-                                            alt="ImageDestination"
-                                        />
-                                    </figure>
-                                </div>
-                                <div className="text">
-                                    <p>
-                                        Excepteur sint occaecat cupidatat non proident, sunt in
-                                        culpa qui officia deserunt mollit anim id est laborum. Sed
-                                        ut perspiciatis unde omnis iste natus error sit voluptatem
-                                        accusantium doloremque laudantium, totam rem aperiam, eaque
-                                        ipsa quae ab illo inventore veritatis quasi architecto
-                                        beatae vitae dicta sunt explicabo. Nemo enim ipsam
-                                        voluptatem quia voluptas sit aspernatur aut odit aut fugit.
-                                    </p>
-                                    <ul className="list clearfix">
-                                        <li>Air fares</li>
-                                        <li>4 Nights Hotel Accomodation</li>
-                                        <li>Entrance Fees</li>
-                                    </ul>
-                                    <p>
-                                        Totam rem aperiam eaque ipsa quae ab illo inventore
-                                        veritatis quasi architecto beatae vitae dicta sunt
-                                        explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-                                        aspernatur aut odit aut fugit sed quia consequuntur magni
-                                        dolores eos qui ratione voluptatem sequi nesciunt. Neque
-                                        porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                                        consectetur, adipisci velit, sed quia non numquam eius modi
-                                        tempora incidunt ut labore et dolore magnam aliquam quaerat
-                                        voluptatem.
-                                    </p>
-                                </div> */}
+
                                 <div className="post-share-option clearfix">
                                     <div className="text pull-left">
                                         <h3>We Are Social On:</h3>
@@ -207,144 +197,30 @@ function BlogDetails(props) {
                                 </div>
                                 <div className="comment-box">
                                     <div className="group-title">
-                                        <h2>3 Comments</h2>
+                                        <h2>{listComment.length} Comments</h2>
                                     </div>
-                                    <div className="comment">
-                                        <figure className="thumb-box">
-                                            <img
-                                                src={comment1}
-                                                alt="ImageComment"
-                                            />
-                                        </figure>
-                                        <div className="comment-inner">
-                                            <div className="comment-info clearfix">
-                                                <h5>Rebeka Dawson</h5>
-                                                <span className="post-date">April 12, 2020</span>
-                                            </div>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam quis nos
-                                                trud exerc itation ullamco laboris.
-                                            </p>
-                                            <a href="/" className="reply-btn">
-                                                <i className="fas fa-share" />
-                                                Reply
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="comment">
-                                        <figure className="thumb-box">
-                                            <img
-                                                src={comment2}
-                                                alt="ImageComment"
-                                            />
-                                        </figure>
-                                        <div className="comment-inner">
-                                            <div className="comment-info clearfix">
-                                                <h5>Elizabeth Winstead</h5>
-                                                <span className="post-date">April 11, 2020</span>
-                                            </div>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam quis nos
-                                                trud exerc itation ullamco laboris.
-                                            </p>
-                                            <a href="/" className="reply-btn">
-                                                <i className="fas fa-share" />
-                                                Reply
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="comment">
-                                        <figure className="thumb-box">
-                                            <img
-                                                src={comment3}
-                                                alt="ImageComment"
-                                            />
-                                        </figure>
-                                        <div className="comment-inner">
-                                            <div className="comment-info clearfix">
-                                                <h5>Benedict Cumbatch</h5>
-                                                <span className="post-date">April 10, 2020</span>
-                                            </div>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                elit, sed do eiusmod tempor incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam quis nos
-                                                trud exerc itation ullamco laboris.
-                                            </p>
-                                            <a href="/" className="reply-btn">
-                                                <i className="fas fa-share" />
-                                                Reply
-                                            </a>
-                                        </div>
-                                    </div>
+                                    
+                                    {listComment.map(c => <CommentItem key={c.id} comment={c} />)}
+
                                 </div>
                                 <div className="comments-form-area">
                                     <div className="group-title">
-                                        <h2>Leave Your Comments</h2>
-                                        <p>
-                                            Enim ad minim veniam, quis nostrud exercitation ullamco
-                                            laboris nisi ut aliquip ex commodo consequat duis aute
-                                            irure dolor.
-                                        </p>
+                                        <h2>Bình luận</h2>
                                     </div>
                                     <div className="form-inner">
-                                        <form
-                                            method="post"
-                                            action="sendemail.php"
-                                            id="contact-form"
-                                            className="default-form"
-                                        >
+                                        <form id="contact-form" className="default-form" onSubmit={addComment}>
                                             <div className="row clearfix">
-                                                <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                                                    <input
-                                                        type="text"
-                                                        name="username"
-                                                        placeholder="Your Name"
-                                                        required
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                                                    <input
-                                                        type="email"
-                                                        name="email"
-                                                        placeholder="Email Address"
-                                                        required
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6 col-md-12 col-sm-12 form-group">
-                                                    <input
-                                                        type="text"
-                                                        name="phone"
-                                                        required
-                                                        placeholder="Phone Number"
-                                                    />
-                                                </div>
-                                                <div className="col-lg-6 col-md-12 col-sm-12 form-group">
-                                                    <input
-                                                        type="text"
-                                                        name="subject"
-                                                        required
-                                                        placeholder="Subject"
-                                                    />
+                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                    <input type="text" placeholder="Họ tên" value={comment.name_author} 
+                                                    onChange={(event) => handleChange("name_author", event)} required/>
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                    <textarea
-                                                        name="message"
-                                                        placeholder="Write Message"
-                                                        defaultValue={""}
-                                                    />
+                                                    <textarea placeholder="Nội dung" value={comment.content} 
+                                                    onChange={(event) => handleChange("content", event)}/>
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
-                                                    <button
-                                                        className="theme-btn"
-                                                        type="submit"
-                                                        name="submit-form"
-                                                    >
-                                                        Submit Now
+                                                    <button className="theme-btn" type="submit" name="submit-form">
+                                                        Gửi
                                                     </button>
                                                 </div>
                                             </div>
@@ -359,11 +235,7 @@ function BlogDetails(props) {
                                     <div className="widget-title">
                                         <h3>Search</h3>
                                     </div>
-                                    <form
-                                        action="destination-details.html"
-                                        method="post"
-                                        className="search-form"
-                                    >
+                                    <form action="destination-details.html" method="post" className="search-form">
                                         <div className="form-group">
                                             <input
                                                 type="search"
@@ -412,10 +284,7 @@ function BlogDetails(props) {
                                         <div className="post">
                                             <figure className="post-thumb">
                                                 <a href="/blog-details.html">
-                                                    <img
-                                                        src={post1}
-                                                        alt="ImagePost"
-                                                    />
+                                                    <img src={post1} alt="ImagePost"/>
                                                 </a>
                                             </figure>
                                             <span className="post-date">April 18, 2020</span>
@@ -428,10 +297,7 @@ function BlogDetails(props) {
                                         <div className="post">
                                             <figure className="post-thumb">
                                                 <a href="/blog-details.html">
-                                                    <img
-                                                        src={post2}
-                                                        alt="ImagePost"
-                                                    />
+                                                    <img src={post2} alt="ImagePost"/>
                                                 </a>
                                             </figure>
                                             <span className="post-date">April 17, 2020</span>
@@ -444,10 +310,7 @@ function BlogDetails(props) {
                                         <div className="post">
                                             <figure className="post-thumb">
                                                 <a href="/blog-details.html">
-                                                    <img
-                                                        src={post3}
-                                                        alt="ImagePost"
-                                                    />
+                                                    <img src={post3} alt="ImagePost"/>
                                                 </a>
                                             </figure>
                                             <span className="post-date">April 16, 2020</span>
@@ -460,12 +323,7 @@ function BlogDetails(props) {
                                     </div>
                                 </div>
                                 <div className="advice-widget">
-                                    <div
-                                        className="inner-box"
-                                        style={{
-                                            backgroundImage: `url(${advice1})`
-                                        }}
-                                    >
+                                    <div className="inner-box" style={{backgroundImage: `url(${advice1})`}}>
                                         <div className="text">
                                             <h2>
                                                 Get <br />
@@ -485,3 +343,31 @@ function BlogDetails(props) {
 }
 
 export default BlogDetails;
+
+class CommentItem extends React.Component {
+    render() {
+        return (
+            <div className="comment">
+                <figure className="thumb-box">
+                    <img
+                        src={comment2}
+                        alt="ImageComment"
+                    />
+                </figure>
+                <div className="comment-inner">
+                    <div className="comment-info clearfix">
+                        <h5>{this.props.comment.name_author}</h5>
+                        <span className="post-date">{this.props.comment.created_date}</span>
+                    </div>
+                    <p>
+                        {this.props.comment.content}
+                    </p>
+                    <a href="true" className="reply-btn">
+                        <i className="fas fa-share" />
+                        Reply
+                    </a>
+                </div>
+            </div>
+        )
+    }
+}

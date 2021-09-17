@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
+import Slider from '@mui/material/Slider';
+
 import API, { endpoints } from '../API';
 import FormInner from '../components/FormInner';
-
 import advice1 from "../static/image/advice/advice-1.jpg"
+
+function valuetext(value) {
+    return `${value}°C`;
+  }
+  
+let beforeChange = null;
 
 export default function TourList() {
     const [count, setCount] = useState(0)
@@ -16,7 +24,27 @@ export default function TourList() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchRes, setSearchRes] = useState([])
 
-    // Change List and Grid view for page tour list
+    /* Range slider */
+    const [value, setValue] = React.useState([100000, 100000000]);
+
+    const handleChange = (event, newValue) => {
+        if (!beforeChange) {
+            beforeChange = [...value];
+        }
+
+        if (beforeChange[0] !== newValue[0] && beforeChange[1] !== newValue[1]) {
+            return;
+        }
+
+        setValue(newValue);
+    };
+
+    const handleChangeCommitted = () => {
+        beforeChange = null;
+    };
+    /* End Range Slider */
+
+    /* Classname List and Grid view for page tour list */
     const listOn = () => {
         setcName('wrapper list')
         setcList('list-view on')
@@ -29,7 +57,7 @@ export default function TourList() {
         setcGrid('grid-view on')
     }
 
-    // Load API Tour-list
+    /* Load Data Tour-list */
     const loadTour = (page = "?page=1") => {
         API.get(`${endpoints['tours']}${page}`).then(res => {
             console.info(res.data)
@@ -37,10 +65,7 @@ export default function TourList() {
             setCount(res.data.count)
         })
     }
-
-    // useEffect(() => {
-    //     loadTour()
-    // }, [])
+    /* End */
 
     let location = useLocation()
     useEffect(() => {
@@ -54,14 +79,16 @@ export default function TourList() {
             <li><a href={"/tour-list?page=" + (i + 1)} className="current">{i + 1}</a></li>
         )
 
-    // Function Search Tour
+    /* Function Search Tour */
     const searchTour = (event, search = `?search=${searchTerm}`) => {
         event.preventDefault()
         API.get(`${endpoints['tours']}${search}`).then(res => {
             setSearchRes(res.data.results)
         })
     }
-    // Render tour list
+    /* End Function Search Tour */
+
+    /* Render tour list */
     let tours = <></>
 
     if (searchRes.length === 0) {
@@ -87,6 +114,7 @@ export default function TourList() {
             </div>
         </>
     }
+    /* End Render */
 
     return (
         <>
@@ -243,13 +271,23 @@ export default function TourList() {
                                     <div className="widget-title">
                                         <h3>Price Range</h3>
                                     </div>
+                                    <Slider
+                                        value={value}
+                                        onChange={handleChange}
+                                        onChangeCommitted={handleChangeCommitted}
+                                        valueLabelDisplay="auto"
+                                        aria-labelledby="range-slider"
+                                        getAriaValueText={valuetext}
+                                        min={100000}
+                                        max={100000000}
+                                    />
                                     <div className="range-slider clearfix">
                                         <div className="value-box clearfix">
                                             <div className="min-value pull-left">
-                                                <p>$50.00</p>
+                                                <p>100.000</p>
                                             </div>
                                             <div className="max-value pull-right">
-                                                <p>$500.00</p>
+                                                <p>100.000.000</p>
                                             </div>
                                         </div>
                                         <div className="price-range-slider" />
