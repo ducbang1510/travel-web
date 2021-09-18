@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import API, { endpoints } from '../API';
 
-function Booking1(props) {
-    const [customer, setCustomer] = useState([{
-        name: '',
-        gender: '',
-        date_of_birth: '',
-        email: '',
-        phone: '',
-        address: '',
+function Booking1() {
+    const [customerForms, setCustomerForms] = useState([{
+        customer: {
+            name: '',
+            gender: '',
+            date_of_birth: '',
+            email: '',
+            phone: '',
+            address: '',
+        }
     }])
+
     const [adults, setAdults] = useState(1)
     const [childs, setChilds] = useState(0)
-
-    let count = parseInt(adults) + parseInt(childs)
+    const [count, setCount] = useState(1)
 
     const numberValidate = (event) => {
         if (!/[0-9]/.test(event.key)) {
@@ -21,49 +23,72 @@ function Booking1(props) {
         }
     }
 
-    const handleChange = (field, event) => {
-        customer[field] = event.target.value
-        setCustomer(customer)
+    const handleChange = (idx, field, event) => {
+        customerForms[idx].customer[field] = event.target.value
+        setCustomerForms(customerForms => [...customerForms, { customer: customerForms[idx].customer }])
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        const formData = new FormData()
+        for(let i = 0; i < count; i++) {
+            const formData = new FormData()
 
-        for (let field in customer)
-            formData.append(field, customer[field])
-
-        API.post(endpoints['customers'], formData, {
-            header: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then((res) => {
-            console.info(res)
-        }).catch(err => console.error(err))
+            for (let field in customerForms[i].customer)
+                formData.append(field, customerForms[i].customer[field])
+            
+            API.post(endpoints['customers'], formData, {
+                header: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then((res) => {
+                console.info(res)
+            }).catch(err => console.error(err))
+        }
     }
+    
+    useEffect(() => {
+        if(count > 0)
+            for (let i = 0; i < count; i++)
+                setCustomerForms(customerForms => [...customerForms, {
+                    customer: {
+                        name: '',
+                        gender: '',
+                        date_of_birth: '',
+                        email: '',
+                        phone: '',
+                        address: '',
+                    }
+                }])
+    }, [count])
 
-    let forms = []
-    for (let i = 1; i < count; i++)
-        forms.push(
-            <>
-                <h3>Khách Hàng #{i+1}</h3>
-                <form className="processing-form">
-                    <div className="row clearfix">
-                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" 
-                            field={customer.name} change={(event) =>handleChange("name", event)}/>
-                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Giới tính" type="text" 
-                            field={customer.gender} change={(event) =>handleChange("gender", event)}/>
-                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text" 
-                            field={customer.email} change={(event) =>handleChange("email", event)}/>
-                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" 
-                            field={customer.phone} change={(event) =>handleChange("phone", event)} keyPress={numberValidate}/>
-                            <CustomeInput classname="col-lg-12 col-md-12 col-sm-12 column" label="Địa chỉ" type="text" 
-                            field={customer.address} change={(event) =>handleChange("address", event)}/>
-                    </div>
-                </form>
-            </>
-        )
+    useEffect(() => {
+        if(adults > -1 && childs > -1)
+            setCount(parseInt(adults) + parseInt(childs))
+    }, [adults, childs])
 
+    const createFields = (num) => {
+        let forms = []
+        for (let i = 0; i < num; i++) {
+            forms.push(
+                <>
+                    <h3>Khách Hàng #{i+1}</h3>
+                        <div className="row clearfix">
+                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" 
+                                field={customerForms[i].customer.name} change={(event) =>handleChange(i, "name", event)}/>
+                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Giới tính" type="text" 
+                                field={customerForms[i].customer.gender} change={(event) =>handleChange(i, "gender", event)}/>
+                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text" 
+                                field={customerForms[i].customer.email} change={(event) =>handleChange(i, "email", event)}/>
+                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" 
+                                field={customerForms[i].customer.phone} change={(event) =>handleChange(i, "phone", event)} keyPress={numberValidate}/>
+                                <CustomeInput classname="col-lg-12 col-md-12 col-sm-12 column" label="Địa chỉ" type="text" 
+                                field={customerForms[i].customer.address} change={(event) =>handleChange(i, "address", event)}/>
+                        </div>
+                </>
+            )
+        }
+        return forms
+    }
 
     return (
         <>
@@ -119,31 +144,17 @@ function Booking1(props) {
                                             </div>
                                         </div>
                                     </form>
-
-                                    <h3>Khách Hàng #1</h3>
+                                    
                                     <form className="processing-form" onSubmit={handleSubmit}>
-                                        <div className="row clearfix">
-                                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" 
-                                            field={customer.name} change={(event) =>handleChange("name", event)}/>
-                                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Giới tính" type="text" 
-                                            field={customer.gender} change={(event) =>handleChange("gender", event)}/>
-                                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text"
-                                            field={customer.email} change={(event) =>handleChange("email", event)}/>
-                                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" 
-                                            field={customer.phone} change={(event) =>handleChange("phone", event)} keyPress={numberValidate}/>
-                                            <CustomeInput classname="col-lg-12 col-md-12 col-sm-12 column" label="Địa chỉ" type="text" 
-                                            field={customer.address} change={(event) =>handleChange("address", event)}/>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 column">
-                                                <div className="form-group message-btn text-right">
-                                                    <button type="submit" className="theme-btn">
-                                                        Thêm
-                                                    </button>
-                                                </div>
+                                        {createFields(count)}
+                                        <div className="col-lg-12 col-md-12 col-sm-12 column">
+                                            <div className="form-group message-btn text-right">
+                                                <button type="submit" className="theme-btn">
+                                                    Xác nhận
+                                                </button>
                                             </div>
                                         </div>
                                     </form>
-
-                                    {forms}
 
                                     {/* <form onSubmit={handleSubmit} className="processing-form">
                                         <div className="row clearfix">
@@ -216,7 +227,7 @@ class CustomeInput extends React.Component {
                         <input type={this.props.type} 
                         value={this.props.field}
                         onChange={this.props.change} 
-                        onKeyPress={this.props.keyPress} required/>
+                        onKeyPress={this.props.keyPress}/>
                     </div>
                 </div>
             </>
