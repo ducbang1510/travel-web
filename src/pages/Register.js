@@ -40,7 +40,7 @@ export default class Register extends React.Component {
 
             formData.append('avatar', this.avatar.current.files[0])
             API.post(endpoints['users'], formData, {
-                header: {
+                headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((res) => {

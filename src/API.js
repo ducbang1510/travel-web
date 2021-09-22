@@ -7,6 +7,7 @@ export let endpoints = {
     'tour-images': '/tour-image/',
     'customers': '/customers/',
     'blogs': '/blogs/',
+    'payers': '/payers/',
     'comments': '/comments/',
     'users': '/users/',
     'current-user': '/users/current-user/',

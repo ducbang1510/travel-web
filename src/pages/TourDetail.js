@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import API, { endpoints } from "../API";
 import StarRating from "../components/StarRating";
+import cookies from 'react-cookies'
 
 import pageTitle3 from "../static/image/background/page-title-3.jpg"
 import des4 from "../static/image/destination/destination-4.jpg"
@@ -10,6 +11,7 @@ import des6 from "../static/image/destination/destination-6.jpg"
 import des7 from "../static/image/destination/destination-7.jpg"
 import des8 from "../static/image/destination/destination-8.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
+import { useStore } from "react-redux";
 
 
 export default function TourDetail() {
@@ -17,7 +19,16 @@ export default function TourDetail() {
     const [services, setServices] = useState([])
     const [rating, setRating] = useState(1)
 
+    const [comment, setComment] = useState("")
+
     const { tourId } = useParams()
+
+    const store = useStore()
+    const auth = store.getState()
+    let user = auth // user redux
+    if (cookies.load("user") != null) {
+        user = cookies.load("user")
+    }
 
     const getTour = () => {
         API.get(`${endpoints['tours']}${tourId}/`).then(res => {
@@ -35,6 +46,34 @@ export default function TourDetail() {
         setRating(value)
     }
     console.log(rating)
+
+    /* Handle Comment Function */
+    const handleChange = (event) => {
+        setComment(event.target.value)
+    }
+
+    const addComment = (event) => {
+        event.preventDefault()
+        if (user != null) {
+            const formData = new FormData()
+
+            formData.append("content", comment)
+            // formData.append("user", user.id)
+
+            API.post(`${endpoints['tours']}${tourId}/add-comment/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${cookies.load('access_token')}`
+                }
+            }).then((res) => {
+                console.info(res)
+            }).catch(err => console.error(err))
+        }
+        else {
+            alert("Hãy đăng nhập để có thể bình luận")
+        }
+    }
+    /* End Comment Function */
 
     return (
         <>
@@ -110,8 +149,6 @@ export default function TourDetail() {
                                 <div className="location-map">
                                     <div className="text">
                                         <h2>View On Map</h2>
-                                        <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                                            ex commodo consequat duis aute irure dolor.</p>
                                     </div>
                                     <div className="map-inner">
                                         <div className="google-map" id="contact-google-map" data-map-lat="40.712776"
@@ -126,9 +163,6 @@ export default function TourDetail() {
                                 <div className="photo-gallery">
                                     <div className="text">
                                         <h2>Photo Gallery</h2>
-                                        <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                                            ex commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                            esse cillum dolore eu fugiat nulla pariatur.</p>
                                     </div>
                                     <div className="image-box clearfix">
                                         <figure className="image">
@@ -208,68 +242,26 @@ export default function TourDetail() {
                                 </div>
                                 <div className="comment-box">
                                     <div className="text">
-                                        <h2>Leave Your Comments</h2>
-                                        <p>Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                                            ex commodo consequat duis aute irure dolor.</p>
+                                        <h2>Đánh giá</h2>
                                         <ul className="list clearfix">
-                                            <li>
-                                                <h5>Accommodation:</h5>
+                                            {/* <li>
+                                                <h5>Rating:</h5>
                                                 <i className="fas fa-star"></i>
                                                 <i className="fas fa-star"></i>
                                                 <i className="fas fa-star"></i>
                                                 <i className="fas fa-star"></i>
                                                 <i className="far fa-star"></i>
-                                            </li>
-                                            <li>
-                                                <h5>Transport:</h5>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </li>
-                                            <li>
-                                                <h5>Comfort:</h5>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </li>
-                                            <li>
-                                                <h5>Food:</h5>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </li>
-                                            <li>
-                                                <h5>Hospitality:</h5>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </li>
+                                            </li> */}
                                         </ul>
                                     </div>
-                                    <form action="tour-details.html" method="post" className="comment-form">
+                                    <form onSubmit={addComment} className="comment-form">
                                         <div className="row clearfix">
-                                            <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                                                <input type="text" name="name" placeholder="Your Name" required />
-                                            </div>
-                                            <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                                                <input type="email" name="email" placeholder="Email Address" required />
-                                            </div>
                                             <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                <input type="text" name="review" placeholder="Review Title" required />
-                                            </div>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                <textarea name="message" placeholder="Write Message"></textarea>
+                                                <textarea placeholder="Nội dung" value={comment} 
+                                                    onChange={(event) => handleChange(event)}/>
                                             </div>
                                             <div className="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
-                                                <button type="submit" className="theme-btn">Submit Now</button>
+                                                <button type="submit" className="theme-btn">Gửi</button>
                                             </div>
                                         </div>
                                     </form>
@@ -314,7 +306,7 @@ export default function TourDetail() {
                                     <div className="widget-title">
                                         <h3>Đặt Tour</h3>
                                     </div>
-                                    <a href="/booking-1" style={{ color: "#fff" }}>
+                                    <a href={"/tour-detail/" + tourId + "/booking-1"} style={{ color: "#fff" }}>
                                         <button type="submit" className="theme-btn">Nhấn vào đây</button>
                                     </a>
                                 </div>

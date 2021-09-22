@@ -1,6 +1,18 @@
 import React from "react";
 
 export default class FormInner extends React.Component {
+    constructor(props) {
+        super()
+        this.state = {
+            categories: ""
+        }
+    }
+
+    handleChange = (event) => {
+        this.setState({categories: event.target.value});
+        console.info(this.state.categories)
+    };
+    
     render() {
         return (
             <>
@@ -24,7 +36,7 @@ export default class FormInner extends React.Component {
                 <div className="form-group">
                     <i className="fas fa-angle-down" />
                     <div className="select-box">
-                        <select className="wide">
+                        <select className="wide" id="demo-simple-select" value={this.state.categories} onChange={this.handleChange}>
                             <option data-display="Travel Type">Travel Type</option>
                             <option value={1}>Adventure Tours</option>
                             <option value={2}>City Tours</option>

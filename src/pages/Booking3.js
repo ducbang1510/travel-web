@@ -1,9 +1,14 @@
 import React from 'react';
+import PayContext from '../context/PayContext';
+
+import pageTitle2 from '../static/image/background/page-title-2.jpg'
 
 function Booking3(props) {
+    const payDetails = React.useContext(PayContext)
+    
     return (
         <>
-            <section className="page-title centred" style={{ backgroundImage: "url(./assets/image/background/page-title-2.jpg)" }}>
+            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle2})` }}>
                 <div className="auto-container">
                     <div className="content-box">
                         <h1>Booking Process Confirm</h1>
@@ -18,14 +23,14 @@ function Booking3(props) {
                         <div className="col-lg-8 col-md-12 col-sm-12 content-side">
                             <div className="booking-process-content mr-20">
                                 <ul className="process-label clearfix">
-                                    <li>
-                                        <span>1.</span>Personal Info
+                                <li>
+                                        <span>1.</span>Nhập thông tin
                                     </li>
                                     <li>
-                                        <span>2.</span>Payment Info
+                                        <span>2.</span>Thanh toán
                                     </li>
                                     <li className="current">
-                                        <span>3.</span>Confirm
+                                        <span>3.</span>Xác nhận
                                     </li>
                                 </ul>
                                 <div className="confirm-box">
@@ -48,31 +53,28 @@ function Booking3(props) {
                         </div>
                         <div className="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                             <div className="process-sidebar ml-20">
-                                <div className="content-box">
-                                    <h3>Tour Summary</h3>
+                            <div className="content-box">
+                                    <h3>Thông Tin</h3>
                                     <figure className="image-box">
-                                        <img
-                                            src="./assets/image/sidebar/sidebar-1.jpg"
-                                            alt="ImageSidebar"
-                                        />
+                                        <img src={payDetails.tour.image} alt="ImageSidebar" />
                                     </figure>
-                                    <h4>Mascow Red City Land</h4>
+                                    <h4>{payDetails.tour.tour_name}</h4>
                                     <ul className="info clearfix">
                                         <li>
                                             <i className="far fa-calendar-alt" />
-                                            From: <span>25 Oct, 2020</span>
+                                            From: <span>{payDetails.tour.depart_date}</span>
                                         </li>
                                         <li>
                                             <i className="far fa-calendar-alt" />
-                                            To: <span>29 Oct, 2020</span>
+                                            To: <span>Đang cập nhật</span>
                                         </li>
                                         <li>
-                                            <i className="far fa-user-alt" />
-                                            Guests: <span>2 Adults, 1 Child</span>
+                                            <i className="fas fa-user-alt" />
+                                            Guests: <span>{payDetails.adults} Adults, {payDetails.childs} Child</span>
                                         </li>
                                     </ul>
                                     <div className="price">
-                                        <h4>Total: $170.00</h4>
+                                        <h4>Total: {payDetails.total}</h4>
                                     </div>
                                 </div>
                             </div>

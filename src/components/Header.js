@@ -78,7 +78,7 @@ export default function Header(props) {
                   <li className="dropdown">
                     <a href="/blogs">Blog</a>
                   </li>
-                  <li className="current dropdown">
+                  <li className="dropdown">
                     <a href="/about-us.html">About Us</a>
                   </li>
                   {r}
@@ -134,65 +134,6 @@ export default function Header(props) {
           </ul>
         </div>
       </div>
-      {}
-      {/* <div className="sticky-header">
-        <div className="auto-container">
-          <div className="outer-box">
-            <div className="logo-box">
-              <figure className="logo">
-                <a href="/">
-                  <img src="./assets/image/logo.png" alt="ImageLogo" />
-                </a>
-              </figure>
-            </div>
-            <div className="menu-area">
-              <nav className="main-menu clearfix">{}</nav>
-            </div>
-            <ul className="menu-right-content clearfix">
-              <li className="search-box-outer">
-                <div className="dropdown">
-                  <button
-                    className="search-box-btn"
-                    type="button"
-                    id="dropdownMenu4"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i className="fas fa-search" />
-                  </button>
-                  <div
-                    className="dropdown-menu search-panel"
-                    aria-labelledby="dropdownMenu4"
-                  >
-                    <div className="form-container">
-                      <form onSubmit={(event) => searchTour(event)}>
-                        <div className="form-group">
-                          <input
-                            type="search"
-                            placeholder="Search...."
-                            value={searchTerm}
-                            onChange={event => setSearchTerm(event.target.value)}
-                            required
-                          />
-                          <button type="submit" className="search-btn">
-                            <span className="fas fa-search" />
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li className="user-link">
-                <a href="/login.html">
-                  <i className="far fa-user" />
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div> */}
     </header>
   );
 }

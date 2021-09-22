@@ -16,10 +16,12 @@ import BlogDetails from './pages/BlogDetails';
 import Booking1 from './pages/Booking1'
 import Booking2 from './pages/Booking2'
 import Booking3 from './pages/Booking3'
+import { PayProvider } from './context/PayContext'
 
 export default function App(props) {
 
   return (
+    <PayProvider>
     <div className="boxed_wrapper">
       <BrowserRouter>
         <PreLoader />
@@ -31,9 +33,9 @@ export default function App(props) {
           <Route exact path="/tour-detail/:tourId" component={TourDetail} />
           <Route exact path="/blogs" component={Blogs} />
           <Route exact path="/blog-details/:blogId" component={BlogDetails} />
-          <Route exact path="/booking-1" component={Booking1} />
-          <Route exact path="/booking-2" component={Booking2} />
-          <Route exact path="/booking-3" component={Booking3} />
+          <Route exact path="/tour-detail/:tourId/booking-1" component={Booking1} />
+          <Route exact path="/tour-detail/:tourId/booking-2" component={Booking2} />
+          <Route exact path="/tour-detail/:tourId/booking-3" component={Booking3} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/logout" component={Logout} />
@@ -42,5 +44,6 @@ export default function App(props) {
         <ScrollTop />
       </BrowserRouter>
     </div>
+    </PayProvider>
   );
 }

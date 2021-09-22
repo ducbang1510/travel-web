@@ -16,7 +16,7 @@ function BlogDetails(props) {
     const [isLike, setIsLike] = useState(false)
     const [count, setCount] = useState(1)
 
-    const [comment, setComment] = useState([{ name_author: "", content: "" }])
+    const [comment, setComment] = useState("")
     const [listComment, setListComment] = useState([])
 
     const { blogId } = useParams()
@@ -30,7 +30,7 @@ function BlogDetails(props) {
     }
 
     // Load detail of tour
-    const getTour = () => {
+    const getBlog = () => {
         API.get(`${endpoints['blogs']}${blogId}/`).then(res => {
             console.info(res.data)
             setBlog(res.data)
@@ -69,7 +69,7 @@ function BlogDetails(props) {
         }
 
         API.patch(`${endpoints['blogs']}${blogId}/`, formData, {
-            header: {
+            headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((res) => {
@@ -80,9 +80,8 @@ function BlogDetails(props) {
     
 
     /* Handle Comment Function */
-    const handleChange = (field, event) => {
-        comment[field] = event.target.value
-        setComment(comment)
+    const handleChange = (event) => {
+        setComment(event.target.value)
     }
 
     const addComment = (event) => {
@@ -90,15 +89,13 @@ function BlogDetails(props) {
         if (user != null) {
             const formData = new FormData()
 
-            for (let field in comment)
-                formData.append(field, comment[field])
+            formData.append("content", comment)
+            // formData.append("user", user.id)
 
-            formData.append("user", user.id)
-            formData.append("blog", blog.id)
-
-            API.post(endpoints['comments'], formData, {
-                header: {
-                    'Content-Type': 'multipart/form-data'
+            API.post(`${endpoints['blogs']}${blogId}/add-comment/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${cookies.load('access_token')}`
                 }
             }).then((res) => {
                 console.info(res)
@@ -114,7 +111,7 @@ function BlogDetails(props) {
     useEffect(() => {
         if(count !== 1)
             addLike(isLike)
-        getTour()
+        getBlog()
         getComments()
     }, [isLike])
 
@@ -211,12 +208,8 @@ function BlogDetails(props) {
                                         <form id="contact-form" className="default-form" onSubmit={addComment}>
                                             <div className="row clearfix">
                                                 <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                    <input type="text" placeholder="Họ tên" value={comment.name_author} 
-                                                    onChange={(event) => handleChange("name_author", event)} required/>
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                    <textarea placeholder="Nội dung" value={comment.content} 
-                                                    onChange={(event) => handleChange("content", event)}/>
+                                                    <textarea placeholder="Nội dung" value={comment} 
+                                                    onChange={(event) => handleChange(event)}/>
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
                                                     <button className="theme-btn" type="submit" name="submit-form">
