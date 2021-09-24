@@ -62,8 +62,8 @@ export default class Register extends React.Component {
                 >
                     <div className="auto-container">
                     <div className="content-box">
-                        <h1>Sign Up</h1>
-                        <p>Discover your next great adventure</p>
+                        <h1>Đăng Kí</h1>
+                        <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
                     </div>
                 </section>

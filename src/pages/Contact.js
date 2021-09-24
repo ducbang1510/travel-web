@@ -10,8 +10,8 @@ export default class Contact extends React.Component {
                 <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                     <div className="auto-container">
                         <div className="content-box">
-                            <h1>Contact</h1>
-                            <p>Discover your next great adventure</p>
+                            <h1>Liên Lạc</h1>
+                            <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                         </div>
                     </div>
                 </section>
@@ -52,7 +52,7 @@ class ContactInfoSection extends React.Component {
                                     <div className="icon-box">
                                         <i className="fas fa-map-marker-alt" />
                                     </div>
-                                    <h3>Address</h3>
+                                    <h3>Địa chỉ</h3>
                                     <p>371, Nguyen Kiem Street, Go Vap District</p>
                                 </div>
                             </div>

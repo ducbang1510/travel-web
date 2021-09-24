@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import API, { endpoints } from '../API';
-import { useStore } from 'react-redux';
+import { useSelector } from 'react-redux';
 import cookies from 'react-cookies'
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
@@ -22,9 +22,7 @@ function BlogDetails(props) {
     const { blogId } = useParams()
 
     // Get user for confirm
-    const store = useStore()
-    const auth = store.getState()
-    let user = auth // user redux
+    let user = useSelector(state => state.user.user)
     if (cookies.load("user") != null) {
         user = cookies.load("user")
     }

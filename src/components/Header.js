@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import API, { endpoints } from '../API'
 import { Link } from "react-router-dom";
 import cookies from 'react-cookies'
-import { useStore } from 'react-redux';
+import { useSelector } from 'react-redux';
 import logo from "../static/image/logo-3.png"
 
 export default function Header(props) {
   const [categories, setCategories] = useState([])
 
-  const store = useStore()
-  const auth = store.getState()
+  let user = useSelector(state => state.user.user)
 
   // Load API Categories
   useEffect(() => {
@@ -19,7 +18,6 @@ export default function Header(props) {
   }, [])
 
   // Load user
-  let user = auth // user redux
   if (cookies.load("user") != null) {
     user = cookies.load("user")
   }
@@ -64,19 +62,19 @@ export default function Header(props) {
               <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                 <ul className="navigation clearfix">
                   <li className="dropdown">
-                    <a href="/">Home</a>
+                    <a href="/">Trang Chủ</a>
                   </li>
                   <li className="dropdown">
-                    <a href="/destination.html">Categories</a>
+                    <a href="/destination.html">Loại Tour</a>
                     <ul>
                       {categories.map(c => <li key={c.id}><a href="/">{c.name}</a></li>)}
                     </ul>
                   </li>
                   <li className="dropdown">
-                    <a href="/tour-list">Tours</a>
+                    <a href="/tour-list">Tour</a>
                   </li>
                   <li className="dropdown">
-                    <a href="/blogs">Blog</a>
+                    <a href="/blogs">Tin Tức</a>
                   </li>
                   <li className="dropdown">
                     <a href="/about-us.html">About Us</a>

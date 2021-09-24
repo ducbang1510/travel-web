@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
 import Slider from '@mui/material/Slider';
-
 import API, { endpoints } from '../API';
-import FormInner from '../components/FormInner';
 import advice1 from "../static/image/advice/advice-1.jpg"
+import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 function valuetext(value) {
     return `${value}°C`;
@@ -16,6 +14,7 @@ let beforeChange = null;
 export default function TourList() {
     const [count, setCount] = useState(0)
     const [tourList, setTourList] = useState([])
+    const [categories, setCategories] = useState([])
 
     const [cName, setcName] = useState('wrapper list')
     const [cList, setcList] = useState('list-view on')
@@ -24,8 +23,22 @@ export default function TourList() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchRes, setSearchRes] = useState([])
 
+    /* Radio Search */
+    const [duration, setDuration] = useState("");
+    const [cate, setCate] = useState(null);
+    const [rate, setRate] = useState("")
+
+    const handleRadioChange = (event) => {
+        setDuration(event.target.value);
+    };
+    const handleCateChange = (event) => {
+        setCate(Number(event.target.value));
+    };
+    /* End Radio Search */
+
     /* Range slider */
-    const [value, setValue] = React.useState([100000, 100000000]);
+    const [value, setValue] = React.useState([500000, 10000000]);
+    const timeoutRef = useRef(null) // debounce timeout
 
     const handleChange = (event, newValue) => {
         if (!beforeChange) {
@@ -67,6 +80,12 @@ export default function TourList() {
     }
     /* End */
 
+    useEffect(() => {
+        API.get(endpoints['categories']).then(res => {
+          setCategories(res.data)
+        })
+      }, [])
+
     let location = useLocation()
     useEffect(() => {
         loadTour(location.search)
@@ -74,22 +93,79 @@ export default function TourList() {
 
     // Pagination
     let items = []
-    for (let i = 0; i < Math.ceil(count / 4); i++)
+    for (let i = 0; i < Math.ceil(count / 6); i++)
         items.push(
             <li><a href={"/tour-list?page=" + (i + 1)} className="current">{i + 1}</a></li>
         )
 
     /* Function Search Tour */
-    const searchTour = (event, search = `?search=${searchTerm}`) => {
+    const searchTour = (event, search = `?q=${searchTerm}`) => {
         event.preventDefault()
         API.get(`${endpoints['tours']}${search}`).then(res => {
             setSearchRes(res.data.results)
+            setCount(res.data.count)
         })
     }
+
+    useEffect(() => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
+        }
+        const searchByPrice = () => {
+            API.get(`${endpoints['tours']}?min=${value[0]}&max=${value[1]}`).then(res => {
+                setSearchRes(res.data.results)
+                setCount(res.data.count)
+            })
+        }
+        timeoutRef.current = setTimeout(() => {
+            searchByPrice()
+        }, 300)
+    }, [value])
+
+    useEffect(() => {
+        let min_d=null;
+        let max_d=null;
+        if (duration==="1") { min_d=1; max_d=2;}
+        if (duration==="2") { min_d=2; max_d=3;}
+        if (duration==="3") { min_d=3; max_d=4;}
+        if (duration==="4") { min_d=4; max_d=5;}
+        const searchByDuration = () => {
+            API.get(`${endpoints['tours']}?min_d=${min_d}&max_d=${max_d}`).then(res => {
+                setSearchRes(res.data.results)
+                setCount(res.data.count)
+            })
+        }
+        searchByDuration()
+    }, [duration])
+
+    useEffect(() => {
+        let cateId=null;
+        if (cate===1) { cateId = 1 }
+        if (cate===2) { cateId = 2 }
+        if (cate===3) { cateId = 3 }
+        const searchByDuration = () => {
+            API.get(`${endpoints['tours']}?category_id=${cateId}`).then(res => {
+                setSearchRes(res.data.results)
+                setCount(res.data.count)
+            })
+        }
+        searchByDuration()
+    }, [cate])
+
+    useEffect(() => {
+        const searchByRate = () => {
+            API.get(`${endpoints['tours']}?rate=${rate}`).then(res => {
+                setSearchRes(res.data.results)
+                setCount(res.data.count)
+            })
+        }
+        searchByRate()
+    }, [rate])
     /* End Function Search Tour */
 
     /* Render tour list */
     let tours = <></>
+    let results = <></>
 
     if (searchRes.length === 0) {
         tours = <>
@@ -102,6 +178,7 @@ export default function TourList() {
                 {tourList.map(t => <TourItem2 tour={t} />)}
             </div>
         </>
+        results = <><h3>{tourList.length} trên {count} kết quả</h3></>
     } else {
         tours = <>
             <div className="tour-grid-content">
@@ -113,6 +190,7 @@ export default function TourList() {
                 {searchRes.map(t => <TourItem2 tour={t} />)}
             </div>
         </>
+        results = <><h3>{searchRes.length} trên {count} kết quả</h3></>
     }
     /* End Render */
 
@@ -122,13 +200,8 @@ export default function TourList() {
                 style={{ backgroundImage: "url(./assets/image/background/page-title-2.jpg)" }}>
                 <div className="auto-container">
                     <div className="content-box">
-                        <h1>Tours Grid</h1>
-                        <p>Discover your next great adventure</p>
-                    </div>
-                    <div className="form-inner">
-                        <form action="/home.html" method="post" className="booking-form clearfix">
-                            <FormInner />
-                        </form>
+                        <h1>Danh Sách Tour</h1>
+                        <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
                 </div>
             </section>
@@ -139,7 +212,7 @@ export default function TourList() {
                         <div className="col-lg-8 col-md-12 col-sm-12 content-side">
                             <div className="item-shorting clearfix">
                                 <div className="left-column pull-left">
-                                    <h3>Showing 1-8 of 20 Results</h3>
+                                    {results}
                                 </div>
                                 <div className="right-column pull-right clearfix">
                                     <div className="short-box clearfix">
@@ -181,7 +254,7 @@ export default function TourList() {
                             <div className="default-sidebar tour-sidebar ml-20">
                                 <div className="sidebar-widget sidebar-search">
                                     <div className="widget-title">
-                                        <h3>Search</h3>
+                                        <h3>Tìm kiếm</h3>
                                     </div>
                                     <form onSubmit={searchTour} className="search-form">
                                         <div className="form-group">
@@ -199,77 +272,20 @@ export default function TourList() {
                                 </div>
                                 <div className="sidebar-widget category-widget">
                                     <div className="widget-title">
-                                        <h3>Category</h3>
+                                        <h3>Loại tour</h3>
                                     </div>
                                     <div className="widget-content">
-                                        <ul className="category-list clearfix">
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">Adventure Tours</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                            defaultChecked="checked"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">City Tours</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">Couple Tours</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">Group Tours</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">Hosted Tours</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                        <FormControl component="fieldset">
+                                            <RadioGroup aria-label="category" name="controlled-radio-buttons-group" value={cate}
+                                            onChange={handleCateChange}>
+                                                {categories.map(c => <FormControlLabel value={c.id} control={<Radio />} label={c.name} />)}
+                                            </RadioGroup>
+                                        </FormControl>
                                     </div>
                                 </div>
                                 <div className="sidebar-widget price-filter">
                                     <div className="widget-title">
-                                        <h3>Price Range</h3>
+                                        <h3>Lọc theo giá</h3>
                                     </div>
                                     <Slider
                                         value={value}
@@ -278,16 +294,16 @@ export default function TourList() {
                                         valueLabelDisplay="auto"
                                         aria-labelledby="range-slider"
                                         getAriaValueText={valuetext}
-                                        min={100000}
-                                        max={100000000}
+                                        min={500000}
+                                        max={10000000}
                                     />
                                     <div className="range-slider clearfix">
                                         <div className="value-box clearfix">
                                             <div className="min-value pull-left">
-                                                <p>100.000</p>
+                                                <p>500.000</p>
                                             </div>
                                             <div className="max-value pull-right">
-                                                <p>100.000.000</p>
+                                                <p>10.000.000</p>
                                             </div>
                                         </div>
                                         <div className="price-range-slider" />
@@ -295,179 +311,42 @@ export default function TourList() {
                                 </div>
                                 <div className="sidebar-widget duration-widget">
                                     <div className="widget-title">
-                                        <h3>Durations</h3>
+                                        <h3>Thời gian</h3>
                                     </div>
                                     <div className="widget-content">
-                                        <ul className="category-list clearfix">
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">0 - 24 hours</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">1 - 2 days</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">2 - 3 days</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">3 - 4 days</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">4 - 5 days</span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                        <FormControl component="fieldset">
+                                            <RadioGroup aria-label="duration" name="controlled-radio-buttons-group" value={duration}
+                                            onChange={handleRadioChange}>
+                                                <FormControlLabel value="1" control={<Radio />} label="1 - 2 ngày" />
+                                                <FormControlLabel value="2" control={<Radio />} label="2 - 3 ngày" />
+                                                <FormControlLabel value="3" control={<Radio />} label="3 - 4 ngày" />
+                                                <FormControlLabel value="4" control={<Radio />} label="4 - 5 ngày" />
+                                            </RadioGroup>
+                                        </FormControl>
                                     </div>
                                 </div>
                                 <div className="sidebar-widget review-widget">
                                     <div className="widget-title">
-                                        <h3>Review Score</h3>
+                                        <h3>Điểm đánh giá</h3>
                                     </div>
                                     <div className="widget-content">
-                                        <ul className="category-list clearfix">
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="far fa-star" />
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="far fa-star" />
-                                                            <i className="far fa-star" />
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">
-                                                            <i className="fas fa-star" />
-                                                            <i className="fas fa-star" />
-                                                            <i className="far fa-star" />
-                                                            <i className="far fa-star" />
-                                                            <i className="far fa-star" />
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li className="custom-check-box">
-                                                <div className="custom-controls-stacked">
-                                                    <label className="custom-control material-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            className="material-control-input"
-                                                        />
-                                                        <span className="material-control-indicator" />
-                                                        <span className="description">
-                                                            <i className="fas fa-star" />
-                                                            <i className="far fa-star" />
-                                                            <i className="far fa-star" />
-                                                            <i className="far fa-star" />
-                                                            <i className="far fa-star" />
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                    <FormControl component="fieldset">
+                                            <RadioGroup aria-label="duration" name="controlled-radio-buttons-group" value={rate}
+                                            onChange={(event) => setRate(event.target.value)}>
+                                                <FormControlLabel value="1" control={<Radio />} label="1 sao" />
+                                                <FormControlLabel value="2" control={<Radio />} label="2 sao" />
+                                                <FormControlLabel value="3" control={<Radio />} label="3 sao" />
+                                                <FormControlLabel value="4" control={<Radio />} label="4 sao" />
+                                                <FormControlLabel value="5" control={<Radio />} label="5 sao" />
+                                            </RadioGroup>
+                                        </FormControl>
                                     </div>
                                 </div>
                                 <div className="advice-widget">
-                                    <div
-                                        className="inner-box"
+                                    <div className="inner-box"
                                         style={{
                                             backgroundImage: `url(${advice1})`
-                                        }}
-                                    >
+                                        }}>
                                         <div className="text">
                                             <h2>
                                                 Get <br />
@@ -511,7 +390,7 @@ class TourItem extends React.Component {
                                 </a>
                             </h3>
                             <h4 >
-                                {this.props.tour.price_of_tour} <span>/ Per person</span>
+                                {this.props.tour.price_of_tour.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} <span>/ Per person</span>
                             </h4>
                             <ul className="info clearfix">
                                 <li>
@@ -526,8 +405,7 @@ class TourItem extends React.Component {
                                 {this.props.tour.depart_date}
                             </p>
                             <div className="btn-box">
-                                {/* <a href={'/tour-detail/' + this.props.tour.id} >See Details</a> */}
-                                <Link to={'/tour-detail/' + this.props.tour.id}>See Details</Link>
+                                <Link to={'/tour-detail/' + this.props.tour.id}>Xem chi tiết</Link>
                             </div>
                         </div>
                     </div>
@@ -564,14 +442,13 @@ class TourItem2 extends React.Component {
                             </a>
                         </h3>
                         <h4>
-                            {this.props.tour.price_of_tour}<span> / Per person</span>
+                            {this.props.tour.price_of_tour}<span> / 1 người</span>
                         </h4>
                         <p>
                             {this.props.tour.depart_date}
                         </p>
                         <div className="btn-box">
-                            {/* <a href={'/tour-detail/' + this.props.tour.id} >See Details</a> */}
-                            <Link to={`/tour-detail/${this.props.tour.id}`}>See Details</Link>
+                            <Link to={`/tour-detail/${this.props.tour.id}`}>Xem chi tiết</Link>
                         </div>
                     </div>
                 </div>

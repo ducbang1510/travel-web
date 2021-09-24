@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import API, { endpoints } from "../API";
 import StarRating from "../components/StarRating";
 import cookies from 'react-cookies'
+import { useSelector } from "react-redux";
 
 import pageTitle3 from "../static/image/background/page-title-3.jpg"
 import des4 from "../static/image/destination/destination-4.jpg"
@@ -11,28 +12,26 @@ import des6 from "../static/image/destination/destination-6.jpg"
 import des7 from "../static/image/destination/destination-7.jpg"
 import des8 from "../static/image/destination/destination-8.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
-import { useStore } from "react-redux";
 
 
 export default function TourDetail() {
     const [tour, setTour] = useState([])
     const [services, setServices] = useState([])
-    const [rating, setRating] = useState(1)
+
+    const [rating, setRating] = useState(0)
+    const [isRate, setIsRate] = useState(false)
 
     const [comment, setComment] = useState("")
 
     const { tourId } = useParams()
 
-    const store = useStore()
-    const auth = store.getState()
-    let user = auth // user redux
+    let user = useSelector(state => state.user.user)
     if (cookies.load("user") != null) {
         user = cookies.load("user")
     }
 
     const getTour = () => {
         API.get(`${endpoints['tours']}${tourId}/`).then(res => {
-            console.info(res.data)
             setServices(res.data.service)
             setTour(res.data)
         })
@@ -44,13 +43,36 @@ export default function TourDetail() {
 
     const handleRatingChange = (value) => {
         setRating(value)
+        setIsRate(true)
     }
-    console.log(rating)
 
     /* Handle Comment Function */
     const handleChange = (event) => {
         setComment(event.target.value)
     }
+
+    const addRating = () => {
+        if (user != null) {
+            const formRate = new FormData()
+            formRate.append("rating", rating)
+
+            API.post(`${endpoints['tours']}${tourId}/rating/`, formRate, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${cookies.load('access_token')}`
+                }
+            }).then((res) => {
+                console.info(res)
+            }).catch(err => console.error(err))
+        }else {
+            alert("Hãy đăng nhập để có thể đánh giá")
+        }
+    }
+    useEffect(() => {
+        if(rating > 0 && isRate)
+            addRating()
+    }, [rating])
+    
 
     const addComment = (event) => {
         event.preventDefault()
@@ -58,7 +80,6 @@ export default function TourDetail() {
             const formData = new FormData()
 
             formData.append("content", comment)
-            // formData.append("user", user.id)
 
             API.post(`${endpoints['tours']}${tourId}/add-comment/`, formData, {
                 headers: {
@@ -100,6 +121,7 @@ export default function TourDetail() {
                                     value={rating}
                                     activeColor ={'gold'}
                                     inactiveColor={'#ddd'}
+                                    disabled={isRate}
                                     onChange={handleRatingChange}  />
                                 </div>
                                 <div className="inner-box">

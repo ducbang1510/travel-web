@@ -16,9 +16,10 @@ export default function Login() {
 
     const login = async (event) => {
         event.preventDefault();
+        let oAuthInfo = await API.get(endpoints['oAuthInfo'])
         let res = await API.post(endpoints['login'], {
-            'client_id': 'YloDZhhf9vdFi88YR77lOwgBNeN72j4tWjBjViFc',
-            'client_secret': 'ydSvpn6DPJNW6vCF9jNf6Y9vyuHYzYTGpga9dIMZmBcxJRxzmrMZWwBkgjOAeSecZiIeBAqEvyZPFPHPgCs3CCW26qVmX9cX76wstvhknsdhcPlFz3y4kjj7mPzwjFpb',
+            'client_id': oAuthInfo.data.client_id,
+            'client_secret': oAuthInfo.data.client_secret,
             'username': username,
             'password': password,
             'grant_type': 'password'
@@ -36,7 +37,7 @@ export default function Login() {
         cookies.save("user", user.data)
 
         dispatch({
-            "type": "login",
+            "type": "USER_LOGIN",
             "payload": user.data
         })
 
@@ -56,8 +57,8 @@ export default function Login() {
                 >
                     <div className="auto-container">
                     <div className="content-box">
-                        <h1>Sign In</h1>
-                        <p>Discover your next great adventure</p>
+                        <h1>Đăng Nhập</h1>
+                        <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
                     </div>
                 </section>

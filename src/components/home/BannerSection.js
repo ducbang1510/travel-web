@@ -1,5 +1,5 @@
 import React from "react";
-import FormInner from "../FormInner"
+// import FormInner from "../FormInner"
 
 import banner1 from "../../static/image/banner/banner-1.jpg"
 import shape1 from "../../static/image/shape/shape-1.png"
@@ -29,11 +29,11 @@ class BannerSection extends React.Component {
               Discover your next great adventure, become an explorer to get
               started!
             </p>
-            <div className="form-inner">
+            {/* <div className="form-inner">
               <form action="/home.html" method="post" className="booking-form clearfix">
                 <FormInner />
               </form>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

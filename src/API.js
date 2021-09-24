@@ -12,6 +12,7 @@ export let endpoints = {
     'users': '/users/',
     'current-user': '/users/current-user/',
     'login': '/o/token/',
+    'oAuthInfo': '/oauth2-info/' 
 }
 
 export default axios.create({

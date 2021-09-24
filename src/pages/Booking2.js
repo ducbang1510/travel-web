@@ -30,8 +30,8 @@ function Booking2(props) {
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle2})` }}>
                 <div className="auto-container">
                     <div className="content-box">
-                        <h1>Booking Process Payment Info</h1>
-                        <p>Discover your next great adventure</p>
+                        <h1>Thanh Toán</h1>
+                        <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
                 </div>
             </section>
