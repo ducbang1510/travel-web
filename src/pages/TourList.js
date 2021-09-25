@@ -442,7 +442,7 @@ class TourItem2 extends React.Component {
                             </a>
                         </h3>
                         <h4>
-                            {this.props.tour.price_of_tour}<span> / 1 người</span>
+                        {this.props.tour.price_of_tour.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}<span> / 1 người</span>
                         </h4>
                         <p>
                             {this.props.tour.depart_date}
