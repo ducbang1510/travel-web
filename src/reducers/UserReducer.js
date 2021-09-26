@@ -1,5 +1,6 @@
+import cookies from 'react-cookies'
 const initState = {
-    "user": null
+    "user": cookies.load("user")
 }
 
 const userReducer = (state=initState, action) => {
@@ -8,6 +9,11 @@ const userReducer = (state=initState, action) => {
             return { 
                 ...state,
                 "user": action.payload
+            }
+        case "USER_LOGOUT":
+            return { 
+                ...state,
+                "user": null
             }
         default:
             return state;

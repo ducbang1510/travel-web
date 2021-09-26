@@ -2,13 +2,16 @@ import axios from 'axios'
 
 export let endpoints = {
     'tours': '/tours/',
+    'tour-details': (tourId) => `/tours/${tourId}/`,
     'categories': '/categories/',
     'services': '/services/',
     'tour-images': '/tour-images/',
     'customers': '/customers/',
     'blogs': '/blogs/',
+    'blog-details': (blogId) => `/blogs/${blogId}/`,
     'payers': '/payers/',
-    'comments': '/comments/',
+    'comments': (blogId) => `/blogs/${blogId}/comments/`,
+    'rating': (tourId) => `/tours/${tourId}/rating/`,
     'users': '/users/',
     'current-user': '/users/current-user/',
     'login': '/o/token/',

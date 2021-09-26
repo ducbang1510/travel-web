@@ -9,6 +9,7 @@ import pageTitle2 from '../static/image/background/page-title-2.jpg'
 function Booking1(props) {
     const history = useHistory()
     const payDetails = React.useContext(PayContext)
+    const [tour, setTour] = useState([]);
 
     const { tourId } = useParams()
     const [customerForms, setCustomerForms] = useState([{
@@ -25,20 +26,22 @@ function Booking1(props) {
 
     const [count, setCount] = useState(1)
 
-    const getTour = () => {
-        API.get(`${endpoints['tours']}${tourId}/`).then(res => {
-            console.info(res.data)
-            payDetails.setTour(res.data)
-            payDetails.setTotal(parseFloat(res.data.price_of_tour) * (parseInt(payDetails.adults) + parseInt(payDetails.childs)*(75/100)) 
-            + parseFloat(res.data.price_of_room) * payDetails.rooms)
-        })
-    }
+    useEffect(() => {
+        let getTour = async () => {
+            try {
+                let res = await API.get(endpoints['tour-details'](tourId))
+                setTour(res.data)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getTour()
+    }, [tourId])
 
     useEffect(() => {
-        getTour()
-        payDetails.setTotal(parseFloat(payDetails.tour.price_of_tour) * (parseInt(payDetails.adults) + parseInt(payDetails.childs)*(75/100)) 
-        + parseFloat(payDetails.tour.price_of_room) * payDetails.rooms)
-    }, [count, payDetails.rooms])
+        payDetails.setTotal(parseFloat(tour.price_of_tour) * (parseInt(payDetails.adults) + parseInt(payDetails.childs)*(75/100)) 
+            + parseFloat(tour.price_of_room) * payDetails.rooms)
+    }, [payDetails, tour])
 
     const numberValidate = (event) => {
         if (!/[0-9]/.test(event.key)) {
@@ -236,21 +239,33 @@ function Booking1(props) {
                                 <div className="content-box">
                                     <h3>Thông Tin</h3>
                                     <figure className="image-box">
-                                        <img src={payDetails.tour.image} alt="ImageSidebar" />
+                                        <img src={tour.image} alt="ImageSidebar" />
                                     </figure>
-                                    <h4>{payDetails.tour.tour_name}</h4>
+                                    <h4>{tour.tour_name}</h4>
                                     <ul className="info clearfix">
                                         <li>
                                             <i className="far fa-calendar-alt" />
-                                            From: <span>{payDetails.tour.depart_date}</span>
+                                            Từ: <span>{tour.depart_date}</span>
                                         </li>
                                         <li>
                                             <i className="far fa-calendar-alt" />
-                                            To: <span>Đang cập nhật</span>
+                                            Tới: <span>Đang cập nhật</span>
                                         </li>
                                         <li>
                                             <i className="fas fa-user-alt" />
-                                            Guests: <span>{payDetails.adults} Adults, {payDetails.childs} Child</span>
+                                            Khách: <span>{payDetails.adults} người lớn, {payDetails.childs} trẻ em</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill"/>
+                                            Trẻ em: <span>{parseFloat(tour.price_of_tour) * (75/100)} đ</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill"/>
+                                            Người lớn: <span>{tour.price_of_tour} đ</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill"/>
+                                            Tiền phòng: <span>{tour.price_of_room} đ</span>
                                         </li>
                                     </ul>
                                     <div className="price">

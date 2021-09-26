@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Logout from './Logout'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import PreLoader from './components/PreLoader';
@@ -42,7 +41,6 @@ export default function App(props) {
           <Route exact path="/about-us" component={About} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/logout" component={Logout} />
         </Switch>
         <Footer />
         <ScrollTop />

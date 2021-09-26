@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import API, { endpoints } from '../API';
 import PayContext from '../context/PayContext';
@@ -8,6 +8,7 @@ import pageTitle2 from '../static/image/background/page-title-2.jpg'
 function Booking2(props) {
     const { tourId } = useParams()
     const payDetails = React.useContext(PayContext)
+    const [tour, setTour] = React.useState([]);
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -25,6 +26,18 @@ function Booking2(props) {
         }).catch(err => console.error(err))
     }
 
+    useEffect(() => {
+        let getTour = async () => {
+            try {
+                let res = await API.get(endpoints['tour-details'](tourId))
+                setTour(res.data)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getTour()
+    }, [tourId])
+
     return (
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle2})` }}>
@@ -41,7 +54,7 @@ function Booking2(props) {
                     <div className="row clearfix">
                         <div className="col-lg-8 col-md-12 col-sm-12 content-side">
                             <div className="booking-process-content mr-20">
-                            <ul className="process-label clearfix">
+                                <ul className="process-label clearfix">
                                     <li>
                                         <span>1.</span>Nhập thông tin
                                     </li>
@@ -63,11 +76,11 @@ function Booking2(props) {
                                                     <div className="form-group">
                                                         <label>Hình thức thanh toán</label>
                                                         <div class="checkout-button">
-                                                            <input type="radio"/>
+                                                            <input type="radio" />
                                                             <div class="content">
                                                                 <div class="checkout-title">
-                                                                Thanh toán bằng <b>Ví MoMo</b>   
-                                                                </div>    
+                                                                    Thanh toán bằng <b>Ví MoMo</b>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -95,21 +108,33 @@ function Booking2(props) {
                                 <div className="content-box">
                                     <h3>Thông Tin</h3>
                                     <figure className="image-box">
-                                        <img src={payDetails.tour.image} alt="ImageSidebar" />
+                                        <img src={tour.image} alt="ImageSidebar" />
                                     </figure>
-                                    <h4>{payDetails.tour.tour_name}</h4>
+                                    <h4>{tour.tour_name}</h4>
                                     <ul className="info clearfix">
                                         <li>
                                             <i className="far fa-calendar-alt" />
-                                            From: <span>{payDetails.tour.depart_date}</span>
+                                            Từ: <span>{tour.depart_date}</span>
                                         </li>
                                         <li>
                                             <i className="far fa-calendar-alt" />
-                                            To: <span>Đang cập nhật</span>
+                                            Tới: <span>Đang cập nhật</span>
                                         </li>
                                         <li>
                                             <i className="fas fa-user-alt" />
-                                            Guests: <span>{payDetails.adults} Adults, {payDetails.childs} Child</span>
+                                            Khách: <span>{payDetails.adults} người lớn, {payDetails.childs} trẻ em</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill" />
+                                            Trẻ em: <span>Đang cập nhật</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill" />
+                                            Người lớn: <span>{tour.price_of_tour}</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill" />
+                                            Tiền phòng: <span>{tour.price_of_room} đ</span>
                                         </li>
                                     </ul>
                                     <div className="price">

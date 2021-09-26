@@ -43,8 +43,8 @@ export default class Register extends React.Component {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            }).then((res) => {
-                console.info(res)
+            }).then(() => {
+                alert('Đăng kí thành công. Hãy đăng nhập để sử dụng tài khoản')
             }).catch(err => console.error(err))
         }
 
@@ -131,26 +131,6 @@ export default class Register extends React.Component {
                                             <div className="form-group">
                                                 <label>Avatar</label>
                                                 <input type="file" id="avatar" ref={this.avatar} />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-sm-12 column">
-                                            <div className="form-group">
-                                                <div className="custom-check-box">
-                                                    <div className="custom-controls-stacked">
-                                                        <label className="custom-control material-checkbox">
-                                                            <input
-                                                                type="checkbox"
-                                                                className="material-control-input"
-                                                            />
-                                                            <span className="material-control-indicator" />
-                                                            <span className="description">
-                                                                I accept <a href="book-appointment.html">terms</a>{" "}
-                                                                and <a href="book-appointment.html">conditions</a>{" "}
-                                                                and general policy
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                         <div className="col-lg-12 col-md-12 col-sm-12 column">

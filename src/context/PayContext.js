@@ -7,12 +7,11 @@ export const PayProvider = ({ children }) => {
     const [adults, setAdults] = useState(1);
     const [rooms, setRooms] = useState(1);
     const [total, setTotal] = useState(0);
-    const [tour, setTour] = useState([]);
     const [payerId, setPayerId] = useState(0)
     return (
         <PayContext.Provider value={{
-            childs, adults, rooms, total, tour, payerId,
-            setChilds, setAdults, setRooms, setTotal, setTour, setPayerId
+            childs, adults, rooms, total, payerId,
+            setChilds, setAdults, setRooms, setTotal, setPayerId
         }}>
             {children}
         </PayContext.Provider>

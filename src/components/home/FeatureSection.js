@@ -15,8 +15,8 @@ class FeatureSection extends React.Component {
       <section className="feature-section centred bg-color-1 sec-pad">
         <div className="auto-container">
           <div className="sec-title text-center">
-            <p>Travio Specials</p>
-            <h2>Why Travel with Tutive?</h2>
+            <p>Travio Những Điều Đặc Biệt</p>
+            <h2>Tại sao nên đi du lịch cùng Travio ?</h2>
           </div>
           <div className="row clearfix">
             <div className="col-lg-3 col-md-6 col-sm-12 feature-block">
@@ -37,7 +37,7 @@ class FeatureSection extends React.Component {
                         alt="Icon"
                       />
                     </div>
-                    <h4>2000+ Our Worldwide Guides</h4>
+                    <h4>1000+ Hướng Dẫn Viên</h4>
                   </div>
                 </div>
               </div>
@@ -60,7 +60,7 @@ class FeatureSection extends React.Component {
                         alt="Icon"
                       />
                     </div>
-                    <h4>100% Trusted Tour Agency</h4>
+                    <h4>Đại Lý Du Lịch Tin Cậy</h4>
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@ class FeatureSection extends React.Component {
                         alt="Icon"
                       />
                     </div>
-                    <h4>12+ Years of Travel Experience</h4>
+                    <h4>12 Năm Kinh Nghiệm</h4>
                   </div>
                 </div>
               </div>
@@ -106,7 +106,7 @@ class FeatureSection extends React.Component {
                         alt="Icon"
                       />
                     </div>
-                    <h4>98% of Our Travelers are Happy</h4>
+                    <h4>98% Du Khách Hài Lòng</h4>
                   </div>
                 </div>
               </div>

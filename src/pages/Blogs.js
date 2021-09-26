@@ -11,6 +11,8 @@ import { useLocation } from 'react-router';
 function Blogs(props) {
     const [count, setCount] = useState(1)
     const [listBlog, setListBlog] = useState([])
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchRes, setSearchRes] = useState([])
 
     const loadBlogs = (page = "?page=1") => {
         API.get(`${endpoints['blogs']}${page}`).then(res => {
@@ -20,10 +22,30 @@ function Blogs(props) {
         })
     }
 
+    const searchBlog = (event, search = `?q=${searchTerm}`) => {
+        event.preventDefault()
+        API.get(`${endpoints['blogs']}${search}`).then(res => {
+            setSearchRes(res.data.results)
+            setCount(res.data.count)
+        })
+    }
+
     let location = useLocation()
     useEffect(() => {
         loadBlogs(location.search)
     }, [location.search])
+
+    let blogs = <></>
+
+    if (searchRes.length === 0) {
+        blogs = <>
+            {listBlog.map(b => <BlogItem blog={b} />)}
+        </>
+    } else {
+        blogs = <>
+            {searchRes.map(b => <BlogItem blog={b} />)}
+        </>
+    }
 
     let items = []
     for(let i = 0; i < Math.ceil(count/5); i++)
@@ -47,7 +69,7 @@ function Blogs(props) {
                     <div className="row clearfix">
                         <div className="col-lg-8 col-md-12 col-sm-12 content-side">
                             <div className="blog-standard-content">
-                                {listBlog.map(b => <BlogItem blog={b} />)}
+                                {blogs}
                                 <div className="pagination-wrapper">
                                     <ul className="pagination clearfix">
                                         {items}
@@ -64,19 +86,14 @@ function Blogs(props) {
                             <div className="blog-sidebar default-sidebar ml-20">
                                 <div className="sidebar-widget sidebar-search">
                                     <div className="widget-title">
-                                        <h3>Search</h3>
+                                        <h3>Tìm kiếm</h3>
                                     </div>
-                                    <form
-                                        action="destination-details.html"
-                                        method="post"
-                                        className="search-form"
-                                    >
+                                    <form onSubmit={searchBlog} className="search-form">
                                         <div className="form-group">
-                                            <input
-                                                type="search"
-                                                name="search-field"
-                                                placeholder="Search"
-                                                required
+                                            <input type="search" 
+                                            placeholder="Nhập từ khóa"
+                                            value={searchTerm}
+                                            onChange={event => setSearchTerm(event.target.value)}
                                             />
                                             <button type="submit">
                                                 <i className="fas fa-search" />
@@ -210,16 +227,10 @@ class BlogItem extends React.Component {
                             </h2>
                             <ul className="post-info clearfix">
                                 <li>
-                                    <span>Bởi</span> <a href="/">Eva Green</a>
+                                    <span>Theo</span> <a href={"/blog-details/" + this.props.blog.id}>{this.props.blog.author}</a>
                                 </li>
                                 <li> - {this.props.blog.created_date}</li>
                             </ul>
-                            {/* <p>
-                                Lorem ipsum dolor sit amet consectur adip icing sed
-                                eiusmod tempor incididunt labore dolore magna aliqua
-                                enim minim veniam quis nostrud exercitation laboris nisi
-                                ut aliquip ex commodo consequat duis aute irure.
-                            </p> */}
                             <div className="btn-box">
                                 <a href={"/blog-details/" + this.props.blog.id} className="theme-btn-two">
                                     Xem chi tiết

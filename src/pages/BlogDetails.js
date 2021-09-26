@@ -5,11 +5,12 @@ import { useSelector } from 'react-redux';
 import cookies from 'react-cookies'
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
-import comment2 from "../static/image/news/comment-2.png"
 import post1 from "../static/image/news/post-1.png"
 import post2 from "../static/image/news/post-2.png"
 import post3 from "../static/image/news/post-3.png"
 import advice1 from "../static/image/advice/advice-1.jpg"
+import { Link } from 'react-router-dom';
+import { Avatar } from '@mui/material';
 
 function BlogDetails(props) {
     const [blog, setBlog] = useState([])
@@ -24,21 +25,6 @@ function BlogDetails(props) {
     let user = useSelector(state => state.user.user)
     if (cookies.load("user") != null) {
         user = cookies.load("user")
-    }
-
-    // Load detail of tour
-    const getBlog = () => {
-        API.get(`${endpoints['blogs']}${blogId}/`).then(res => {
-            console.info(res.data)
-            setBlog(res.data)
-        })
-    }
-
-    // Load data of comment
-    const getComments = () => {
-        API.get(`${endpoints['blogs']}${blogId}/comments/`).then(res => {
-            setListComment(res.data)
-        })
     }
     
     /* Handle like function */
@@ -93,11 +79,28 @@ function BlogDetails(props) {
     }
     /* End Comment Function */
 
-    // Call function when like change
     useEffect(() => {
+        let getBlog = async() => {
+            try {
+                let res = await API.get(endpoints['blog-details'](blogId))
+                setBlog(res.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        let getComments = async() => {
+            try {
+                let res = await API.get(endpoints['comments'](blogId))
+                setListComment(res.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
         getBlog()
         getComments()
-    }, [])
+    }, [blogId])
 
     return (
         <>
@@ -129,19 +132,19 @@ function BlogDetails(props) {
                                             <h2>{blog.title}</h2>
                                             <ul className="post-info clearfix">
                                                 <li>
-                                                    <span>By</span> <a href="true">Eva Green</a>
+                                                    <span>Theo</span> <Link>{blog.author}</Link>
                                                 </li>
                                                 <li>-</li>
                                                 <li className="comment">
-                                                    <a href="true">{listComment.length} Comment</a>
+                                                    <Link>{listComment.length} Bình luận</Link>
                                                 </li>
                                                 <li>-</li>
                                                 <li>
-                                                    <a href="true">{blog.likes} likes</a>
+                                                    <Link>{blog.likes} likes</Link>
                                                 </li>
                                             </ul>
                                             <form onSubmit={addLike}>
-                                                <button type="submit">
+                                                <button type="submit" style={{color: '#4267b2'}}>
                                                     <i className="fas fa-thumbs-up"></i>
                                                     Likes
                                                 </button>
@@ -155,7 +158,7 @@ function BlogDetails(props) {
                                 </div>
 
                                 <div className="post-share-option clearfix">
-                                    <div className="text pull-left">
+                                    {/* <div className="text pull-left">
                                         <h3>We Are Social On:</h3>
                                     </div>
                                     <ul className="social-links pull-right clearfix">
@@ -174,11 +177,11 @@ function BlogDetails(props) {
                                                 <i className="fab fa-twitter" />
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul> */}
                                 </div>
                                 <div className="comment-box">
                                     <div className="group-title">
-                                        <h2>{listComment.length} Comments</h2>
+                                        <h2>{listComment.length} Bình luận</h2>
                                     </div>
                                     
                                     {listComment.map(c => <CommentItem key={c.id} comment={c} />)}
@@ -186,7 +189,7 @@ function BlogDetails(props) {
                                 </div>
                                 <div className="comments-form-area">
                                     <div className="group-title">
-                                        <h2>Bình luận</h2>
+                                        <h2>Để lại bình luận</h2>
                                     </div>
                                     <div className="form-inner">
                                         <form id="contact-form" className="default-form" onSubmit={addComment}>
@@ -210,23 +213,18 @@ function BlogDetails(props) {
                             <div className="blog-sidebar default-sidebar ml-20">
                                 <div className="sidebar-widget sidebar-search">
                                     <div className="widget-title">
-                                        <h3>Search</h3>
+                                        <h3>Tìm kiếm</h3>
                                     </div>
                                     <form action="destination-details.html" method="post" className="search-form">
                                         <div className="form-group">
-                                            <input
-                                                type="search"
-                                                name="search-field"
-                                                placeholder="Search"
-                                                required
-                                            />
+                                            <input type="search" name="search-field" placeholder="Nhập từ khóa" required/>
                                             <button type="submit">
                                                 <i className="fas fa-search" />
                                             </button>
                                         </div>
                                     </form>
                                 </div>
-                                <div className="sidebar-widget category-widget">
+                                {/* <div className="sidebar-widget category-widget">
                                     <div className="widget-title">
                                         <h3>Categories</h3>
                                     </div>
@@ -252,10 +250,10 @@ function BlogDetails(props) {
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="sidebar-widget post-widget">
                                     <div className="widget-title">
-                                        <h3>Latest News</h3>
+                                        <h3>Tin mới nhất</h3>
                                     </div>
                                     <div className="post-inner">
                                         <div className="post">
@@ -326,9 +324,10 @@ class CommentItem extends React.Component {
         return (
             <div className="comment">
                 <figure className="thumb-box">
-                    <img
-                        src={comment2}
+                    <Avatar
                         alt="ImageComment"
+                        src={this.props.comment.user.avatar}
+                        sx={{ width: 70, height: 70 }}
                     />
                 </figure>
                 <div className="comment-inner">

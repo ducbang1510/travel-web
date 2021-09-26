@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import API, { endpoints } from '../API';
 import PayContext from '../context/PayContext';
 
 import pageTitle2 from '../static/image/background/page-title-2.jpg'
 
 function Booking3(props) {
+    const { tourId } = useParams()
+    const [tour, setTour] = useState()
     const payDetails = React.useContext(PayContext)
-    
+
+    useEffect(() => {
+        let getTour = async () => {
+            try {
+                let res = await API.get(endpoints['tour-details'](tourId))
+                setTour(res.data)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getTour()
+    }, [tourId])
+
     return (
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle2})` }}>
@@ -23,7 +39,7 @@ function Booking3(props) {
                         <div className="col-lg-8 col-md-12 col-sm-12 content-side">
                             <div className="booking-process-content mr-20">
                                 <ul className="process-label clearfix">
-                                <li>
+                                    <li>
                                         <span>1.</span>Nhập thông tin
                                     </li>
                                     <li>
@@ -39,7 +55,7 @@ function Booking3(props) {
                                         <div className="icon-box">
                                             <i className="far fa-check-circle" />
                                         </div>
-                                        <h3>Thanks for your booking!</h3>
+                                        <h3>Cảm ơn đã đặt tour</h3>
                                         <p>
                                             You'll receive an email confirmation shortly at
                                             <br />
@@ -56,21 +72,33 @@ function Booking3(props) {
                             <div className="content-box">
                                     <h3>Thông Tin</h3>
                                     <figure className="image-box">
-                                        <img src={payDetails.tour.image} alt="ImageSidebar" />
+                                        <img src={tour.image} alt="ImageSidebar" />
                                     </figure>
-                                    <h4>{payDetails.tour.tour_name}</h4>
+                                    <h4>{tour.tour_name}</h4>
                                     <ul className="info clearfix">
                                         <li>
                                             <i className="far fa-calendar-alt" />
-                                            From: <span>{payDetails.tour.depart_date}</span>
+                                            Từ: <span>{tour.depart_date}</span>
                                         </li>
                                         <li>
                                             <i className="far fa-calendar-alt" />
-                                            To: <span>Đang cập nhật</span>
+                                            Tới: <span>Đang cập nhật</span>
                                         </li>
                                         <li>
                                             <i className="fas fa-user-alt" />
-                                            Guests: <span>{payDetails.adults} Adults, {payDetails.childs} Child</span>
+                                            Khách: <span>{payDetails.adults} người lớn, {payDetails.childs} trẻ em</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill" />
+                                            Trẻ em: <span>Đang cập nhật</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill" />
+                                            Người lớn: <span>{tour.price_of_tour}</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-money-bill" />
+                                            Tiền phòng: <span>{tour.price_of_room} đ</span>
                                         </li>
                                     </ul>
                                     <div className="price">

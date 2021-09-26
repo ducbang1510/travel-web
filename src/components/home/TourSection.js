@@ -1,160 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import API, { endpoints } from "../../API";
 
 import shape4 from "../../static/image/shape/shape-4.png"
-import tour1 from "../../static/image/tour/tour-1.jpg"
-import tour2 from "../../static/image/tour/tour-2.jpg"
-import tour3 from "../../static/image/tour/tour-3.jpg"
 
-class TourSection extends React.Component {
+export default function TourSection() {
+  // const [count, setCount] = useState(0)
+  const [tourList, setTourList] = useState([])
+
+  const loadTour = (page = "?page=1") => {
+    API.get(`${endpoints['tours']}${page}`).then(res => {
+      console.info(res.data)
+      setTourList(res.data.results)
+      // setCount(res.data.count)
+    })
+  }
+
+  useEffect(() => {
+    loadTour()
+  }, [])
+
+  let tours = <></>
+  if(tourList.length > 0)
+    tours = <>
+      {tourList.map(t => <TourItem tour={t}/>)}
+    </>
+
+  return (
+    <section className="tour-section bg-color-1 sec-pad">
+      <div className="pattern-layer" style={{
+        backgroundImage: `url(${shape4})`
+      }}
+      />
+      <div className="auto-container">
+        <div className="sec-title text-center">
+          <p>Hiện Đại & Tuyệt Đẹp</p>
+          <h2>Những Tour Phổ Biến</h2>
+        </div>
+        <div className="row clearfix">
+          {tours}
+        </div>
+      </div>
+    </section>
+  );
+}
+class TourItem extends React.Component {
   render() {
     return (
-      <section className="tour-section bg-color-1 sec-pad">
-        <div
-          className="pattern-layer"
-          style={{
-            backgroundImage: `url(${shape4})`
-          }}
-        />
-        <div className="auto-container">
-          <div className="sec-title text-center">
-            <p>Modern & Beautiful</p>
-            <h2>Our Most Popular Adventures</h2>
-          </div>
-          <div className="row clearfix">
-            <div className="col-lg-4 col-md-6 col-sm-12 tour-block">
-              <div
-                className="tour-block-one wow fadeInUp animated animated"
-                data-wow-delay="00ms"
-                data-wow-duration="1500ms"
-              >
-                <div className="inner-box">
-                  <figure className="image-box">
-                    <img src={tour1} alt="ImageTour" />
-                    <a href="/tour-details.html">
-                      <i className="fas fa-link" />
-                    </a>
-                  </figure>
-                  <div className="lower-content">
-                    <div className="rating">
-                      <span>
-                        <i className="fas fa-star" />
-                        8.0 Superb
-                      </span>
-                    </div>
-                    <h3>
-                      <a href="/tour-details.html">Moscow Red City Land</a>
-                    </h3>
-                    <h4>
-                      $170.00<span> / Per person</span>
-                    </h4>
-                    <ul className="info clearfix">
-                      <li>
-                        <i className="far fa-clock" />5 Days
-                      </li>
-                      <li>
-                        <i className="far fa-map" />
-                        G87P, Birmingham
-                      </li>
-                    </ul>
-                    <p>Lorem ipsum dolor amet consectetur adipiscing sed.</p>
-                    <div className="btn-box">
-                      <a href="/tour-details.html">See Details</a>
-                    </div>
-                  </div>
+      <>
+        <div className="col-lg-4 col-md-6 col-sm-12 tour-block">
+          <div className="tour-block-one wow fadeInUp animated animated" data-wow-delay="600ms" data-wow-duration="1500ms">
+            <div className="inner-box">
+              <figure className="image-box">
+                <img style={{ width: '370px', height: '270px' }} src={this.props.tour.image} alt="ImageTour" />
+                <a href={'/tour-detail/' + this.props.tour.id}>
+                  <i className="fas fa-link" />
+                </a>
+              </figure>
+              <div className="lower-content">
+                <div className="rating">
+                  <span>
+                    <i className="fas fa-star" />
+                    {this.props.tour.rating}
+                  </span>
                 </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 tour-block">
-              <div
-                className="tour-block-one wow fadeInUp animated animated"
-                data-wow-delay="300ms"
-                data-wow-duration="1500ms"
-              >
-                <div className="inner-box">
-                  <figure className="image-box">
-                    <img src={tour2} alt="ImageTour" />
-                    <a href="/tour-details.html">
-                      <i className="fas fa-link" />
-                    </a>
-                  </figure>
-                  <div className="lower-content">
-                    <div className="rating">
-                      <span>
-                        <i className="fas fa-star" />
-                        8.0 Superb
-                      </span>
-                    </div>
-                    <h3>
-                      <a href="/tour-details.html">Moscow Red City Land</a>
-                    </h3>
-                    <h4>
-                      $170.00<span> / Per person</span>
-                    </h4>
-                    <ul className="info clearfix">
-                      <li>
-                        <i className="far fa-clock" />5 Days
-                      </li>
-                      <li>
-                        <i className="far fa-map" />
-                        G87P, Birmingham
-                      </li>
-                    </ul>
-                    <p>Lorem ipsum dolor amet consectetur adipiscing sed.</p>
-                    <div className="btn-box">
-                      <a href="/tour-details.html">See Details</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 tour-block">
-              <div
-                className="tour-block-one wow fadeInUp animated animated"
-                data-wow-delay="600ms"
-                data-wow-duration="1500ms"
-              >
-                <div className="inner-box">
-                  <figure className="image-box">
-                    <img src={tour3} alt="ImageTour" />
-                    <a href="/tour-details.html">
-                      <i className="fas fa-link" />
-                    </a>
-                  </figure>
-                  <div className="lower-content">
-                    <div className="rating">
-                      <span>
-                        <i className="fas fa-star" />
-                        8.0 Superb
-                      </span>
-                    </div>
-                    <h3>
-                      <a href="/tour-details.html">Moscow Red City Land</a>
-                    </h3>
-                    <h4>
-                      $170.00<span> / Per person</span>
-                    </h4>
-                    <ul className="info clearfix">
-                      <li>
-                        <i className="far fa-clock" />5 Days
-                      </li>
-                      <li>
-                        <i className="far fa-map" />
-                        G87P, Birmingham
-                      </li>
-                    </ul>
-                    <p>Lorem ipsum dolor amet consectetur adipiscing sed.</p>
-                    <div className="btn-box">
-                      <a href="/tour-details.html">See Details</a>
-                    </div>
-                  </div>
+                <h3>
+                  <a href={'/tour-detail/' + this.props.tour.id}>{this.props.tour.tour_name}</a>
+                </h3>
+                <h4>
+                  {this.props.tour.price_of_tour.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}<span> / 1 người</span>
+                </h4>
+                <ul className="info clearfix">
+                  <li>
+                    <i className="far fa-clock" />{this.props.tour.duration}
+                  </li>
+                  <li>
+                    <i className="far fa-map" />
+                    {this.props.tour.departure}
+                  </li>
+                </ul>
+                <div className="btn-box">
+                  <a href={'/tour-detail/' + this.props.tour.id}>Xem chi tiết</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    );
+      </>
+    )
   }
 }
-
-export default TourSection;

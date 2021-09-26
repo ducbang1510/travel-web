@@ -21,20 +21,19 @@ export default function TourDetail() {
     const { tourId } = useParams()
 
     let user = useSelector(state => state.user.user)
-    if (cookies.load("user") != null) {
-        user = cookies.load("user")
-    }
-
-    const getTour = () => {
-        API.get(`${endpoints['tours']}${tourId}/`).then(res => {
-            setServices(res.data.service)
-            setTour(res.data)
-        })
-    }
 
     useEffect(() => {
+        let getTour = async() => {
+            try {
+                let res = await API.get(endpoints['tour-details'](tourId))
+                setServices(res.data.service)
+                setTour(res.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
         getTour()
-    }, [])
+    }, [tourId])
 
     const handleRatingChange = (value) => {
         setRating(value)
@@ -45,33 +44,35 @@ export default function TourDetail() {
     const handleChange = (event) => {
         setComment(event.target.value)
     }
-
-    const addRating = () => {
-        if (user != null) {
-            const formRate = new FormData()
-            formRate.append("rating", rating)
-
-            API.post(`${endpoints['tours']}${tourId}/rating/`, formRate, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${cookies.load('access_token')}`
-                }
-            }).then((res) => {
-                console.info(res)
-            }).catch(err => console.error(err))
-        }else {
-            alert("Hãy đăng nhập để có thể đánh giá")
-        }
-    }
+    
     useEffect(() => {
+        let addRating = async() => {
+            if (user !== null) {
+                const formRate = new FormData()
+                formRate.append("rating", rating)
+                try {
+                    let res = await API.post(endpoints['tours'](tourId), formRate, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': `Bearer ${cookies.load('access_token')}`
+                        }
+                    })
+                    console.info(res)
+                } catch (error) {
+                    console.error(error)
+                }
+            }else {
+                alert("Hãy đăng nhập để có thể đánh giá")
+            }
+        }
         if(rating > 0 && isRate)
             addRating()
-    }, [rating])
+    }, [rating, isRate, tourId, user])
     
 
     const addComment = (event) => {
         event.preventDefault()
-        if (user != null) {
+        if (user !== null) {
             const formData = new FormData()
 
             formData.append("content", comment)

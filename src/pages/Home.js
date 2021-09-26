@@ -1,10 +1,4 @@
 import React from 'react';
-// import AboutSection from '../components/home/AboutSection';
-// import DealsSection from '../components/home/DealsSection';
-// import TestimonialSection from '../components/home/TestimonialSection';
-// import FunfactSection from '../components/home/FunfactSection';
-// import MapSection from '../components/home/MapSection';
-// import VideoSection from '../components/home/VideoSection';
 import FeatureSection from '../components/home/FeatureSection';
 import NewSection from '../components/home/NewSection';
 import PlaceSection from '../components/home/PlaceSection';
@@ -16,14 +10,8 @@ function Home(props) {
         <>
                 <BannerSection/>
                 <FeatureSection/>
-                {/* <AboutSection/> */}
                 <TourSection/>
-                {/* <DealsSection/> */}
                 <PlaceSection/>
-                {/* <MapSection/>
-                <FunfactSection/>
-                <TestimonialSection/>
-                <VideoSection/> */}
                 <NewSection/>
         </>
     );
