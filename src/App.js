@@ -16,7 +16,9 @@ import BlogDetails from './pages/BlogDetails';
 import Booking1 from './pages/Booking1'
 import Booking2 from './pages/Booking2'
 import Booking3 from './pages/Booking3'
+import About from './pages/About'
 import { PayProvider } from './context/PayContext'
+import Gallery from './pages/Gallery';
 
 export default function App(props) {
 
@@ -31,11 +33,13 @@ export default function App(props) {
           <Route exact path="/" component={Home} />
           <Route exact path="/tour-list" component={TourList} />
           <Route exact path="/tour-detail/:tourId" component={TourDetail} />
+          <Route exact path="/tour-detail/:tourId/gallery" component={Gallery} />
           <Route exact path="/blogs" component={Blogs} />
           <Route exact path="/blog-details/:blogId" component={BlogDetails} />
           <Route exact path="/tour-detail/:tourId/booking-1" component={Booking1} />
           <Route exact path="/tour-detail/:tourId/booking-2" component={Booking2} />
           <Route exact path="/tour-detail/:tourId/booking-3" component={Booking3} />
+          <Route exact path="/about-us" component={About} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/logout" component={Logout} />

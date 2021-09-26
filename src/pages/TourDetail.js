@@ -6,11 +6,6 @@ import cookies from 'react-cookies'
 import { useSelector } from "react-redux";
 
 import pageTitle3 from "../static/image/background/page-title-3.jpg"
-import des4 from "../static/image/destination/destination-4.jpg"
-import des5 from "../static/image/destination/destination-5.jpg"
-import des6 from "../static/image/destination/destination-6.jpg"
-import des7 from "../static/image/destination/destination-7.jpg"
-import des8 from "../static/image/destination/destination-8.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
 
 
@@ -168,98 +163,12 @@ export default function TourDetail() {
                                         </div>
                                     </div> */}
                                 </div>
-                                <div className="location-map">
-                                    <div className="text">
-                                        <h2>View On Map</h2>
-                                    </div>
-                                    <div className="map-inner">
-                                        <div className="google-map" id="contact-google-map" data-map-lat="40.712776"
-                                            data-map-lng="-74.005974" data-icon-path="assets/images/icons/map-marker.png"
-                                            data-map-title="Brooklyn, New York, United Kingdom" data-map-zoom="12"
-                                            data-markers='{
-                                                    "marker-1": [40.712776, -74.005974, "<h4>Branch Office</h4><p>77/99 New York</p>","assets/images/icons/map-marker.png"]
-                                                }'>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className="photo-gallery">
                                     <div className="text">
-                                        <h2>Photo Gallery</h2>
-                                    </div>
-                                    <div className="image-box clearfix">
-                                        <figure className="image">
-                                            <img src={des4} alt="ImageDetail" />
-                                            <a href={des4}
-                                                className="view-btn lightbox-image" data-fancybox="gallery">
-                                                <i className="far fa-plus-square"></i>
-                                            </a>
-                                        </figure>
-                                        <figure className="image">
-                                            <img src={des5} alt="ImageDetail" />
-                                            <a href={des5}
-                                                className="view-btn lightbox-image" data-fancybox="gallery">
-                                                <i className="far fa-plus-square"></i>
-                                            </a>
-                                        </figure>
-                                        <figure className="image">
-                                            <img src={des6} alt="ImageDetail" />
-                                            <a href={des6}
-                                                className="view-btn lightbox-image" data-fancybox="gallery">
-                                                <i className="far fa-plus-square"></i>
-                                            </a>
-                                        </figure>
-                                        <figure className="image">
-                                            <img src={des7} alt="ImageDetail" />
-                                            <a href={des7}
-                                                className="view-btn lightbox-image" data-fancybox="gallery">
-                                                <i className="far fa-plus-square"></i>
-                                            </a>
-                                        </figure>
-                                        <figure className="image">
-                                            <img src={des8} alt="ImageDetail" />
-                                            <a href={des8}
-                                                className="view-btn lightbox-image" data-fancybox="gallery">
-                                                <i className="far fa-plus-square"></i>
-                                            </a>
-                                        </figure>
-                                    </div>
-                                </div>
-                                <div className="review-box">
-                                    <div className="text">
-                                        <div className="total-rating">
-                                            <h2>4.8</h2>
-                                            <span>Superb</span>
-                                        </div>
-                                    </div>
-                                    <div className="progress-content">
-                                        <div className="progress-box">
-                                            <p>Accommodation</p>
-                                            <div className="bar">
-                                                <div className="bar-inner count-bar" data-percent="70%"></div>
-                                                <div className="count-text">70%</div>
-                                            </div>
-                                        </div>
-                                        <div className="progress-box">
-                                            <p>Transport</p>
-                                            <div className="bar">
-                                                <div className="bar-inner count-bar" data-percent="80%"></div>
-                                                <div className="count-text">80%</div>
-                                            </div>
-                                        </div>
-                                        <div className="progress-box">
-                                            <p>Comfort</p>
-                                            <div className="bar">
-                                                <div className="bar-inner count-bar" data-percent="100%"></div>
-                                                <div className="count-text">100%</div>
-                                            </div>
-                                        </div>
-                                        <div className="progress-box">
-                                            <p>Hospitality</p>
-                                            <div className="bar">
-                                                <div className="bar-inner count-bar" data-percent="70%"></div>
-                                                <div className="count-text">70%</div>
-                                            </div>
-                                        </div>
+                                        <a style={{color: "black", fontSize: "30px", fontWeight: "600"}} href={"/tour-detail/" + tourId + "/gallery"}>
+                                            Bộ sưu tập ảnh <span> </span>
+                                            <i className="fas fa-arrow-right"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="comment-box">

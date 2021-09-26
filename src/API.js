@@ -4,7 +4,7 @@ export let endpoints = {
     'tours': '/tours/',
     'categories': '/categories/',
     'services': '/services/',
-    'tour-images': '/tour-image/',
+    'tour-images': '/tour-images/',
     'customers': '/customers/',
     'blogs': '/blogs/',
     'payers': '/payers/',
@@ -12,7 +12,8 @@ export let endpoints = {
     'users': '/users/',
     'current-user': '/users/current-user/',
     'login': '/o/token/',
-    'oAuthInfo': '/oauth2-info/' 
+    'oAuthInfo': '/oauth2-info/',
+    'payment': 'https://test-payment.momo.vn/gw_payment/transactionProcessor',
 }
 
 export default axios.create({

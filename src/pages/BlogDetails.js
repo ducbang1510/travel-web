@@ -14,7 +14,6 @@ import advice1 from "../static/image/advice/advice-1.jpg"
 function BlogDetails(props) {
     const [blog, setBlog] = useState([])
     const [isLike, setIsLike] = useState(false)
-    const [count, setCount] = useState(1)
 
     const [comment, setComment] = useState("")
     const [listComment, setListComment] = useState([])
@@ -43,36 +42,25 @@ function BlogDetails(props) {
     }
     
     /* Handle like function */
-    const clickLike = (event) => {
+    const addLike = (event) => {
         event.preventDefault()
-        if (user != null) {
-            setCount(count + 1)
-            if(parseInt(count) % 2 === 0)
-                setIsLike(false);
-            else
-                setIsLike(true);
+        const formData = new FormData()
+        if (isLike === false) {
+            formData.append("type", 1)
         }
         else {
-            alert("Hãy đăng nhập để có thể like")
-        }
-        
-    }
-
-    const addLike = (like = isLike) => {
-        const formData = new FormData()
-        if (like === true) {
-            formData.append("likes", parseInt(blog.likes) + 1)
-        } else {
-            formData.append("likes", parseInt(blog.likes) - 1)
+            formData.append("type", 2)
         }
 
-        API.patch(`${endpoints['blogs']}${blogId}/`, formData, {
+        API.post(`${endpoints['blogs']}${blogId}/like/`, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${cookies.load('access_token')}`
             }
         }).then((res) => {
             console.info(res)
         }).catch(err => console.error(err))
+        setIsLike(true)
     }
     /* End Like Function */
     
@@ -107,19 +95,17 @@ function BlogDetails(props) {
 
     // Call function when like change
     useEffect(() => {
-        if(count !== 1)
-            addLike(isLike)
         getBlog()
         getComments()
-    }, [isLike])
+    }, [])
 
     return (
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
                     <div className="content-box">
-                        <h1>Blog Details</h1>
-                        <p>Discover your next great adventure</p>
+                        <h1>Chi Tiết</h1>
+                        <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
                 </div>
             </section>
@@ -155,7 +141,7 @@ function BlogDetails(props) {
                                                 </li>
                                             </ul>
                                             <form onSubmit={addLike}>
-                                                <button onClick={clickLike} type="submit">
+                                                <button type="submit">
                                                     <i className="fas fa-thumbs-up"></i>
                                                     Likes
                                                 </button>

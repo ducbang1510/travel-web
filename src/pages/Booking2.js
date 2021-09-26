@@ -53,7 +53,6 @@ function Booking2(props) {
                                     </li>
                                 </ul>
                                 <div className="inner-box">
-                                    <h3>Billing Address</h3>
                                     <form onSubmit={handleSubmit} className="processing-form">
                                         <div className="row clearfix">
                                         </div>
@@ -62,47 +61,15 @@ function Booking2(props) {
                                             <div className="row clearfix">
                                                 <div className="col-lg-6 col-md-6 col-sm-12 column">
                                                     <div className="form-group">
-                                                        <label>Card Name</label>
-                                                        <input type="text" name="card_name" required />
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-6 col-md-6 col-sm-12 column">
-                                                    <div className="form-group">
-                                                        <label>Card Number</label>
-                                                        <input type="text" name="card_number" required />
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-6 col-md-6 col-sm-12 column">
-                                                    <div className="form-group">
-                                                        <label>CVV</label>
-                                                        <input type="text" name="cvv" required />
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-6 col-md-6 col-sm-12 column">
-                                                    <div className="form-group">
                                                         <label>Hình thức thanh toán</label>
-                                                        <ul className="card-list clearfix">
-                                                            <li>
-                                                                <a href="/">
-                                                                    <img
-                                                                        src="./assets/image/card/card-1.png"
-                                                                        alt="ImageCard"
-                                                                    />
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-6 col-md-6 col-sm-12 column">
-                                                    <div className="form-group">
-                                                        <label>Expiration Date</label>
-                                                        <input type="text" name="exp_date" required />
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-6 col-md-6 col-sm-12 column">
-                                                    <div className="form-group">
-                                                        <label>Security Code</label>
-                                                        <input type="text" name="code" required />
+                                                        <div class="checkout-button">
+                                                            <input type="radio"/>
+                                                            <div class="content">
+                                                                <div class="checkout-title">
+                                                                Thanh toán bằng <b>Ví MoMo</b>   
+                                                                </div>    
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 column">

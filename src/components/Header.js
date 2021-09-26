@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from "react";
-import API, { endpoints } from '../API'
+import React from "react";
 import { Link } from "react-router-dom";
 import cookies from 'react-cookies'
 import { useSelector } from 'react-redux';
 import logo from "../static/image/logo-3.png"
 
 export default function Header(props) {
-  const [categories, setCategories] = useState([])
-
   let user = useSelector(state => state.user.user)
-
-  // Load API Categories
-  useEffect(() => {
-    API.get(endpoints['categories']).then(res => {
-      setCategories(res.data)
-    })
-  }, [])
 
   // Load user
   if (cookies.load("user") != null) {
@@ -65,19 +55,13 @@ export default function Header(props) {
                     <a href="/">Trang Chủ</a>
                   </li>
                   <li className="dropdown">
-                    <a href="/destination.html">Loại Tour</a>
-                    <ul>
-                      {categories.map(c => <li key={c.id}><a href="/">{c.name}</a></li>)}
-                    </ul>
-                  </li>
-                  <li className="dropdown">
                     <a href="/tour-list">Tour</a>
                   </li>
                   <li className="dropdown">
                     <a href="/blogs">Tin Tức</a>
                   </li>
                   <li className="dropdown">
-                    <a href="/about-us.html">About Us</a>
+                    <a href="/about-us">About Us</a>
                   </li>
                   {r}
                 </ul>

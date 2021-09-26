@@ -139,17 +139,14 @@ export default function TourList() {
     }, [duration])
 
     useEffect(() => {
-        let cateId=null;
-        if (cate===1) { cateId = 1 }
-        if (cate===2) { cateId = 2 }
-        if (cate===3) { cateId = 3 }
-        const searchByDuration = () => {
-            API.get(`${endpoints['tours']}?category_id=${cateId}`).then(res => {
+        const searchByCate = () => {
+            API.get(`${endpoints['tours']}?category_id=${cate}`).then(res => {
                 setSearchRes(res.data.results)
                 setCount(res.data.count)
             })
         }
-        searchByDuration()
+        if (cate !== null)
+            searchByCate()
     }, [cate])
 
     useEffect(() => {
@@ -159,7 +156,8 @@ export default function TourList() {
                 setCount(res.data.count)
             })
         }
-        searchByRate()
+        if (rate !== "")
+            searchByRate()
     }, [rate])
     /* End Function Search Tour */
 
@@ -390,7 +388,7 @@ class TourItem extends React.Component {
                                 </a>
                             </h3>
                             <h4 >
-                                {this.props.tour.price_of_tour.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} <span>/ Per person</span>
+                                {this.props.tour.price_of_tour.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} <span>/ 1 người</span>
                             </h4>
                             <ul className="info clearfix">
                                 <li>

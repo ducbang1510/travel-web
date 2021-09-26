@@ -36,8 +36,8 @@ function Blogs(props) {
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
                     <div className="content-box">
-                        <h1>Blog Standard</h1>
-                        <p>Blog of Travio</p>
+                        <h1>Trang Tin Tức</h1>
+                        <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
                 </div>
             </section>
@@ -210,7 +210,7 @@ class BlogItem extends React.Component {
                             </h2>
                             <ul className="post-info clearfix">
                                 <li>
-                                    <span>By</span> <a href="/">Eva Green</a>
+                                    <span>Bởi</span> <a href="/">Eva Green</a>
                                 </li>
                                 <li> - {this.props.blog.created_date}</li>
                             </ul>
@@ -222,7 +222,7 @@ class BlogItem extends React.Component {
                             </p> */}
                             <div className="btn-box">
                                 <a href={"/blog-details/" + this.props.blog.id} className="theme-btn-two">
-                                    See Details
+                                    Xem chi tiết
                                 </a>
                             </div>
                         </div>
