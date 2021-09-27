@@ -1,5 +1,4 @@
 import React from "react";
-// import FormInner from "../FormInner"
 
 import banner1 from "../../static/image/banner/banner-1.jpg"
 import shape1 from "../../static/image/shape/shape-1.png"
@@ -22,18 +21,13 @@ class BannerSection extends React.Component {
         <div className="auto-container">
           <div className="content-box">
             <h2>
-              Explore <br />
-              Your Travel
+              Khám Phá <br />
+              Chuyến Du Lịch Của Bạn
             </h2>
             <p>
-              Discover your next great adventure, become an explorer to get
-              started!
+              Hành trình khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn
+              đã bắt đầu!
             </p>
-            {/* <div className="form-inner">
-              <form action="/home.html" method="post" className="booking-form clearfix">
-                <FormInner />
-              </form>
-            </div> */}
           </div>
         </div>
       </section>
