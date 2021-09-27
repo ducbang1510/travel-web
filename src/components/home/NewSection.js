@@ -1,163 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import shape10 from "../../static/image/shape/shape-10.png"
-import news1 from "../../static/image/news/news-1.jpg"
-import news2 from "../../static/image/news/news-2.jpg"
-import news3 from "../../static/image/news/news-3.jpg"
+import API, { endpoints } from "../../API";
 
-class NewSection extends React.Component {
+export default function NewSection() {
+  const [listBlog, setListBlog] = useState([])
+
+  useEffect(() => {
+    let loadNewestBlogs = async () => {
+      try {
+        let res = await API.get(endpoints['newest-blogs'])
+        setListBlog(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    loadNewestBlogs()
+  }, [])
+
+  return (
+    <section className="news-section sec-pad pb-220">
+      <div
+        className="pattern-layer"
+        style={{
+          backgroundImage: `url(${shape10})`
+        }}
+      />
+      <div className="auto-container">
+        <div className="sec-title">
+          <p>Tin tức & Bài viết</p>
+          <h2>Cập nhật với Travio</h2>
+          <a href="/blogs" className="theme-btn-two">
+            Tất cả tin tức
+          </a>
+        </div>
+        <div className="row clearfix">
+          {listBlog.map(b => <BlogItem blog={b} />)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+class BlogItem extends React.Component {
   render() {
     return (
-      <section className="news-section sec-pad pb-220">
-        <div
-          className="pattern-layer"
-          style={{
-            backgroundImage: `url(${shape10})`
-          }}
-        />
-        <div className="auto-container">
-          <div className="sec-title">
-            <p>News & Articles</p>
-            <h2>Stay Update with Travio Tips</h2>
-            <a href="/blog.html" className="theme-btn-two">
-              All Blog Posts
-            </a>
-          </div>
-          <div className="row clearfix">
-            <div className="col-lg-4 col-md-6 col-sm-12 news-block">
-              <div
-                className="news-block-one wow fadeInUp animated animated"
-                data-wow-delay="00ms"
-                data-wow-duration="1500ms"
-              >
-                <div className="inner-box">
-                  <figure className="image-box">
-                    <a href="/blog-details.html">
-                      <img src={news1} alt="" />
-                    </a>
-                    <span className="post-date">
-                      <i className="far fa-calendar-alt" />5 Oct, 2020
-                    </span>
-                  </figure>
-                  <div className="lower-content">
-                    <div className="category">
-                      <a href="/blog-details.html">Lifestyle</a>
-                    </div>
-                    <h3>
-                      <a href="/blog-details.html">
-                        Including animation in your design system
-                      </a>
-                    </h3>
-                    <ul className="post-info clearfix">
-                      <li>
-                        <span>By</span> <a href="/">Eva Green</a>
-                      </li>
-                      <li> - October 13, 2020</li>
-                    </ul>
-                    <p>
-                      Lorem ipsum dolor sit amet consectur adip icing sed do
-                      eiusmod tempor incididunt labore dolore magna aliqua enim.
-                    </p>
-                    <div className="btn-box">
-                      <a href="/blog-details.html" className="theme-btn-two">
-                        See Details
-                      </a>
-                    </div>
-                  </div>
-                </div>
+      <div className="col-lg-4 col-md-6 col-sm-12 news-block">
+        <div className="news-block-one wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
+          <div className="inner-box">
+            <figure className="image-box">
+              <a href={"/blog-details/" + this.props.blog.id}>
+                <img style={{ width: '370px', height: '270px' }} src={this.props.blog.image} alt="" />
+              </a>
+              <span className="post-date">
+                <i className="far fa-calendar-alt" />{this.props.blog.created_date}
+              </span>
+            </figure>
+            <div className="lower-content">
+              <div className="category">
+                <a href={"/blog-details/" + this.props.blog.id}>Lifestyle</a>
               </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 news-block">
-              <div
-                className="news-block-one wow fadeInUp animated animated"
-                data-wow-delay="300ms"
-                data-wow-duration="1500ms"
-              >
-                <div className="inner-box">
-                  <figure className="image-box">
-                    <a href="/blog-details.html">
-                      <img src={news2} alt="" />
-                    </a>
-                    <span className="post-date">
-                      <i className="far fa-calendar-alt" />4 Oct, 2020
-                    </span>
-                  </figure>
-                  <div className="lower-content">
-                    <div className="category">
-                      <a href="/blog-details.html">Lifestyle</a>
-                    </div>
-                    <h3>
-                      <a href="/blog-details.html">
-                        Strategic & commercial with issues.
-                      </a>
-                    </h3>
-                    <ul className="post-info clearfix">
-                      <li>
-                        <span>By</span> <a href="/">Eva Green</a>
-                      </li>
-                      <li> - October 13, 2020</li>
-                    </ul>
-                    <p>
-                      Lorem ipsum dolor sit amet consectur adip icing sed do
-                      eiusmod tempor incididunt labore dolore magna aliqua enim.
-                    </p>
-                    <div className="btn-box">
-                      <a href="/blog-details.html" className="theme-btn-two">
-                        See Details
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-sm-12 news-block">
-              <div
-                className="news-block-one wow fadeInUp animated animated"
-                data-wow-delay="600ms"
-                data-wow-duration="1500ms"
-              >
-                <div className="inner-box">
-                  <figure className="image-box">
-                    <a href="/blog-details.html">
-                      <img src={news3} alt="" />
-                    </a>
-                    <span className="post-date">
-                      <i className="far fa-calendar-alt" />3 Oct, 2020
-                    </span>
-                  </figure>
-                  <div className="lower-content">
-                    <div className="category">
-                      <a href="/blog-details.html">Lifestyle</a>
-                    </div>
-                    <h3>
-                      <a href="/blog-details.html">
-                        Best interior design idea for your home.
-                      </a>
-                    </h3>
-                    <ul className="post-info clearfix">
-                      <li>
-                        <span>By</span> <a href="/">Eva Green</a>
-                      </li>
-                      <li> - October 13, 2020</li>
-                    </ul>
-                    <p>
-                      Lorem ipsum dolor sit amet consectur adip icing sed do
-                      eiusmod tempor incididunt labore dolore magna aliqua enim.
-                    </p>
-                    <div className="btn-box">
-                      <a href="/blog-details.html" className="theme-btn-two">
-                        See Details
-                      </a>
-                    </div>
-                  </div>
-                </div>
+              <h3 style={{height: "90px"}}>
+                <a href={"/blog-details/" + this.props.blog.id}>
+                  {this.props.blog.title}
+                </a>
+              </h3>
+              <ul className="post-info clearfix">
+                <li>
+                  <span>Theo</span> <a href={"/blog-details/" + this.props.blog.id}>{this.props.blog.author}</a>
+                </li>
+                <li> - {this.props.blog.created_date}</li>
+              </ul>
+              <div className="btn-box">
+                <a href={"/blog-details/" + this.props.blog.id} className="theme-btn-two">
+                  Xem chi tiết
+                </a>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    );
+      </div>
+    )
   }
 }
-
-export default NewSection;

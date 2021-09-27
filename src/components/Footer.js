@@ -24,7 +24,7 @@ class Footer extends React.Component {
               <div className="col-lg-3 col-md-6 col-sm-12 footer-column">
                 <div className="footer-widget logo-widget">
                   <figure className="footer-logo">
-                    <a href="/home.html">
+                    <a href="/">
                       <img
                         src={footerLogo}
                         alt="ImageLogo"
@@ -32,11 +32,7 @@ class Footer extends React.Component {
                     </a>
                   </figure>
                   <div className="text">
-                    <p>
-                      Lorem ipsum dolor amet consetetur adi pisicing elit sed
-                      eiusm tempor in cididunt ut labore dolore magna aliqua
-                      enim.
-                    </p>
+                    
                   </div>
                   <ul className="social-links clearfix">
                     <li>
@@ -70,27 +66,18 @@ class Footer extends React.Component {
               <div className="col-lg-3 col-md-6 col-sm-12 footer-column">
                 <div className="footer-widget links-widget">
                   <div className="widget-title">
-                    <h3>Services</h3>
+                    <h3>Dịch vụ</h3>
                   </div>
                   <div className="widget-content">
                     <ul className="links-list clearfix">
                       <li>
-                        <a href="/about-us.html">About Us</a>
+                        <a href="/about-us">About Us</a>
                       </li>
                       <li>
-                        <a href="/tour.html">Listing</a>
+                        <a href="/tour-list">Tours</a>
                       </li>
                       <li>
-                        <a href="/tour.html">How It Works</a>
-                      </li>
-                      <li>
-                        <a href="/tour.html">Our Services</a>
-                      </li>
-                      <li>
-                        <a href="/home.html">Our Blog</a>
-                      </li>
-                      <li>
-                        <a href="/contact.html">Contact Us</a>
+                        <a href="/blogs">Tin tức</a>
                       </li>
                     </ul>
                   </div>
@@ -99,7 +86,7 @@ class Footer extends React.Component {
               <div className="col-lg-3 col-md-6 col-sm-12 footer-column">
                 <div className="footer-widget gallery-widget">
                   <div className="widget-title">
-                    <h3>Gallery</h3>
+                    <h3>Kho ảnh</h3>
                   </div>
                   <div className="widget-content">
                     <ul className="image-list clearfix">
@@ -170,14 +157,13 @@ class Footer extends React.Component {
               <div className="col-lg-3 col-md-6 col-sm-12 footer-column">
                 <div className="footer-widget contact-widget">
                   <div className="widget-title">
-                    <h3>Contacts</h3>
+                    <h3>Liên hệ</h3>
                   </div>
                   <div className="widget-content">
                     <ul className="info-list clearfix">
                       <li>
                         <i className="fas fa-map-marker-alt" />
-                        371, Nguyen Kiem Street, Go Vap District, Ho Chi Minh
-                        City
+                        371 Nguyễn Kiệm, quận Gò Vấp, Thành phố Hồ Chí Minh
                       </li>
                       <li>
                         <i className="fas fa-microphone" />

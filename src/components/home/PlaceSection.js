@@ -35,14 +35,10 @@ class PlaceSection extends React.Component {
           <div className="row clearfix">
             <div className="col-lg-4 col-md-6 col-sm-12 title-column">
               <div className="sec-title">
-                <p>Choose Your place</p>
-                <h2>Popular Destinations</h2>
+                <p>Chọn điểm đến của bạn</p>
+                <h2>Điểm đến phổ biến</h2>
               </div>
               <div className="text">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do
-                  eiu smod tempor incididunt.
-                </p>
               </div>
             </div>
             <div className="col-lg-4 col-md-6 col-sm-12 place-block">
@@ -107,7 +103,7 @@ class PlaceSection extends React.Component {
                   </figure>
                   <div className="text">
                     <h3>
-                      <a href="/destination-details.html">Vietnam</a>
+                      <a href="/tour-list">Vietnam</a>
                     </h3>
                   </div>
                 </div>
@@ -116,11 +112,11 @@ class PlaceSection extends React.Component {
             <div className="col-lg-4 col-md-6 col-sm-12 link-column">
               <div className="link-box centred">
                 <h3>
-                  Find All <br />
-                  Destination
+                  Tìm Tất Cả <br />
+                  Điểm Đến
                 </h3>
-                <a href="/destination.html" className="theme-btn">
-                  Find Now
+                <a href="/tour-list" className="theme-btn">
+                  Tìm Ngay
                 </a>
               </div>
             </div>

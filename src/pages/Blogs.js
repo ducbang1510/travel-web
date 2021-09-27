@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
-import post1 from "../static/image/news/post-1.png"
-import post2 from "../static/image/news/post-2.png"
-import post3 from "../static/image/news/post-3.png"
 import advice1 from "../static/image/advice/advice-1.jpg"
 import API, { endpoints } from '../API';
 import { useLocation } from 'react-router';
+import { Avatar } from '@mui/material';
 
 function Blogs(props) {
     const [count, setCount] = useState(1)
     const [listBlog, setListBlog] = useState([])
+    const [lastestBlogs, setLastestBlogs] = useState([])
     const [searchTerm, setSearchTerm] = useState("");
     const [searchRes, setSearchRes] = useState([])
 
@@ -34,6 +33,19 @@ function Blogs(props) {
     useEffect(() => {
         loadBlogs(location.search)
     }, [location.search])
+
+    useEffect(() => {
+        let loadNewestBlogs = async () => {
+            try {
+                let res = await API.get(endpoints['newest-blogs'])
+                setLastestBlogs(res.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        loadNewestBlogs()
+    }, [])
+    
 
     let blogs = <></>
 
@@ -130,48 +142,28 @@ function Blogs(props) {
                                 </div>
                                 <div className="sidebar-widget post-widget">
                                     <div className="widget-title">
-                                        <h3>Latest News</h3>
+                                        <h3>Tin mới nhất</h3>
                                     </div>
                                     <div className="post-inner">
-                                        <div className="post">
-                                            <figure className="post-thumb">
-                                                <a href="/blog-details">
-                                                    <img src={post1} alt="" />
-                                                </a>
-                                            </figure>
-                                            <span className="post-date">April 18, 2020</span>
-                                            <h4>
-                                                <a href="/blog-details">
-                                                    Consequntur eos magni dolore.
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div className="post">
-                                            <figure className="post-thumb">
-                                                <a href="/blog-details">
-                                                    <img src={post2} alt="" />
-                                                </a>
-                                            </figure>
-                                            <span className="post-date">April 17, 2020</span>
-                                            <h4>
-                                                <a href="/blog-details">
-                                                    Magni dolore qui ratione seque.
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div className="post">
-                                            <figure className="post-thumb">
-                                                <a href="/blog-details">
-                                                    <img src={post3} alt="" />
-                                                </a>
-                                            </figure>
-                                            <span className="post-date">April 16, 2020</span>
-                                            <h4>
-                                                <a href="/blog-details">
-                                                    Ratone magni sed dolore eos.
-                                                </a>
-                                            </h4>
-                                        </div>
+                                        {lastestBlogs.map(blog =>
+                                            <div className="post">
+                                                <figure className="post-thumb">
+                                                    <a href={"/blog-details/" + blog.id}>
+                                                        <Avatar
+                                                            alt="ImageComment"
+                                                            src={blog.image}
+                                                            sx={{ width: 90, height: 90 }}
+                                                        />
+                                                    </a>
+                                                </figure>
+                                                <span className="post-date">{blog.created_date}</span>
+                                                <h4>
+                                                    <a href={"/blog-details/" + blog.id}>
+                                                        {blog.title}
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="advice-widget">

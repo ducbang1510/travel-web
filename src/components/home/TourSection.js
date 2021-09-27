@@ -4,26 +4,19 @@ import API, { endpoints } from "../../API";
 import shape4 from "../../static/image/shape/shape-4.png"
 
 export default function TourSection() {
-  // const [count, setCount] = useState(0)
   const [tourList, setTourList] = useState([])
 
-  const loadTour = (page = "?page=1") => {
-    API.get(`${endpoints['tours']}${page}`).then(res => {
-      console.info(res.data)
-      setTourList(res.data.results)
-      // setCount(res.data.count)
-    })
-  }
-
   useEffect(() => {
-    loadTour()
+    let loadPopularTour = async () => {
+      try {
+        let res = await API.get(endpoints['popular-tours'])
+        setTourList(res.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    loadPopularTour()
   }, [])
-
-  let tours = <></>
-  if(tourList.length > 0)
-    tours = <>
-      {tourList.map(t => <TourItem tour={t}/>)}
-    </>
 
   return (
     <section className="tour-section bg-color-1 sec-pad">
@@ -37,7 +30,7 @@ export default function TourSection() {
           <h2>Những Tour Phổ Biến</h2>
         </div>
         <div className="row clearfix">
-          {tours}
+          {tourList.map(t => <TourItem tour={t}/>)}
         </div>
       </div>
     </section>

@@ -5,15 +5,13 @@ import { useSelector } from 'react-redux';
 import cookies from 'react-cookies'
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
-import post1 from "../static/image/news/post-1.png"
-import post2 from "../static/image/news/post-2.png"
-import post3 from "../static/image/news/post-3.png"
 import advice1 from "../static/image/advice/advice-1.jpg"
 import { Link } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 
 function BlogDetails(props) {
     const [blog, setBlog] = useState([])
+    const [lastestBlogs, setLastestBlogs] = useState([])
     const [isLike, setIsLike] = useState(false)
 
     const [comment, setComment] = useState("")
@@ -101,6 +99,18 @@ function BlogDetails(props) {
         getBlog()
         getComments()
     }, [blogId])
+
+    useEffect(() => {
+        let loadNewestBlogs = async () => {
+            try {
+                let res = await API.get(endpoints['newest-blogs'])
+                setLastestBlogs(res.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        loadNewestBlogs()
+    }, [])
 
     return (
         <>
@@ -224,77 +234,30 @@ function BlogDetails(props) {
                                         </div>
                                     </form>
                                 </div>
-                                {/* <div className="sidebar-widget category-widget">
-                                    <div className="widget-title">
-                                        <h3>Categories</h3>
-                                    </div>
-                                    <div className="widget-content">
-                                        <ul className="category-list clearfix">
-                                            <li>
-                                                <a href="/blog-details.html">
-                                                    <i className="fas fa-long-arrow-alt-right" />
-                                                    Travel Direction
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="/blog-details.html">
-                                                    <i className="fas fa-long-arrow-alt-right" />
-                                                    Documetation
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="/blog-details.html">
-                                                    <i className="fas fa-long-arrow-alt-right" />
-                                                    Logo & Assets
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> */}
                                 <div className="sidebar-widget post-widget">
                                     <div className="widget-title">
                                         <h3>Tin mới nhất</h3>
                                     </div>
                                     <div className="post-inner">
-                                        <div className="post">
-                                            <figure className="post-thumb">
-                                                <a href="/blog-details.html">
-                                                    <img src={post1} alt="ImagePost"/>
-                                                </a>
-                                            </figure>
-                                            <span className="post-date">April 18, 2020</span>
-                                            <h4>
-                                                <a href="/blog-details.html">
-                                                    Consequntur eos magni dolore.
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div className="post">
-                                            <figure className="post-thumb">
-                                                <a href="/blog-details.html">
-                                                    <img src={post2} alt="ImagePost"/>
-                                                </a>
-                                            </figure>
-                                            <span className="post-date">April 17, 2020</span>
-                                            <h4>
-                                                <a href="/blog-details.html">
-                                                    Magni dolore qui ratione seque.
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div className="post">
-                                            <figure className="post-thumb">
-                                                <a href="/blog-details.html">
-                                                    <img src={post3} alt="ImagePost"/>
-                                                </a>
-                                            </figure>
-                                            <span className="post-date">April 16, 2020</span>
-                                            <h4>
-                                                <a href="/blog-details.html">
-                                                    Ratone magni sed dolore eos.
-                                                </a>
-                                            </h4>
-                                        </div>
+                                        {lastestBlogs.map(blog =>
+                                            <div className="post">
+                                                <figure className="post-thumb">
+                                                    <a href={"/blog-details/" + blog.id}>
+                                                        <Avatar
+                                                            alt="ImageComment"
+                                                            src={blog.image}
+                                                            sx={{ width: 90, height: 90 }}
+                                                        />
+                                                    </a>
+                                                </figure>
+                                                <span className="post-date">{blog.created_date}</span>
+                                                <h4>
+                                                    <a href={"/blog-details/" + blog.id}>
+                                                        {blog.title}
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="advice-widget">
