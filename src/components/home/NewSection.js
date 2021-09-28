@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import shape10 from "../../static/image/shape/shape-10.png"
 import API, { endpoints } from "../../API";
+import { Link } from "react-router-dom";
 
 export default function NewSection() {
   const [listBlog, setListBlog] = useState([])
@@ -30,9 +31,9 @@ export default function NewSection() {
         <div className="sec-title">
           <p>Tin tức & Bài viết</p>
           <h2>Cập nhật với Travio</h2>
-          <a href="/blogs" className="theme-btn-two">
+          <Link to="/blogs" className="theme-btn-two">
             Tất cả tin tức
-          </a>
+          </Link>
         </div>
         <div className="row clearfix">
           {listBlog.map(b => <BlogItem blog={b} />)}
@@ -49,32 +50,32 @@ class BlogItem extends React.Component {
         <div className="news-block-one wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
           <div className="inner-box">
             <figure className="image-box">
-              <a href={"/blog-details/" + this.props.blog.id}>
+              <Link to={"/blog-details/" + this.props.blog.id}>
                 <img style={{ width: '370px', height: '270px' }} src={this.props.blog.image} alt="" />
-              </a>
+              </Link>
               <span className="post-date">
                 <i className="far fa-calendar-alt" />{this.props.blog.created_date}
               </span>
             </figure>
             <div className="lower-content">
               <div className="category">
-                <a href={"/blog-details/" + this.props.blog.id}>Lifestyle</a>
+                <Link to={"/blog-details/" + this.props.blog.id}>Lifestyle</Link>
               </div>
               <h3 style={{height: "90px"}}>
-                <a href={"/blog-details/" + this.props.blog.id}>
+                <Link to={"/blog-details/" + this.props.blog.id}>
                   {this.props.blog.title}
-                </a>
+                </Link>
               </h3>
               <ul className="post-info clearfix">
                 <li>
-                  <span>Theo</span> <a href={"/blog-details/" + this.props.blog.id}>{this.props.blog.author}</a>
+                  <span>Theo</span> <Link to={"/blog-details/" + this.props.blog.id}>{this.props.blog.author}</Link>
                 </li>
                 <li> - {this.props.blog.created_date}</li>
               </ul>
               <div className="btn-box">
-                <a href={"/blog-details/" + this.props.blog.id} className="theme-btn-two">
+                <Link to={"/blog-details/" + this.props.blog.id} className="theme-btn-two">
                   Xem chi tiết
-                </a>
+                </Link>
               </div>
             </div>
           </div>

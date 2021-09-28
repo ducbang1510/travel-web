@@ -5,6 +5,7 @@ import advice1 from "../static/image/advice/advice-1.jpg"
 import API, { endpoints } from '../API';
 import { useLocation } from 'react-router';
 import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 function Blogs(props) {
     const [count, setCount] = useState(1)
@@ -62,7 +63,7 @@ function Blogs(props) {
     let items = []
     for(let i = 0; i < Math.ceil(count/5); i++)
         items.push(
-            <li><a href={"/blogs?page=" + (i + 1)} className="current">{i + 1}</a></li>
+            <li><Link to={"/blogs?page=" + (i + 1)} className="current">{i + 1}</Link></li>
         )
 
     return (
@@ -86,9 +87,9 @@ function Blogs(props) {
                                     <ul className="pagination clearfix">
                                         {items}
                                         <li>
-                                            <a href="/blog.html">
+                                            <Link to="/blog.html">
                                                 <i className="fas fa-long-arrow-alt-right" />
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -120,22 +121,22 @@ function Blogs(props) {
                                     <div className="widget-content">
                                         <ul className="category-list clearfix">
                                             <li>
-                                                <a href="/blog-details">
+                                                <Link to="/blog-details">
                                                     <i className="fas fa-long-arrow-alt-right" />
                                                     Travel Direction
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/blog-details">
+                                                <Link to="/blog-details">
                                                     <i className="fas fa-long-arrow-alt-right" />
                                                     Documetation
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/blog-details">
+                                                <Link to="/blog-details">
                                                     <i className="fas fa-long-arrow-alt-right" />
                                                     Logo & Assets
-                                                </a>
+                                                </Link>
                                             </li>
                                         </ul>
                                     </div>
@@ -148,19 +149,19 @@ function Blogs(props) {
                                         {lastestBlogs.map(blog =>
                                             <div className="post">
                                                 <figure className="post-thumb">
-                                                    <a href={"/blog-details/" + blog.id}>
+                                                    <Link to={"/blog-details/" + blog.id}>
                                                         <Avatar
                                                             alt="ImageComment"
                                                             src={blog.image}
                                                             sx={{ width: 90, height: 90 }}
                                                         />
-                                                    </a>
+                                                    </Link>
                                                 </figure>
                                                 <span className="post-date">{blog.created_date}</span>
                                                 <h4>
-                                                    <a href={"/blog-details/" + blog.id}>
+                                                    <Link to={"/blog-details/" + blog.id} toggle="tooltip" title={blog.title}>
                                                         {blog.title}
-                                                    </a>
+                                                    </Link>
                                                 </h4>
                                             </div>
                                         )}
@@ -200,9 +201,9 @@ class BlogItem extends React.Component {
                 <div className="news-block-one wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
                     <div className="inner-box">
                         <figure className="image-box">
-                            <a href={"/blog-details/" + this.props.blog.id}>
+                            <Link to={"/blog-details/" + this.props.blog.id}>
                                 <img style={{width: "770px", height: "470px"}} src={this.props.blog.image} alt="ImageBlog"/>
-                            </a>
+                            </Link>
                             <span className="post-date">
                                 <i className="far fa-calendar-alt" />
                                 {this.props.blog.created_date}
@@ -210,23 +211,23 @@ class BlogItem extends React.Component {
                         </figure>
                         <div className="lower-content">
                             <div className="category">
-                                <a href={"/blog-details/" + this.props.blog.id}>Lifestyle</a>
+                                <Link to={"/blog-details/" + this.props.blog.id}>Lifestyle</Link>
                             </div>
                             <h2>
-                                <a href={"/blog-details/" + this.props.blog.id}>
+                                <Link to={"/blog-details/" + this.props.blog.id}>
                                     {this.props.blog.title}
-                                </a>
+                                </Link>
                             </h2>
                             <ul className="post-info clearfix">
                                 <li>
-                                    <span>Theo</span> <a href={"/blog-details/" + this.props.blog.id}>{this.props.blog.author}</a>
+                                    <span>Theo</span> <Link to={"/blog-details/" + this.props.blog.id}>{this.props.blog.author}</Link>
                                 </li>
                                 <li> - {this.props.blog.created_date}</li>
                             </ul>
                             <div className="btn-box">
-                                <a href={"/blog-details/" + this.props.blog.id} className="theme-btn-two">
+                                <Link to={"/blog-details/" + this.props.blog.id} className="theme-btn-two">
                                     Xem chi tiết
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

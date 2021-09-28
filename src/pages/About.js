@@ -18,6 +18,7 @@ import team3 from "../static/image/team/team-3.jpg"
 import video1 from "../static/image/background/video-1.jpg"
 import about3 from "../static/image/about/about-3.jpg"
 import quote1 from "../static/image/icon/quote-1.png"
+import { Link } from 'react-router-dom';
 
 export default function About(props) {
     return (
@@ -67,9 +68,9 @@ class AboutStyleTwoSection extends React.Component {
                                         </p>
                                     </div>
                                     <div className="btn-box">
-                                        <a href="/destination.html" className="theme-btn">
+                                        <Link to="/destination.html" className="theme-btn">
                                             Find Now
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -247,16 +248,12 @@ class AboutVideoSection extends React.Component {
                         <h2>Explore Your Travel</h2>
                         <p>Your New Traveling Idea</p>
                         <div className="video-btn">
-                            <a
-                                href="https://www.youtube.com/watch?v=3M0TmN2TsK4&t=28s"
-                                className="lightbox-image"
-                                data-caption
-                            >
+                            <Link to="https://www.youtube.com/watch?v=3M0TmN2TsK4&t=28s" className="lightbox-image" data-caption>
                                 <i className="fas fa-play" />
                                 <span className="border-animation border-1" />
                                 <span className="border-animation border-2" />
                                 <span className="border-animation border-3" />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -714,24 +711,24 @@ class AboutTeamSection extends React.Component {
                                     </figure>
                                     <div className="lower-content">
                                         <h3>
-                                            <a href="/">Merrie Lewis</a>
+                                            <Link to="/">Merrie Lewis</Link>
                                         </h3>
                                         <span className="designation">Tour Guide</span>
                                         <ul className="social-links clearfix">
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-facebook-f" />
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-twitter" />
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-instagram" />
-                                                </a>
+                                                </Link>
                                             </li>
                                         </ul>
                                     </div>
@@ -750,24 +747,24 @@ class AboutTeamSection extends React.Component {
                                     </figure>
                                     <div className="lower-content">
                                         <h3>
-                                            <a href="/">Parks Missie</a>
+                                            <Link to="/">Parks Missie</Link>
                                         </h3>
                                         <span className="designation">Tour Guide</span>
                                         <ul className="social-links clearfix">
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-facebook-f" />
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-twitter" />
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-instagram" />
-                                                </a>
+                                                </Link>
                                             </li>
                                         </ul>
                                     </div>
@@ -786,24 +783,24 @@ class AboutTeamSection extends React.Component {
                                     </figure>
                                     <div className="lower-content">
                                         <h3>
-                                            <a href="/">Mariana Buenos</a>
+                                            <Link to="/">Mariana Buenos</Link>
                                         </h3>
                                         <span className="designation">Tour Guide</span>
                                         <ul className="social-links clearfix">
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-facebook-f" />
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-twitter" />
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/home.html">
+                                                <Link to="/">
                                                     <i className="fab fa-instagram" />
-                                                </a>
+                                                </Link>
                                             </li>
                                         </ul>
                                     </div>

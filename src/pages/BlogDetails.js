@@ -7,81 +7,39 @@ import cookies from 'react-cookies'
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
 import { Link } from 'react-router-dom';
-import { Avatar } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 function BlogDetails(props) {
     const [blog, setBlog] = useState([])
     const [lastestBlogs, setLastestBlogs] = useState([])
-    const [isLike, setIsLike] = useState(false)
+
+    const [actionType, setActionType] = useState(null)
+    const [stylebtLike, setstylebtLike] = useState(null)
+    const [likesChange, setLikesChange] = useState(null)
 
     const [comment, setComment] = useState("")
     const [listComment, setListComment] = useState([])
+    const [commentChange, setCommentChange] = useState(0)
 
     const { blogId } = useParams()
 
-    // Get user for confirm
     let user = useSelector(state => state.user.user)
-    if (cookies.load("user") != null) {
-        user = cookies.load("user")
-    }
-    
-    /* Handle like function */
-    const addLike = (event) => {
-        event.preventDefault()
-        const formData = new FormData()
-        if (isLike === false) {
-            formData.append("type", 1)
-        }
-        else {
-            formData.append("type", 2)
-        }
-
-        API.post(`${endpoints['blogs']}${blogId}/like/`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${cookies.load('access_token')}`
-            }
-        }).then((res) => {
-            console.info(res)
-        }).catch(err => console.error(err))
-        setIsLike(true)
-    }
-    /* End Like Function */
-    
-
-    /* Handle Comment Function */
-    const handleChange = (event) => {
-        setComment(event.target.value)
-    }
-
-    const addComment = (event) => {
-        event.preventDefault()
-        if (user != null) {
-            const formData = new FormData()
-
-            formData.append("content", comment)
-            // formData.append("user", user.id)
-
-            API.post(`${endpoints['blogs']}${blogId}/add-comment/`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${cookies.load('access_token')}`
-                }
-            }).then((res) => {
-                console.info(res)
-            }).catch(err => console.error(err))
-        }
-        else {
-            alert("Hãy đăng nhập để có thể bình luận")
-        }
-    }
-    /* End Comment Function */
 
     useEffect(() => {
         let getBlog = async() => {
             try {
-                let res = await API.get(endpoints['blog-details'](blogId))
+                let res = await API.get(endpoints['blog-details'](blogId), {
+                    headers: {
+                        'Authorization': `Bearer ${cookies.load('access_token')}`
+                    }
+                })
                 setBlog(res.data)
+                setActionType(res.data.type)
+                if (res.data.type === 1)
+                    setstylebtLike("contained")
+                else
+                    setstylebtLike("outlined")
             } catch (error) {
                 console.error(error)
             }
@@ -98,7 +56,61 @@ function BlogDetails(props) {
 
         getBlog()
         getComments()
-    }, [blogId])
+    }, [blogId, commentChange, likesChange])
+    
+    /* Handle like function */
+    const addLike = async (event) => {
+        let type = 0
+        if (actionType === 2 || actionType === -1 || actionType === null) {
+            type = 1
+            setstylebtLike("contained")
+        }
+        else {
+            type = 2
+            setstylebtLike("outlined")
+        }
+
+        try {
+            await API.post(endpoints['like'](blogId), {
+                "type": type
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${cookies.load('access_token')}`
+                }
+            })
+            setActionType(type)
+            setLikesChange(type)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    /* End Like Function */
+    
+
+    /* Handle Comment Function */
+    const addComment = async (event) => {
+        event.preventDefault()
+        if (user != null) {
+            try {
+                let res = await API.post(endpoints['add-comment-blog'](blogId), {
+                    "content": comment
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${cookies.load('access_token')}`
+                    }
+                })
+                listComment.push(res.data)
+                setListComment(listComment)
+                setCommentChange(listComment.length)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        else {
+            alert("Hãy đăng nhập để có thể bình luận")
+        }
+    }
+    /* End Comment Function */
 
     useEffect(() => {
         let loadNewestBlogs = async () => {
@@ -132,12 +144,12 @@ function BlogDetails(props) {
                                     <div className="inner-box">
                                         <div className="lower-content">
                                             <div className="category">
-                                                <a href="true">
+                                                <Link to="true">
                                                 <span className="post-date">
                                                     <i className="far fa-calendar-alt" />
                                                     {blog.created_date}
                                                 </span>
-                                                </a>
+                                                </Link>
                                             </div>
                                             <h2>{blog.title}</h2>
                                             <ul className="post-info clearfix">
@@ -153,12 +165,9 @@ function BlogDetails(props) {
                                                     <Link>{blog.likes} likes</Link>
                                                 </li>
                                             </ul>
-                                            <form onSubmit={addLike}>
-                                                <button type="submit" style={{color: '#4267b2'}}>
-                                                    <i className="fas fa-thumbs-up"></i>
-                                                    Likes
-                                                </button>
-                                            </form>
+                                            <Button onClick={addLike} variant={stylebtLike} startIcon={<ThumbUpIcon />}>
+                                                Like
+                                            </Button>
                                         </div>
                                     </div>
                                 </div>
@@ -168,34 +177,32 @@ function BlogDetails(props) {
                                 </div>
 
                                 <div className="post-share-option clearfix">
-                                    {/* <div className="text pull-left">
+                                    <div className="text pull-left">
                                         <h3>We Are Social On:</h3>
                                     </div>
                                     <ul className="social-links pull-right clearfix">
                                         <li>
-                                            <a href="/home.html">
+                                            <Link to="/">
                                                 <i className="fab fa-facebook-f" />
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="/home.html">
+                                            <Link to="/">
                                                 <i className="fab fa-google-plus-g" />
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="/home.html">
+                                            <Link to="/">
                                                 <i className="fab fa-twitter" />
-                                            </a>
+                                            </Link>
                                         </li>
-                                    </ul> */}
+                                    </ul>
                                 </div>
                                 <div className="comment-box">
                                     <div className="group-title">
                                         <h2>{listComment.length} Bình luận</h2>
                                     </div>
-                                    
                                     {listComment.map(c => <CommentItem key={c.id} comment={c} />)}
-
                                 </div>
                                 <div className="comments-form-area">
                                     <div className="group-title">
@@ -206,7 +213,7 @@ function BlogDetails(props) {
                                             <div className="row clearfix">
                                                 <div className="col-lg-12 col-md-12 col-sm-12 form-group">
                                                     <textarea placeholder="Nội dung" value={comment} 
-                                                    onChange={(event) => handleChange(event)}/>
+                                                    onChange={(event) => setComment(event.target.value)}/>
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
                                                     <button className="theme-btn" type="submit" name="submit-form">
@@ -242,19 +249,19 @@ function BlogDetails(props) {
                                         {lastestBlogs.map(blog =>
                                             <div className="post">
                                                 <figure className="post-thumb">
-                                                    <a href={"/blog-details/" + blog.id}>
+                                                    <Link to={"/blog-details/" + blog.id}>
                                                         <Avatar
                                                             alt="ImageComment"
                                                             src={blog.image}
                                                             sx={{ width: 90, height: 90 }}
                                                         />
-                                                    </a>
+                                                    </Link>
                                                 </figure>
                                                 <span className="post-date">{blog.created_date}</span>
                                                 <h4>
-                                                    <a href={"/blog-details/" + blog.id}>
+                                                    <Link to={"/blog-details/" + blog.id}>
                                                         {blog.title}
-                                                    </a>
+                                                    </Link>
                                                 </h4>
                                             </div>
                                         )}
@@ -301,10 +308,10 @@ class CommentItem extends React.Component {
                     <p>
                         {this.props.comment.content}
                     </p>
-                    <a href="true" className="reply-btn">
+                    <Link to="true" className="reply-btn">
                         <i className="fas fa-share" />
                         Reply
-                    </a>
+                    </Link>
                 </div>
             </div>
         )

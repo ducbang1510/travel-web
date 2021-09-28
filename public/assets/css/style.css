@@ -5192,8 +5192,13 @@ div#mCSB_1_container {
 }
 
 .default-sidebar .post-widget .post h4 a {
-    display: inline-block;
     color: #061a3a;
+    line-height: 24px;
+    height: 72px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
 }
 
 .default-sidebar .post-widget .post h4 a:hover {}

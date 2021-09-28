@@ -6,6 +6,7 @@ import place1 from "../../static/image/place/place-1.jpg"
 import place2 from "../../static/image/place/place-2.jpg"
 import place3 from "../../static/image/place/place-3.jpg"
 import place4 from "../../static/image/place/place-4.jpg"
+import { Link } from "react-router-dom";
 
 class PlaceSection extends React.Component {
   render() {
@@ -52,7 +53,7 @@ class PlaceSection extends React.Component {
                   </figure>
                   <div className="text">
                     <h3>
-                      <a href="/destination-details.html">New York City</a>
+                      <Link to="/destination-details.html">New York City</Link>
                     </h3>
                   </div>
                 </div>
@@ -69,7 +70,7 @@ class PlaceSection extends React.Component {
                   </figure>
                   <div className="text">
                     <h3>
-                      <a href="/destination-details.html">Norway Lake</a>
+                      <Link to="/tour-list">Norway Lake</Link>
                     </h3>
                   </div>
                 </div>
@@ -86,7 +87,7 @@ class PlaceSection extends React.Component {
                   </figure>
                   <div className="text">
                     <h3>
-                      <a href="/destination-details.html">Affrican Park</a>
+                      <Link to="/destination-details.html">Affrican Park</Link>
                     </h3>
                   </div>
                 </div>
@@ -103,7 +104,7 @@ class PlaceSection extends React.Component {
                   </figure>
                   <div className="text">
                     <h3>
-                      <a href="/tour-list">Vietnam</a>
+                      <Link to="/tour-list">Vietnam</Link>
                     </h3>
                   </div>
                 </div>
@@ -115,9 +116,9 @@ class PlaceSection extends React.Component {
                   Tìm Tất Cả <br />
                   Điểm Đến
                 </h3>
-                <a href="/tour-list" className="theme-btn">
+                <Link to="/tour-list" className="theme-btn">
                   Tìm Ngay
-                </a>
+                </Link>
               </div>
             </div>
           </div>

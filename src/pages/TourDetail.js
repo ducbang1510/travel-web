@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import API, { endpoints } from "../API";
-import StarRating from "../components/StarRating";
 import cookies from 'react-cookies'
 import { useSelector } from "react-redux";
 
 import pageTitle3 from "../static/image/background/page-title-3.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
+import { Link } from "react-router-dom";
+import { Rating } from "@mui/material";
 
 
 export default function TourDetail() {
@@ -14,7 +15,6 @@ export default function TourDetail() {
     const [services, setServices] = useState([])
 
     const [rating, setRating] = useState(0)
-    const [isRate, setIsRate] = useState(false)
 
     const [comment, setComment] = useState("")
 
@@ -25,9 +25,14 @@ export default function TourDetail() {
     useEffect(() => {
         let getTour = async() => {
             try {
-                let res = await API.get(endpoints['tour-details'](tourId))
+                let res = await API.get(endpoints['tour-details'](tourId), {
+                    headers: {
+                        'Authorization': `Bearer ${cookies.load('access_token')}`
+                    }
+                })
                 setServices(res.data.service)
                 setTour(res.data)
+                setRating(res.data.rate)
             } catch (error) {
                 console.error(error)
             }
@@ -35,56 +40,51 @@ export default function TourDetail() {
         getTour()
     }, [tourId])
 
-    const handleRatingChange = (value) => {
-        setRating(value)
-        setIsRate(true)
-    }
-
     /* Handle Comment Function */
     const handleChange = (event) => {
         setComment(event.target.value)
     }
-    
-    useEffect(() => {
-        let addRating = async() => {
-            if (user !== null) {
-                const formRate = new FormData()
-                formRate.append("rating", rating)
+
+    const addRating = async (event, newValue) => {
+        if (user !== null) {
+            if (window.confirm("Bạn xác nhận đánh giá tour này ?") === true) {
                 try {
-                    let res = await API.post(endpoints['tours'](tourId), formRate, {
+                    let res = await API.post(endpoints['rating'](tourId), {
+                        "rating": newValue
+                    }, {
                         headers: {
-                            'Content-Type': 'multipart/form-data',
                             'Authorization': `Bearer ${cookies.load('access_token')}`
                         }
                     })
-                    console.info(res)
+                    if (res.status === 200 || res.status === 201)
+                        alert("Cảm ơn đã đánh giá tour")
                 } catch (error) {
                     console.error(error)
                 }
-            }else {
-                alert("Hãy đăng nhập để có thể đánh giá")
             }
+        }else {
+            alert("Hãy đăng nhập để có thể đánh giá")
         }
-        if(rating > 0 && isRate)
-            addRating()
-    }, [rating, isRate, tourId, user])
+        setRating(newValue);
+    }
     
 
-    const addComment = (event) => {
+    const addComment = async (event) => {
         event.preventDefault()
-        if (user !== null) {
-            const formData = new FormData()
-
-            formData.append("content", comment)
-
-            API.post(`${endpoints['tours']}${tourId}/add-comment/`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${cookies.load('access_token')}`
-                }
-            }).then((res) => {
-                console.info(res)
-            }).catch(err => console.error(err))
+        if (user != null) {
+            try {
+                let res = await API.post(endpoints['add-comment-tour'](tourId), {
+                    "content": comment
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${cookies.load('access_token')}`
+                    }
+                })
+                if (res.status === 201)
+                    alert("Cảm ơn đã để lại bình luận về tour")
+            } catch (error) {
+                console.error(error)
+            }
         }
         else {
             alert("Hãy đăng nhập để có thể bình luận")
@@ -109,17 +109,6 @@ export default function TourDetail() {
                     <div className="row clearfix">
                         <div className="col-lg-8 col-md-12 col-sm-12 content-side">
                             <div className="tour-details-content">
-                                <div>
-                                    <h2>Rating</h2>
-                                    <StarRating 
-                                    count={5}
-                                    size={20}
-                                    value={rating}
-                                    activeColor ={'gold'}
-                                    inactiveColor={'#ddd'}
-                                    disabled={isRate}
-                                    onChange={handleRatingChange}  />
-                                </div>
                                 <div className="inner-box">
                                     <div className="text">
                                         <h2>Mô tả</h2>
@@ -148,21 +137,6 @@ export default function TourDetail() {
                                         <h2>Kế hoạch tour</h2>
                                         <p dangerouslySetInnerHTML={{__html: `${tour.tour_plan}`}} />
                                     </div>
-                                    {/* <div className="content-box">
-                                        <div className="single-box">
-                                            <span>01</span>
-                                            <h4>8:00 am to 10:00 am</h4>
-                                            <h3>Day 1: Arrive South Africa Forest</h3>
-                                            <p>Aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                                                in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                            <ul className="list clearfix">
-                                                <li>Air fares</li>
-                                                <li>4 Nights Hotel Accomodation</li>
-                                                <li>Entrance Fees</li>
-                                            </ul>
-                                        </div>
-                                    </div> */}
                                 </div>
                                 <div className="photo-gallery">
                                     <div className="text">
@@ -175,16 +149,11 @@ export default function TourDetail() {
                                 <div className="comment-box">
                                     <div className="text">
                                         <h2>Đánh giá</h2>
-                                        <ul className="list clearfix">
-                                            {/* <li>
-                                                <h5>Rating:</h5>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="fas fa-star"></i>
-                                                <i className="far fa-star"></i>
-                                            </li> */}
-                                        </ul>
+                                        <Rating name="simple-controlled"
+                                        size="large"
+                                        value={rating}
+                                        onChange={addRating}
+                                        />
                                     </div>
                                     <form onSubmit={addComment} className="comment-form">
                                         <div className="row clearfix">
@@ -209,19 +178,19 @@ export default function TourDetail() {
                                     <div className="widget-content">
                                         <ul className="download-links clearfix">
                                             <li>
-                                                <a href="/destination-details.html">Travel Direction
+                                                <Link to="/destination-details.html">Travel Direction
                                                     <i className="fas fa-download"></i>
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/destination-details.html">Documetation
+                                                <Link to="/destination-details.html">Documetation
                                                     <i className="fas fa-download"></i>
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li>
-                                                <a href="/destination-details.html">Logo & Assets
+                                                <Link to="/destination-details.html">Logo & Assets
                                                     <i className="fas fa-download"></i>
-                                                </a>
+                                                </Link>
                                             </li>
                                         </ul>
                                     </div>
@@ -238,9 +207,9 @@ export default function TourDetail() {
                                     <div className="widget-title">
                                         <h3>Đặt Tour</h3>
                                     </div>
-                                    <a href={"/tour-detail/" + tourId + "/booking-1"} style={{ color: "#fff" }}>
+                                    <Link to={"/tour-detail/" + tourId + "/booking-1"} style={{ color: "#fff" }}>
                                         <button type="submit" className="theme-btn">Nhấn vào đây</button>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

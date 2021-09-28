@@ -1,3 +1,4 @@
+import { MenuItem, Select } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from "react-router-dom";
@@ -59,41 +60,41 @@ function Booking1(props) {
         setPayer(payer)
     }
 
-    const addCustomer = (payerId) => {
+    const addCustomer = async (payerId) => {
         for(let i = 0; i < count; i++) {
             const formData = new FormData()
-
             for (let field in customerForms[i].customer)
                 formData.append(field, customerForms[i].customer[field])
-            
-            API.post(`${endpoints['payers']}${payerId}/add-customer/`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((res) => {
+
+            try {
+                let res = await API.post(`${endpoints['payers']}${payerId}/add-customer/`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
                 console.info(res)
-            }).catch(err => console.error(err))
+            } catch (error) {
+                console.error(error)
+            }
         }
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-
         let pId;
         const formPayer = new FormData()
-
         for (let field in payer)
             formPayer.append(field, payer[field])
-        API.post(endpoints['payers'], formPayer, {
+            
+        let res = await API.post(endpoints['payers'], formPayer, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then((res) => {
-            console.info(res)
-            pId = res.data.id
-            payDetails.setPayerId(pId)
-            addCustomer(pId)
-        }).catch(err => console.error(err))
+        })
+        console.info(res)
+        pId = res.data.id
+        payDetails.setPayerId(pId)
+        addCustomer(pId)
         
         history.push(`/tour-detail/${tourId}/booking-2`)
     }
@@ -127,8 +128,22 @@ function Booking1(props) {
                         <div className="row clearfix">
                                 <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" 
                                 field={customerForms[i].customer.name} change={(event) =>handleChange(i, "name", event)}/>
-                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Giới tính" type="text" 
-                                field={customerForms[i].customer.gender} change={(event) =>handleChange(i, "gender", event)}/>
+                                {/* <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Giới tính" type="text" 
+                                field={customerForms[i].customer.gender} change={(event) =>handleChange(i, "gender", event)}/> */}
+                                <div className="col-lg-6 col-md-6 col-sm-12 column">
+                                    <div className="form-group">
+                                        <label>Giới tính</label>
+                                        <Select
+                                        value={customerForms[i].customer.gender}
+                                        onChange={(event) =>handleChange(i, "gender", event)}
+                                        displayEmpty
+                                        inputProps={{ 'aria-label': 'Without label' }}
+                                        >
+                                            <MenuItem value={"Nam"}>Nam</MenuItem>
+                                            <MenuItem value={"Nữ"}>Nữ</MenuItem>
+                                        </Select>
+                                    </div>
+                                </div>
                                 <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text" 
                                 field={customerForms[i].customer.email} change={(event) =>handleChange(i, "email", event)}/>
                                 <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" 

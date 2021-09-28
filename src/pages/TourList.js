@@ -15,6 +15,7 @@ export default function TourList() {
     const [count, setCount] = useState(0)
     const [tourList, setTourList] = useState([])
     const [categories, setCategories] = useState([])
+    const location = useLocation()
 
     const [cName, setcName] = useState('wrapper list')
     const [cList, setcList] = useState('list-view on')
@@ -37,7 +38,7 @@ export default function TourList() {
     /* End Radio Search */
 
     /* Range slider */
-    const [value, setValue] = React.useState([500000, 10000000]);
+    const [value, setValue] = useState([500000, 10000000]);
     const timeoutRef = useRef(null) // debounce timeout
 
     const handleChange = (event, newValue) => {
@@ -70,56 +71,46 @@ export default function TourList() {
         setcGrid('grid-view on')
     }
 
-    /* Load Data Tour-list */
-    const loadTour = (page = "?page=1") => {
-        API.get(`${endpoints['tours']}${page}`).then(res => {
-            console.info(res.data)
-            setTourList(res.data.results)
-            setCount(res.data.count)
-        })
-    }
-    /* End */
-
     useEffect(() => {
         API.get(endpoints['categories']).then(res => {
           setCategories(res.data)
         })
-      }, [])
 
-    let location = useLocation()
-    useEffect(() => {
-        loadTour(location.search)
-    }, [location.search])
-
-    // Pagination
-    let items = []
-    for (let i = 0; i < Math.ceil(count / 6); i++)
-        items.push(
-            <li><a href={"/tour-list?page=" + (i + 1)} className="current">{i + 1}</a></li>
-        )
+        let loadTour = async () => {
+            let res = await API.get(`${endpoints['tours']}${location.search}`)
+            setTourList(res.data.results)
+            setCount(res.data.count)
+        }
+        loadTour()
+      }, [location.search])
 
     /* Function Search Tour */
-    const searchTour = (event, search = `?q=${searchTerm}`) => {
+    const searchTour = (event) => {
         event.preventDefault()
-        API.get(`${endpoints['tours']}${search}`).then(res => {
+        API.get(`${endpoints['tours']}?q=${searchTerm}`).then(res => {
             setSearchRes(res.data.results)
             setCount(res.data.count)
         })
     }
 
+    const [skipFirst, setSkipFirst] = useState(false);
     useEffect(() => {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current)
-        }
-        const searchByPrice = () => {
-            API.get(`${endpoints['tours']}?min=${value[0]}&max=${value[1]}`).then(res => {
+        if (!skipFirst) setSkipFirst(true);
+        if (skipFirst) {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current)
+            }
+
+            let searchByPrice = async () => {
+                let res = await API.get(`${endpoints['tours']}?min=${value[0]}&max=${value[1]}`)
                 setSearchRes(res.data.results)
                 setCount(res.data.count)
-            })
+            }
+
+            timeoutRef.current = setTimeout(() => {
+                searchByPrice()
+            }, 300)
         }
-        timeoutRef.current = setTimeout(() => {
-            searchByPrice()
-        }, 300)
     }, [value])
 
     useEffect(() => {
@@ -131,16 +122,19 @@ export default function TourList() {
         if (duration==="4") { min_d=4; max_d=5;}
         const searchByDuration = () => {
             API.get(`${endpoints['tours']}?min_d=${min_d}&max_d=${max_d}`).then(res => {
+                console.info(res.data)
                 setSearchRes(res.data.results)
                 setCount(res.data.count)
             })
         }
-        searchByDuration()
+        if (duration !== "")
+            searchByDuration()
     }, [duration])
 
     useEffect(() => {
         const searchByCate = () => {
             API.get(`${endpoints['tours']}?category_id=${cate}`).then(res => {
+                console.info(res.data)
                 setSearchRes(res.data.results)
                 setCount(res.data.count)
             })
@@ -152,6 +146,7 @@ export default function TourList() {
     useEffect(() => {
         const searchByRate = () => {
             API.get(`${endpoints['tours']}?rate=${rate}`).then(res => {
+                console.info(res.data)
                 setSearchRes(res.data.results)
                 setCount(res.data.count)
             })
@@ -190,6 +185,13 @@ export default function TourList() {
         </>
         results = <><h3>{searchRes.length} trên {count} kết quả</h3></>
     }
+
+    // Pagination
+    let items = []
+    for (let i = 0; i < Math.ceil(count / 6); i++)
+        items.push(
+            <li><a href={"/tour-list?page=" + (i + 1)}>{i + 1}</a></li>
+        )
     /* End Render */
 
     return (
@@ -241,9 +243,9 @@ export default function TourList() {
                                 <ul className="pagination clearfix">
                                     {items}
                                     <li>
-                                        <a href="/tour.html">
+                                        <Link to="/tour-list">
                                             <i className="fas fa-long-arrow-alt-right" />
-                                        </a>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>
@@ -329,7 +331,8 @@ export default function TourList() {
                                     </div>
                                     <div className="widget-content">
                                     <FormControl component="fieldset">
-                                            <RadioGroup aria-label="duration" name="controlled-radio-buttons-group" value={rate}
+                                            <RadioGroup aria-label="duration" name="controlled-radio-buttons-group" 
+                                            value={rate}
                                             onChange={(event) => setRate(event.target.value)}>
                                                 <FormControlLabel value="1" control={<Radio />} label="1 sao" />
                                                 <FormControlLabel value="2" control={<Radio />} label="2 sao" />
@@ -371,9 +374,9 @@ class TourItem extends React.Component {
                     <div className="inner-box">
                         <figure className="image-box">
                             <img style={{ width: '370px', height: '270px' }} src={this.props.tour.image} alt="ImageTour" />
-                            <a href={'/tour-detail/' + this.props.tour.id} >
+                            <Link to={'/tour-detail/' + this.props.tour.id} >
                                 <i className="fas fa-link" />
-                            </a>
+                            </Link>
                         </figure>
                         <div className="lower-content">
                             <div className="rating">
@@ -383,9 +386,9 @@ class TourItem extends React.Component {
                                 </span>
                             </div>
                             <h3>
-                                <a data-toggle="tooltip" title={this.props.tour.tour_name} href={'/tour-detail/' + this.props.tour.id} >
+                                <Link to={'/tour-detail/' + this.props.tour.id} data-toggle="tooltip" title={this.props.tour.tour_name}>
                                     {this.props.tour.tour_name}
-                                </a>
+                                </Link>
                             </h3>
                             <h4 >
                                 {this.props.tour.price_of_tour.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} <span>/ 1 người</span>
@@ -423,9 +426,9 @@ class TourItem2 extends React.Component {
                             src={this.props.tour.image}
                             alt="ImageTour"
                         />
-                        <a href={'/tour-detail/' + this.props.tour.id} >
+                        <Link to={'/tour-detail/' + this.props.tour.id} >
                             <i className="fas fa-link" />
-                        </a>
+                        </Link>
                     </figure>
                     <div className="content-box">
                         <div className="rating">
@@ -435,9 +438,9 @@ class TourItem2 extends React.Component {
                             </span>
                         </div>
                         <h3>
-                            <a data-toggle="tooltip" title={this.props.tour.tour_name} href={'/tour-detail/' + this.props.tour.id} >
+                            <Link to={'/tour-detail/' + this.props.tour.id} data-toggle="tooltip" title={this.props.tour.tour_name}>
                                 {this.props.tour.tour_name}
-                            </a>
+                            </Link>
                         </h3>
                         <h4>
                         {this.props.tour.price_of_tour.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}<span> / 1 người</span>

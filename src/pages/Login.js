@@ -40,7 +40,8 @@ export default function Login() {
                 "type": "USER_LOGIN",
                 "payload": user.data
             })
-            history.push("/")
+            // history.push("/")
+            history.goBack()
 
         } catch (err) {
             console.error(err)

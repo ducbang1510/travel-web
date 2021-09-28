@@ -43,9 +43,9 @@ export default function Header(props) {
             <div className="menu-area pull-left clearfix">
               <div className="logo-box">
                 <figure className="logo">
-                  <a href="/">
+                  <Link to="/">
                     <img src={logo} alt="ImageLogo" />
-                  </a>
+                  </Link>
                 </figure>
               </div>
               {}
@@ -58,16 +58,19 @@ export default function Header(props) {
                 <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                   <ul className="navigation clearfix">
                     <li className="dropdown">
-                      <a href="/">Trang Chủ</a>
+                      <Link to="/">Trang Chủ</Link>
                     </li>
                     <li className="dropdown">
-                      <a href="/tour-list">Tour</a>
+                      <Link to="/tour-list">Tour</Link>
                     </li>
                     <li className="dropdown">
-                      <a href="/blogs">Tin Tức</a>
+                      <Link to="/blogs">Tin Tức</Link>
                     </li>
                     <li className="dropdown">
-                      <a href="/about-us">Thông Tin</a>
+                      <Link to="/about-us">Thông Tin</Link>
+                    </li>
+                    <li className="dropdown">
+                      <Link to="/contact">Liên Lạc</Link>
                     </li>
                     {r}
                   </ul>
@@ -81,9 +84,9 @@ export default function Header(props) {
                 </Link>
               </li>
               <li className="btn-box">
-                <a href="/tour-list" className="theme-btn">
+                <Link to="/tour-list" className="theme-btn">
                   Đặt Tour
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

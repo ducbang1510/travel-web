@@ -8,6 +8,7 @@ import footerGallery3 from '../static/image/footer-gallery/footer-gallery-3.jpg'
 import footerGallery4 from '../static/image/footer-gallery/footer-gallery-4.jpg'
 import footerGallery5 from '../static/image/footer-gallery/footer-gallery-5.jpg'
 import footerGallery6 from '../static/image/footer-gallery/footer-gallery-6.jpg'
+import { Link } from "react-router-dom";
 class Footer extends React.Component {
   render() {
     return (
@@ -24,41 +25,41 @@ class Footer extends React.Component {
               <div className="col-lg-3 col-md-6 col-sm-12 footer-column">
                 <div className="footer-widget logo-widget">
                   <figure className="footer-logo">
-                    <a href="/">
+                    <Link to="/">
                       <img
                         src={footerLogo}
                         alt="ImageLogo"
                       />
-                    </a>
+                    </Link>
                   </figure>
                   <div className="text">
                     
                   </div>
                   <ul className="social-links clearfix">
                     <li>
-                      <a href="/home.html">
+                      <Link to="/">
                         <i className="fab fa-facebook-f" />
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/home.html">
+                      <Link to="/">
                         <i className="fab fa-twitter" />
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/home.html">
+                      <Link to="/">
                         <i className="fab fa-instagram" />
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/home.html">
+                      <Link to="/">
                         <i className="fab fa-google-plus-g" />
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="/home.html">
+                      <Link to="/">
                         <i className="fab fa-linkedin-in" />
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -71,13 +72,16 @@ class Footer extends React.Component {
                   <div className="widget-content">
                     <ul className="links-list clearfix">
                       <li>
-                        <a href="/about-us">About Us</a>
+                        <Link to="/about-us">About Us</Link>
                       </li>
                       <li>
-                        <a href="/tour-list">Tours</a>
+                        <Link to="/tour-list">Tours</Link>
                       </li>
                       <li>
-                        <a href="/blogs">Tin tức</a>
+                        <Link to="/blogs">Tin Tức</Link>
+                      </li>
+                      <li>
+                        <Link to="/contact">Liên Lạc</Link>
                       </li>
                     </ul>
                   </div>
@@ -92,62 +96,62 @@ class Footer extends React.Component {
                     <ul className="image-list clearfix">
                       <li>
                         <figure className="image-box">
-                          <a href="/">
+                          <Link to="/">
                             <img
                               src={footerGallery1}
                               alt="ImageFooter"
                             />
-                          </a>
+                          </Link>
                         </figure>
                       </li>
                       <li>
                         <figure className="image-box">
-                          <a href="/">
+                          <Link to="/">
                             <img
                               src={footerGallery2}
                               alt="ImageFooter"
                             />
-                          </a>
+                          </Link>
                         </figure>
                       </li>
                       <li>
                         <figure className="image-box">
-                          <a href="/">
+                          <Link to="/">
                             <img
                               src={footerGallery3}
                               alt="ImageFooter"
                             />
-                          </a>
+                          </Link>
                         </figure>
                       </li>
                       <li>
                         <figure className="image-box">
-                          <a href="/">
+                          <Link to="/">
                             <img
                               src={footerGallery4}
                               alt="ImageFooter"
                             />
-                          </a>
+                          </Link>
                         </figure>
                       </li>
                       <li>
                         <figure className="image-box">
-                          <a href="/">
+                          <Link to="/">
                             <img
                               src={footerGallery5}
                               alt="ImageFooter"
                             />
-                          </a>
+                          </Link>
                         </figure>
                       </li>
                       <li>
                         <figure className="image-box">
-                          <a href="/">
+                          <Link to="/">
                             <img
                               src={footerGallery6}
                               alt="ImageFooter"
                             />
-                          </a>
+                          </Link>
                         </figure>
                       </li>
                     </ul>
@@ -167,13 +171,13 @@ class Footer extends React.Component {
                       </li>
                       <li>
                         <i className="fas fa-microphone" />
-                        <a href="tel:0977477916">0977477916</a>
+                        <Link to="tel:0977477916">0977477916</Link>
                       </li>
                       <li>
                         <i className="fas fa-envelope" />
-                        <a href="mailto:1851050006bang@ou.edu.vn">
+                        <Link to="mailto:1851050006bang@ou.edu.vn">
                           1851050006bang@ou.edu.vn
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -187,15 +191,15 @@ class Footer extends React.Component {
             <div className="bottom-inner clearfix">
               <div className="copyright pull-left">
                 <p>
-                  <a href="/home.html">Travio</a> © 2021 All Right Reserved
+                  <Link to="/">Travio</Link> © 2021 All Right Reserved
                 </p>
               </div>
               <ul className="footer-nav pull-right">
                 <li>
-                  <a href="/home.html">Terms of Service</a>
+                  <Link to="/">Terms of Service</Link>
                 </li>
                 <li>
-                  <a href="/home.html">Privacy Policy</a>
+                  <Link to="/">Privacy Policy</Link>
                 </li>
               </ul>
             </div>

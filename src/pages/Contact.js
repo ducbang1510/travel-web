@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
 import shape3 from "../static/image/shape/shape-3.png"
@@ -129,19 +130,19 @@ class ContactSection extends React.Component {
                                     </div>
                                     <ul className="social-links clearfix">
                                         <li>
-                                            <a href="/home.html">
+                                            <Link to="/">
                                                 <i className="fab fa-facebook-f" />
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="/home.html">
+                                            <Link to="/">
                                                 <i className="fab fa-google-plus-g" />
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li>
-                                            <a href="/home.html">
+                                            <Link to="/">
                                                 <i className="fab fa-twitter" />
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>

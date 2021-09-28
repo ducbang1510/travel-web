@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import API, { endpoints } from '../API';
 import PayContext from '../context/PayContext';
 
@@ -7,23 +9,31 @@ import pageTitle2 from '../static/image/background/page-title-2.jpg'
 
 function Booking2(props) {
     const { tourId } = useParams()
-    const payDetails = React.useContext(PayContext)
-    const [tour, setTour] = React.useState([]);
+    const history = useHistory()
+    const payDetails = useContext(PayContext)
+    const [tour, setTour] = useState([]);
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [payments, setPayments] = useState("")
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
 
         const formData = new FormData()
         formData.append('total_amount', payDetails.total)
         formData.append('tour_id', tourId)
-
-        API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then((res) => {
-            console.info(res)
-        }).catch(err => console.error(err))
+        try {
+            let res = await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            console.log(res)
+            if (res.status === 201)
+                setIsSuccess(true)
+        } catch (error) {
+            console.error(error);
+        }
+        history.push(`/tour-detail/${tourId}/booking-3/${isSuccess}`)
     }
 
     useEffect(() => {
@@ -31,6 +41,7 @@ function Booking2(props) {
             try {
                 let res = await API.get(endpoints['tour-details'](tourId))
                 setTour(res.data)
+                console.log(res)
             } catch (error) {
                 console.error(error);
             }
@@ -70,27 +81,28 @@ function Booking2(props) {
                                         <div className="row clearfix">
                                         </div>
                                         <div className="payment-option">
-                                            <h3>Card Info</h3>
+                                            <h3>Hình thức thanh toán</h3>
                                             <div className="row clearfix">
                                                 <div className="col-lg-6 col-md-6 col-sm-12 column">
-                                                    <div className="form-group">
-                                                        <label>Hình thức thanh toán</label>
-                                                        <div class="checkout-button">
-                                                            <input type="radio" />
-                                                            <div class="content">
-                                                                <div class="checkout-title">
-                                                                    Thanh toán bằng <b>Ví MoMo</b>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <FormControl component="fieldset">
+                                                    <FormLabel component="legend">Gender</FormLabel>
+                                                    <RadioGroup
+                                                        aria-label="payment"
+                                                        name="radio-buttons-group"
+                                                        value={payments}
+                                                        onChange={(event) => setPayments(event.target.value)}
+                                                    >
+                                                        <FormControlLabel value="1" control={<Radio />} label="Momo" />
+                                                        <FormControlLabel value="2" control={<Radio />} label="Tiền mặt" />
+                                                    </RadioGroup>
+                                                    </FormControl>
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 column">
                                                     <div className="form-group message-btn clearfix">
-                                                        <a href={"/tour-detail/" + tourId + "/booking-1"} className="theme-btn">
+                                                        <Link to={"/tour-detail/" + tourId + "/booking-1"} className="theme-btn">
                                                             <i className="fas fa-angle-left" />
                                                             Trở lại
-                                                        </a>
+                                                        </Link>
                                                         <button type="submit" className="theme-btn">
                                                             Xác nhận
                                                             <i className="fas fa-angle-right" />

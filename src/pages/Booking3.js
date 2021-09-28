@@ -6,8 +6,8 @@ import PayContext from '../context/PayContext';
 import pageTitle2 from '../static/image/background/page-title-2.jpg'
 
 function Booking3(props) {
-    const { tourId } = useParams()
-    const [tour, setTour] = useState()
+    const { tourId, success } = useParams()
+    const [tour, setTour] = useState([])
     const payDetails = React.useContext(PayContext)
 
     useEffect(() => {
@@ -21,6 +21,47 @@ function Booking3(props) {
         }
         getTour()
     }, [tourId])
+
+    let notification = <></>
+    if (success === true) {
+        notification = <>
+            <div className="confirm-box">
+                <h3>Thanh toán thành công</h3>
+                <div className="inner-box centred">
+                    <div className="icon-box">
+                        <i className="far fa-check-circle" />
+                    </div>
+                    <h3>Cảm ơn đã đặt tour</h3>
+                    <p>
+                        Bạn sẽ nhận được email xác nhận trong thời gian ngắn
+                        <br />
+                        <a href="mailto:1851050006bang@ou.edu.vn">
+                            1851050006bang@ou.edu.vn - khoa.lta.30092000@gmail.com
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </>
+    } else {
+        notification = <>
+            <div className="confirm-box">
+                <h3>Thanh toán thất bại</h3>
+                <div className="inner-box centred">
+                    <div className="icon-box">
+                        <i style={{ color: 'red' }} className="far fa-times-circle" />
+                    </div>
+                    <h3>Vui lòng thử lại</h3>
+                    <p>
+                        Vui lòng đảm bảo tài khoản thanh toán có đủ số tiền
+                        <br />
+                        <a href="mailto:1851050006bang@ou.edu.vn">
+                            1851050006bang@ou.edu.vn - khoa.lta.30092000@gmail.com
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </>
+    }
 
     return (
         <>
@@ -49,22 +90,7 @@ function Booking3(props) {
                                         <span>3.</span>Xác nhận
                                     </li>
                                 </ul>
-                                <div className="confirm-box">
-                                    <h3>Confirmation</h3>
-                                    <div className="inner-box centred">
-                                        <div className="icon-box">
-                                            <i className="far fa-check-circle" />
-                                        </div>
-                                        <h3>Cảm ơn đã đặt tour</h3>
-                                        <p>
-                                            You'll receive an email confirmation shortly at
-                                            <br />
-                                            <a href="mailto:1851050006bang@ou.edu.vn">
-                                                1851050006bang@ou.edu.vn - khoa.lta.30092000@gmail.com
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
+                                {notification}
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-12 col-sm-12 sidebar-side">
