@@ -3,11 +3,12 @@ import { useParams } from "react-router";
 import API, { endpoints } from "../API";
 import cookies from 'react-cookies'
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Rating } from "@mui/material";
 
 import pageTitle3 from "../static/image/background/page-title-3.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
-import { Link } from "react-router-dom";
-import { Rating } from "@mui/material";
+import PreLoader from "../components/PreLoader"
 
 
 export default function TourDetail() {
@@ -91,6 +92,9 @@ export default function TourDetail() {
         }
     }
     /* End Comment Function */
+    if (tour.length === 0) {
+        return <PreLoader />
+    }
 
     return (
         <>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-
-import pageTitle5 from "../static/image/background/page-title-5.jpg"
-import advice1 from "../static/image/advice/advice-1.jpg"
 import API, { endpoints } from '../API';
 import { useLocation } from 'react-router';
 import { Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
+
+import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import advice1 from "../static/image/advice/advice-1.jpg"
+import PreLoader from "../components/PreLoader"
 
 function Blogs(props) {
     const [count, setCount] = useState(1)
@@ -65,6 +66,10 @@ function Blogs(props) {
         items.push(
             <li><Link to={"/blogs?page=" + (i + 1)} className="current">{i + 1}</Link></li>
         )
+
+    if (listBlog.length === 0){
+        return <PreLoader />
+    }
 
     return (
         <>

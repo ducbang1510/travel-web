@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import API, { endpoints } from "../API";
+
 import pageTitle from "../static/image/background/page-title.jpg"
+import PreLoader from "../components/PreLoader"
 
 export default function Gallery() {
     const [listImages, setListImages] = useState([])
@@ -9,13 +11,20 @@ export default function Gallery() {
     const {tourId} = useParams()
 
     useEffect(() => {
-        const getImages = () => {
-            API.get(`${endpoints['tour-images']}?tour_id=${tourId}`).then(res => {
+        let getImages = async () => {
+            try {
+                let res = await API.get(`${endpoints['tour-images']}?tour_id=${tourId}`)
                 setListImages(res.data.results)
-            })
+            } catch (error) {
+                console.error(error)
+            }
         }
         getImages()
     }, [tourId])
+
+    if (listImages.length === 0) {
+        return <PreLoader />
+    }
     
 
     return (

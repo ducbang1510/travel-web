@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import Header from './components/Header'
 import Footer from './components/Footer'
-import PreLoader from './components/PreLoader';
 import ScrollTop from './components/ScrollTop'
 import MobileMenu from './components/MobileMenu';
 import Login from './pages/Login'
@@ -16,9 +16,9 @@ import Booking1 from './pages/Booking1'
 import Booking2 from './pages/Booking2'
 import Booking3 from './pages/Booking3'
 import About from './pages/About'
-import { PayProvider } from './context/PayContext'
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
+import { PayProvider } from './context/PayContext'
 
 export default function App(props) {
 
@@ -26,7 +26,6 @@ export default function App(props) {
     <PayProvider>
     <div className="boxed_wrapper">
       <BrowserRouter>
-        <PreLoader />
         <Header />
         <MobileMenu />
         <Switch>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import API, { endpoints } from '../API';
+import PreLoader from '../components/PreLoader';
 import PayContext from '../context/PayContext';
 
 import pageTitle2 from '../static/image/background/page-title-2.jpg'
@@ -61,6 +62,10 @@ function Booking3(props) {
                 </div>
             </div>
         </>
+    }
+
+    if (tour.length ===  0) {
+        return <PreLoader />
     }
 
     return (

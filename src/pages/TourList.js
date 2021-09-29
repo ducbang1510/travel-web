@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Slider from '@mui/material/Slider';
 import API, { endpoints } from '../API';
-import advice1 from "../static/image/advice/advice-1.jpg"
 import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+
+import advice1 from "../static/image/advice/advice-1.jpg"
+import PreLoader from "../components/PreLoader"
 
 function valuetext(value) {
     return `${value}°C`;
@@ -193,6 +195,9 @@ export default function TourList() {
             <li><a href={"/tour-list?page=" + (i + 1)}>{i + 1}</a></li>
         )
     /* End Render */
+    if (tourList.length === 0) {
+        return <PreLoader />
+    }
 
     return (
         <>

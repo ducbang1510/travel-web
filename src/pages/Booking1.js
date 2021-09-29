@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from "react-router-dom";
 import API, { endpoints } from '../API';
+import { v4 as uuidv4 } from 'uuid';
 import PayContext from '../context/PayContext';
 
 import pageTitle2 from '../static/image/background/page-title-2.jpg'
+import PreLoader from '../components/PreLoader';
 
 function Booking1(props) {
     const history = useHistory()
@@ -14,16 +16,18 @@ function Booking1(props) {
 
     const { tourId } = useParams()
     const [customerForms, setCustomerForms] = useState([{
-        customer: {
-            name: '',
-            gender: '',
-            date_of_birth: '',
-            email: '',
-            phone: '',
-            address: '',
-        }
+        id: uuidv4(),
+        name: '',
+        gender: '',
+        date_of_birth: '',
+        email: '',
+        phone: '',
+        address: '',
     }])
-    const [payer, setPayer] = useState([])
+    const [payerName, setPayerName] = useState()
+    const [payerMail, setPayerMail] = useState()
+    const [payerPhone, setPayerPhone] = useState()
+    const [payerAddress, setPayerAddress] = useState()
 
     const [count, setCount] = useState(1)
 
@@ -40,7 +44,7 @@ function Booking1(props) {
     }, [tourId])
 
     useEffect(() => {
-        payDetails.setTotal(parseFloat(tour.price_of_tour) * (parseInt(payDetails.adults) + parseInt(payDetails.childs)*(75/100)) 
+        payDetails.setTotal(parseFloat(tour.price_of_tour) * (parseInt(payDetails.adults) + parseInt(payDetails.childs) * (75 / 100))
             + parseFloat(tour.price_of_room) * payDetails.rooms)
     }, [payDetails, tour])
 
@@ -50,21 +54,12 @@ function Booking1(props) {
         }
     }
 
-    const handleChange = (idx, field, event) => {
-        customerForms[idx].customer[field] = event.target.value
-        setCustomerForms(customerForms => [...customerForms, { customer: customerForms[idx].customer }])
-    }
-
-    const handlePayerChange = (field, event) => {
-        payer[field] = event.target.value
-        setPayer(payer)
-    }
-
     const addCustomer = async (payerId) => {
-        for(let i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
             const formData = new FormData()
-            for (let field in customerForms[i].customer)
-                formData.append(field, customerForms[i].customer[field])
+            for (let field in customerForms[i])
+                if (field !== 'id')
+                    formData.append(field, customerForms[i][field])
 
             try {
                 let res = await API.post(`${endpoints['payers']}${payerId}/add-customer/`, formData, {
@@ -83,9 +78,11 @@ function Booking1(props) {
         event.preventDefault()
         let pId;
         const formPayer = new FormData()
-        for (let field in payer)
-            formPayer.append(field, payer[field])
-            
+        formPayer.append("name", payerName)
+        formPayer.append("email", payerMail)
+        formPayer.append("phone", payerPhone)
+        formPayer.append("address", payerAddress)
+
         let res = await API.post(endpoints['payers'], formPayer, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -95,66 +92,48 @@ function Booking1(props) {
         pId = res.data.id
         payDetails.setPayerId(pId)
         addCustomer(pId)
-        
+
         history.push(`/tour-detail/${tourId}/booking-2`)
     }
-    
-    useEffect(() => {
-        if(count > 0)
-            for (let i = 0; i < count; i++)
-                setCustomerForms(customerForms => [...customerForms, {
-                    customer: {
-                        name: '',
-                        gender: '',
-                        date_of_birth: '',
-                        email: '',
-                        phone: '',
-                        address: '',
-                    }
-                }])
-    }, [count])
 
     useEffect(() => {
-        if(payDetails.adults > -1 && payDetails.childs > -1)
+        if (payDetails.adults > -1 && payDetails.childs > -1)
             setCount(parseInt(payDetails.adults) + parseInt(payDetails.childs))
     }, [payDetails.adults, payDetails.childs])
 
-    const createFields = (num) => {
-        let forms = []
-        for (let i = 0; i < num; i++) {
-            forms.push(
-                <>
-                    <h3 style={{marginTop: '24px'}}>Khách Hàng #{i+1}</h3>
-                        <div className="row clearfix">
-                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" 
-                                field={customerForms[i].customer.name} change={(event) =>handleChange(i, "name", event)}/>
-                                {/* <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Giới tính" type="text" 
-                                field={customerForms[i].customer.gender} change={(event) =>handleChange(i, "gender", event)}/> */}
-                                <div className="col-lg-6 col-md-6 col-sm-12 column">
-                                    <div className="form-group">
-                                        <label>Giới tính</label>
-                                        <Select
-                                        value={customerForms[i].customer.gender}
-                                        onChange={(event) =>handleChange(i, "gender", event)}
-                                        displayEmpty
-                                        inputProps={{ 'aria-label': 'Without label' }}
-                                        >
-                                            <MenuItem value={"Nam"}>Nam</MenuItem>
-                                            <MenuItem value={"Nữ"}>Nữ</MenuItem>
-                                        </Select>
-                                    </div>
-                                </div>
-                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text" 
-                                field={customerForms[i].customer.email} change={(event) =>handleChange(i, "email", event)}/>
-                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" 
-                                field={customerForms[i].customer.phone} change={(event) =>handleChange(i, "phone", event)} keyPress={numberValidate}/>
-                                <CustomeInput classname="col-lg-12 col-md-12 col-sm-12 column" label="Địa chỉ" type="text" 
-                                field={customerForms[i].customer.address} change={(event) =>handleChange(i, "address", event)}/>
-                        </div>
-                </>
-            )
+    useEffect(() => {
+        let newInPut = []
+        setCount(Number(payDetails.adults) + Number(payDetails.childs))
+
+        if (count !== Number(payDetails.adults) + Number(payDetails.childs)) {
+            for (let i = 0; i < (Number(payDetails.adults) + Number(payDetails.childs)); i++) {
+                newInPut = [...newInPut, { id: uuidv4(), name: '', gender: '', date_of_birth: '', email: '', phone: '', address: '' }]
+            }
+
+            let v = []
+            if (newInPut.length) {
+                newInPut.forEach(n => {
+                    v.push(n)
+                    console.log(n)
+                })
+                setCustomerForms(v)
+            }
         }
-        return forms
+    }, [payDetails.adults, payDetails.childs, count])
+
+    const handleCustomerChange = (id, event) => {
+        const newCustomerForms = customerForms.map(i => {
+            if (id === i.id) {
+                i[event.target.name] = event.target.value
+            }
+            return i;
+        })
+
+        setCustomerForms(newCustomerForms);
+    }
+
+    if (tour.length === 0) {
+        return <PreLoader />
     }
 
     return (
@@ -191,7 +170,7 @@ function Booking1(props) {
                                                 <div className="form-group">
                                                     <label>Số phòng</label>
                                                     <input id="room" type="text" value={payDetails.rooms} onKeyPress={numberValidate}
-                                                    onChange={event => payDetails.setRooms(event.target.value)} />
+                                                        onChange={event => payDetails.setRooms(event.target.value)} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-6 col-md-6 col-sm-12 column">
@@ -199,33 +178,64 @@ function Booking1(props) {
                                             <div className="col-lg-6 col-md-6 col-sm-12 column">
                                                 <div className="form-group">
                                                     <label>Người lớn</label>
-                                                    <input id="adult" type="text" value={payDetails.adults} onKeyPress={numberValidate} 
-                                                    onChange={event => payDetails.setAdults(event.target.value)} />
+                                                    <input id="adult" type="text" value={payDetails.adults} onKeyPress={numberValidate}
+                                                        onChange={event => payDetails.setAdults(event.target.value)} />
                                                 </div>
                                             </div>
                                             <div className="col-lg-6 col-md-6 col-sm-12 column">
                                                 <div className="form-group">
                                                     <label>Trẻ em</label>
-                                                    <input id="children" type="text" value={payDetails.childs} onKeyPress={numberValidate} 
-                                                    onChange={event => payDetails.setChilds(event.target.value)} />
+                                                    <input id="children" type="text" value={payDetails.childs} onKeyPress={numberValidate}
+                                                        onChange={event => payDetails.setChilds(event.target.value)} />
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
-                                    
+
                                     <form className="processing-form" onSubmit={handleSubmit}>
                                         <h3>Thông tin liên hệ</h3>
-                                            <div className="row clearfix">
-                                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" 
-                                                field={payer.name} change={(event) =>handlePayerChange("name", event)}/>
-                                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text" 
-                                                field={payer.email} change={(event) =>handlePayerChange("email", event)}/>
-                                                <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" 
-                                                field={payer.phone} change={(event) =>handlePayerChange("phone", event)} keyPress={numberValidate}/>
-                                                <CustomeInput classname="col-lg-12 col-md-12 col-sm-12 column" label="Địa chỉ" type="text" 
-                                                field={payer.address} change={(event) =>handlePayerChange("address", event)}/>
+                                        <div className="row clearfix">
+                                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" name="name"
+                                                field={payerName} change={(event) => setPayerName(event.target.value)} />
+                                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text" name="email"
+                                                field={payerMail} change={(event) => setPayerMail(event.target.value)} />
+                                            <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" name="phone"
+                                                field={payerPhone} change={(event) => setPayerPhone(event.target.value)} keyPress={numberValidate} />
+                                            <CustomeInput classname="col-lg-12 col-md-12 col-sm-12 column" label="Địa chỉ" type="text" name="address"
+                                                field={payerAddress} change={(event) => setPayerAddress(event.target.value)} />
+                                        </div>
+
+                                        {customerForms.map((customerForm, idx) => (
+                                            <div key={customerForm.id}>
+                                                <h3 style={{ marginTop: '24px' }}>Khách Hàng #{idx + 1}</h3>
+                                                <div className="row clearfix">
+                                                    <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" name="name"
+                                                        field={customerForm.name} change={event => handleCustomerChange(customerForm.id, event)} />
+                                                    <div className="col-lg-6 col-md-6 col-sm-12 column">
+                                                        <div className="form-group">
+                                                            <label>Giới tính</label>
+                                                            <Select
+                                                                name="gender"
+                                                                value={customerForm.gender}
+                                                                onChange={event => handleCustomerChange(customerForm.id, event)}
+                                                                displayEmpty
+                                                                inputProps={{ 'aria-label': 'Without label' }}
+                                                            >
+                                                                <MenuItem value={"Nam"}>Nam</MenuItem>
+                                                                <MenuItem value={"Nữ"}>Nữ</MenuItem>
+                                                            </Select>
+                                                        </div>
+                                                    </div>
+                                                    <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text" name="email"
+                                                        field={customerForm.email} change={event => handleCustomerChange(customerForm.id, event)} />
+                                                    <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" name="phone"
+                                                        field={customerForm.phone} change={event => handleCustomerChange(customerForm.id, event)} keyPress={numberValidate} />
+                                                    <CustomeInput classname="col-lg-12 col-md-12 col-sm-12 column" label="Địa chỉ" type="text" name="address"
+                                                        field={customerForm.address} change={event => handleCustomerChange(customerForm.id, event)} />
+                                                </div>
                                             </div>
-                                        {createFields(count)}
+                                        ))}
+
                                         <div className="col-lg-12 col-md-12 col-sm-12 column">
                                             <div className="form-group message-btn text-right">
                                                 <button type="submit" className="theme-btn">
@@ -271,15 +281,15 @@ function Booking1(props) {
                                             Khách: <span>{payDetails.adults} người lớn, {payDetails.childs} trẻ em</span>
                                         </li>
                                         <li>
-                                            <i className="fas fa-money-bill"/>
-                                            Trẻ em: <span>{parseFloat(tour.price_of_tour) * (75/100)} đ</span>
+                                            <i className="fas fa-money-bill" />
+                                            Trẻ em: <span>{parseFloat(tour.price_of_tour) * (75 / 100)} đ</span>
                                         </li>
                                         <li>
-                                            <i className="fas fa-money-bill"/>
+                                            <i className="fas fa-money-bill" />
                                             Người lớn: <span>{tour.price_of_tour} đ</span>
                                         </li>
                                         <li>
-                                            <i className="fas fa-money-bill"/>
+                                            <i className="fas fa-money-bill" />
                                             Tiền phòng: <span>{tour.price_of_room} đ</span>
                                         </li>
                                     </ul>
@@ -305,10 +315,11 @@ class CustomeInput extends React.Component {
                 <div className={this.props.classname}>
                     <div className="form-group">
                         <label>{this.props.label}</label>
-                        <input type={this.props.type} 
-                        value={this.props.field}
-                        onChange={this.props.change} 
-                        onKeyPress={this.props.keyPress}/>
+                        <input type={this.props.type}
+                            name={this.props.name}
+                            value={this.props.field}
+                            onChange={this.props.change}
+                            onKeyPress={this.props.keyPress} />
                     </div>
                 </div>
             </>

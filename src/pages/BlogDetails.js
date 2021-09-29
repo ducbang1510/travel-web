@@ -3,12 +3,13 @@ import { useParams } from 'react-router';
 import API, { endpoints } from '../API';
 import { useSelector } from 'react-redux';
 import cookies from 'react-cookies'
-
-import pageTitle5 from "../static/image/background/page-title-5.jpg"
-import advice1 from "../static/image/advice/advice-1.jpg"
 import { Link } from 'react-router-dom';
 import { Avatar, Button } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+
+import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import advice1 from "../static/image/advice/advice-1.jpg"
+import PreLoader from "../components/PreLoader"
 
 function BlogDetails(props) {
     const [blog, setBlog] = useState([])
@@ -123,6 +124,10 @@ function BlogDetails(props) {
         }
         loadNewestBlogs()
     }, [])
+
+    if (blog.length === 0) {
+        return <PreLoader />
+    }
 
     return (
         <>
@@ -308,10 +313,13 @@ class CommentItem extends React.Component {
                     <p>
                         {this.props.comment.content}
                     </p>
-                    <Link to="true" className="reply-btn">
+                    <div>
+                        Bình luận bởi: {this.props.comment.user.username}
+                    </div>
+                    {/* <Link to="true" className="reply-btn">
                         <i className="fas fa-share" />
                         Reply
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
         )

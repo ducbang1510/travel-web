@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import API, { endpoints } from '../API';
+import PreLoader from '../components/PreLoader';
 import PayContext from '../context/PayContext';
 
 import pageTitle2 from '../static/image/background/page-title-2.jpg'
@@ -48,6 +49,10 @@ function Booking2(props) {
         }
         getTour()
     }, [tourId])
+
+    if (tour.length ===  0) {
+        return <PreLoader />
+    }
 
     return (
         <>
