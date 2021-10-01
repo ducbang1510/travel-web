@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import API, { endpoints } from '../API';
 import PreLoader from '../components/PreLoader';
 import PayContext from '../context/PayContext';
@@ -7,9 +7,12 @@ import PayContext from '../context/PayContext';
 import pageTitle2 from '../static/image/background/page-title-2.jpg'
 
 function Booking3(props) {
-    const { tourId, success } = useParams()
+    const { tourId } = useParams()
     const [tour, setTour] = useState([])
+    const [resultCode, setResultCode] = useState(-1)
     const payDetails = React.useContext(PayContext)
+
+    const location = useLocation()
 
     useEffect(() => {
         let getTour = async () => {
@@ -23,8 +26,22 @@ function Booking3(props) {
         getTour()
     }, [tourId])
 
+    useEffect(() => {
+        console.log(location.search)
+        let getConfirm = async () => {
+            try {
+                let res = await API.get(`${endpoints['confirm-payment']}${location.search}`)
+                console.log(res)
+                setResultCode(res.data.rCode)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getConfirm()
+    }, [location.search])
+
     let notification = <></>
-    if (success === true) {
+    if (resultCode === 1) {
         notification = <>
             <div className="confirm-box">
                 <h3>Thanh toán thành công</h3>
@@ -64,7 +81,7 @@ function Booking3(props) {
         </>
     }
 
-    if (tour.length ===  0) {
+    if (tour.length ===  0 || resultCode === -1) {
         return <PreLoader />
     }
 

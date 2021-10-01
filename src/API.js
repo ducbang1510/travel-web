@@ -21,7 +21,8 @@ export let endpoints = {
     'current-user': '/users/current-user/',
     'login': '/o/token/',
     'oAuthInfo': '/oauth2-info/',
-    'payment': 'https://test-payment.momo.vn/gw_payment/transactionProcessor',
+    'payment': '/payment/',
+    'confirm-payment': '/confirm-payment/',
 }
 
 export default axios.create({

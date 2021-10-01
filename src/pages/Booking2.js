@@ -1,6 +1,6 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import API, { endpoints } from '../API';
 import PreLoader from '../components/PreLoader';
@@ -10,10 +10,9 @@ import pageTitle2 from '../static/image/background/page-title-2.jpg'
 
 function Booking2(props) {
     const { tourId } = useParams()
-    const history = useHistory()
     const payDetails = useContext(PayContext)
     const [tour, setTour] = useState([]);
-    const [isSuccess, setIsSuccess] = useState(false)
+    // const [isSuccess, setIsSuccess] = useState(false)
     const [payments, setPayments] = useState("")
 
     const handleSubmit = async (event) => {
@@ -22,19 +21,25 @@ function Booking2(props) {
         const formData = new FormData()
         formData.append('total_amount', payDetails.total)
         formData.append('tour_id', tourId)
+        let urlPayment = ""
         try {
-            let res = await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
+            await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            console.log(res)
-            if (res.status === 201)
-                setIsSuccess(true)
+            
+            let res = await API.post(endpoints['payment'], formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            urlPayment = res.data.payUrl
         } catch (error) {
             console.error(error);
         }
-        history.push(`/tour-detail/${tourId}/booking-3/${isSuccess}`)
+        if (urlPayment !== "")
+            window.location.href = urlPayment;
     }
 
     useEffect(() => {
