@@ -12,7 +12,7 @@ function Booking2(props) {
     const { tourId } = useParams()
     const payDetails = useContext(PayContext)
     const [tour, setTour] = useState([]);
-    // const [isSuccess, setIsSuccess] = useState(false)
+    const [note, setNote] = useState("");
     const [payments, setPayments] = useState("")
 
     const handleSubmit = async (event) => {
@@ -21,6 +21,8 @@ function Booking2(props) {
         const formData = new FormData()
         formData.append('total_amount', payDetails.total)
         formData.append('tour_id', tourId)
+        formData.append('note', note)
+        formData.append('payer_id', payDetails.payerId)
         let urlPayment = ""
         try {
             await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
@@ -89,6 +91,13 @@ function Booking2(props) {
                                 <div className="inner-box">
                                     <form onSubmit={handleSubmit} className="processing-form">
                                         <div className="row clearfix">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 column">
+                                                <div className="form-group">
+                                                    <label>Ghi chú</label>
+                                                    <textarea id="message" defaultValue={""} 
+                                                    value={note} onChange={(event) => setNote(event.target.value)} />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="payment-option">
                                             <h3>Hình thức thanh toán</h3>

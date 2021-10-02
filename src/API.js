@@ -14,6 +14,7 @@ export let endpoints = {
     'like': (blogId) => `/blogs/${blogId}/like/`,
     'newest-blogs': '/blogs/newest/',
     'payers': '/payers/',
+    'get-payer': (payerId) => `/payers/${payerId}`,
     'comments': (blogId) => `/blogs/${blogId}/comments/`,
     'add-comment-blog': (blogId) => `/blogs/${blogId}/add-comment/`,
     'rating': (tourId) => `/tours/${tourId}/rating/`,

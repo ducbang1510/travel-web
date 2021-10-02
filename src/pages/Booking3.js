@@ -41,7 +41,7 @@ function Booking3(props) {
     }, [location.search])
 
     let notification = <></>
-    if (resultCode === 1) {
+    if (resultCode === 0) {
         notification = <>
             <div className="confirm-box">
                 <h3>Thanh toán thành công</h3>
