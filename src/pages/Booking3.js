@@ -81,7 +81,7 @@ function Booking3(props) {
         </>
     }
 
-    if (tour.length ===  0 || resultCode === -1) {
+    if (tour.length ===  0 || notification === <></>) {
         return <PreLoader />
     }
 
