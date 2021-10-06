@@ -301,7 +301,7 @@ class CommentItem extends React.Component {
                 <figure className="thumb-box">
                     <Avatar
                         alt="ImageComment"
-                        src={this.props.comment.user.avatar}
+                        src={this.props.comment.user.avatar_url}
                         sx={{ width: 70, height: 70 }}
                     />
                 </figure>
@@ -316,10 +316,6 @@ class CommentItem extends React.Component {
                     <div>
                         Bình luận bởi: {this.props.comment.user.username}
                     </div>
-                    {/* <Link to="true" className="reply-btn">
-                        <i className="fas fa-share" />
-                        Reply
-                    </Link> */}
                 </div>
             </div>
         )
