@@ -166,33 +166,33 @@ export default function TourList() {
         tours = <>
             <div className="tour-grid-content">
                 <div className="row clearfix">
-                    {tourList.map(t => <TourItem tour={t} />)}
+                    {tourList.map(t => <TourItem tour={t} key={t.id} />)}
                 </div>
             </div>
             <div className="tour-list-content list-item">
-                {tourList.map(t => <TourItem2 tour={t} />)}
+                {tourList.map(t => <TourItem2 tour={t} key={t.id} />)}
             </div>
         </>
-        results = <><h3>{tourList.length} trên {count} kết quả</h3></>
+        results = <><h3>Hiển thị {tourList.length} trên {count} kết quả</h3></>
     } else {
         tours = <>
             <div className="tour-grid-content">
                 <div className="row clearfix">
-                    {searchRes.map(t => <TourItem tour={t} />)}
+                    {searchRes.map(t => <TourItem tour={t} key={t.id} />)}
                 </div>
             </div>
             <div className="tour-list-content list-item">
-                {searchRes.map(t => <TourItem2 tour={t} />)}
+                {searchRes.map(t => <TourItem2 tour={t} key={t.id} />)}
             </div>
         </>
-        results = <><h3>{searchRes.length} trên {count} kết quả</h3></>
+        results = <><h3>Hiển thị {searchRes.length} trên {count} kết quả</h3></>
     }
 
     // Pagination
     let items = []
     for (let i = 0; i < Math.ceil(count / 6); i++)
         items.push(
-            <li><a href={"/tour-list?page=" + (i + 1)}>{i + 1}</a></li>
+            <li key={i}><a href={"/tour-list?page=" + (i + 1)}>{i + 1}</a></li>
         )
     /* End Render */
     if (tourList.length === 0) {
@@ -283,7 +283,7 @@ export default function TourList() {
                                         <FormControl component="fieldset">
                                             <RadioGroup aria-label="category" name="controlled-radio-buttons-group" value={cate}
                                             onChange={handleCateChange}>
-                                                {categories.map(c => <FormControlLabel value={c.id} control={<Radio />} label={c.name} />)}
+                                                {categories.map(c => <FormControlLabel key={c.id} value={c.id} control={<Radio />} label={c.name} />)}
                                             </RadioGroup>
                                         </FormControl>
                                     </div>

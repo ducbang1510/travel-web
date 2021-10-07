@@ -4,7 +4,7 @@ import API, { endpoints } from "../API";
 import cookies from 'react-cookies'
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Rating } from "@mui/material";
+import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Rating, Typography } from "@mui/material";
 
 import pageTitle3 from "../static/image/background/page-title-3.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
@@ -18,6 +18,8 @@ export default function TourDetail() {
     const [rating, setRating] = useState(0)
 
     const [comment, setComment] = useState("")
+    const [listComment, setListComment] = useState([])
+    const [commentChange, setCommentChange] = useState(0)
 
     const { tourId } = useParams()
 
@@ -38,8 +40,18 @@ export default function TourDetail() {
                 console.error(error)
             }
         }
+
+        let getComments = async() => {
+            try {
+                let res = await API.get(endpoints['tour-comments'](tourId))
+                setListComment(res.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        getComments()
         getTour()
-    }, [tourId])
+    }, [tourId, commentChange])
 
     /* Handle Comment Function */
     const handleChange = (event) => {
@@ -81,6 +93,10 @@ export default function TourDetail() {
                         'Authorization': `Bearer ${cookies.load('access_token')}`
                     }
                 })
+                console.log(res.data)
+                listComment.push(res.data)
+                setListComment(listComment)
+                setCommentChange(listComment.length)
                 if (res.status === 201)
                     alert("Cảm ơn đã để lại bình luận về tour")
             } catch (error) {
@@ -144,10 +160,10 @@ export default function TourDetail() {
                                 </div>
                                 <div className="photo-gallery">
                                     <div className="text">
-                                        <a style={{color: "black", fontSize: "30px", fontWeight: "600"}} href={"/tour-detail/" + tourId + "/gallery"}>
+                                        <Link style={{color: "black", fontSize: "30px", fontWeight: "600"}} to={"/tour-detail/" + tourId + "/gallery"}>
                                             Bộ sưu tập ảnh <span> </span>
                                             <i className="fas fa-arrow-right"></i>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className="comment-box">
@@ -159,6 +175,7 @@ export default function TourDetail() {
                                         onChange={addRating}
                                         />
                                     </div>
+                                    <div>
                                     <form onSubmit={addComment} className="comment-form">
                                         <div className="row clearfix">
                                             <div className="col-lg-12 col-md-12 col-sm-12 form-group">
@@ -170,6 +187,15 @@ export default function TourDetail() {
                                             </div>
                                         </div>
                                     </form>
+                                    </div>
+                                    <hr />
+                                    <div className="group-title">
+                                        <h2>{listComment.length} Bình luận</h2>
+                                    </div>
+
+                                    <List sx={{ width: '100%',maxWidth: 800, bgcolor: 'background.paper', }}>
+                                        {listComment.map(c => <CommentItem key={c.id} comment={c} />)}
+                                    </List>
                                 </div>
                             </div>
                         </div>
@@ -177,22 +203,22 @@ export default function TourDetail() {
                             <div className="default-sidebar tour-sidebar ml-20">
                                 <div className="sidebar-widget downloads-widget">
                                     <div className="widget-title">
-                                        <h3>Downloads</h3>
+                                        <h3>Tải xuống</h3>
                                     </div>
                                     <div className="widget-content">
                                         <ul className="download-links clearfix">
                                             <li>
-                                                <Link to="/destination-details.html">Travel Direction
+                                                <Link to="/">Hướng dẫn
                                                     <i className="fas fa-download"></i>
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to="/destination-details.html">Documetation
+                                                <Link to="/">Tài liệu du lịch
                                                     <i className="fas fa-download"></i>
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to="/destination-details.html">Logo & Assets
+                                                <Link to="/">Logo & Nội dung
                                                     <i className="fas fa-download"></i>
                                                 </Link>
                                             </li>
@@ -222,4 +248,59 @@ export default function TourDetail() {
             </section>
         </>
     )
+}
+class CommentItem extends React.Component {
+    render() {
+        return (
+            <>
+                <Divider component="li" />
+                <li>
+                    <Typography
+                    sx={{ mt: 0.5, ml: 13 }}
+                    color="text.primary"
+                    display="block"
+                    variant="caption"
+                    >
+                    {this.props.comment.created_date}
+                    </Typography>
+                </li>
+                <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                    <Avatar
+                            alt="ImageComment"
+                            src={this.props.comment.user.avatar_url}
+                            sx={{ width: 70, height: 70 }}
+                        />
+                    </ListItemAvatar>
+                    <ListItemText style={{ paddingLeft: 20 }}
+                        // primary={this.props.comment.user.username}
+                        primary={
+                            <React.Fragment>
+                              <Typography
+                                sx={{ display: 'inline' }}
+                                component="span"
+                                variant="body1"
+                                color="text.primary"
+                              >
+                                {this.props.comment.user.username}
+                              </Typography>
+                            </React.Fragment>
+                        }
+                        secondary={
+                            <React.Fragment>
+                              <Typography
+                                sx={{ display: 'inline' }}
+                                component="span"
+                                variant="body1"
+                                color="text.primary"
+                              >
+                                {this.props.comment.content}
+                              </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>
+            </>
+        )
+    }
 }

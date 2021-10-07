@@ -53,18 +53,18 @@ function Blogs(props) {
 
     if (searchRes.length === 0) {
         blogs = <>
-            {listBlog.map(b => <BlogItem blog={b} />)}
+            {listBlog.map(b => <BlogItem key={b.id} blog={b} />)}
         </>
     } else {
         blogs = <>
-            {searchRes.map(b => <BlogItem blog={b} />)}
+            {searchRes.map(b => <BlogItem key={b.id} blog={b} />)}
         </>
     }
 
     let items = []
     for(let i = 0; i < Math.ceil(count/5); i++)
         items.push(
-            <li><Link to={"/blogs?page=" + (i + 1)} className="current">{i + 1}</Link></li>
+            <li key={i}><Link to={"/blogs?page=" + (i + 1)} className="current">{i + 1}</Link></li>
         )
 
     if (listBlog.length === 0){
@@ -121,26 +121,26 @@ function Blogs(props) {
                                 </div>
                                 <div className="sidebar-widget category-widget">
                                     <div className="widget-title">
-                                        <h3>Categories</h3>
+                                        <h3>Phân Loại</h3>
                                     </div>
                                     <div className="widget-content">
                                         <ul className="category-list clearfix">
                                             <li>
                                                 <Link to="/blog-details">
                                                     <i className="fas fa-long-arrow-alt-right" />
-                                                    Travel Direction
+                                                    Văn Hóa
                                                 </Link>
                                             </li>
                                             <li>
                                                 <Link to="/blog-details">
                                                     <i className="fas fa-long-arrow-alt-right" />
-                                                    Documetation
+                                                    Du Lịch
                                                 </Link>
                                             </li>
                                             <li>
                                                 <Link to="/blog-details">
                                                     <i className="fas fa-long-arrow-alt-right" />
-                                                    Logo & Assets
+                                                    Kinh Nghiệm
                                                 </Link>
                                             </li>
                                         </ul>
@@ -152,7 +152,7 @@ function Blogs(props) {
                                     </div>
                                     <div className="post-inner">
                                         {lastestBlogs.map(blog =>
-                                            <div className="post">
+                                            <div className="post" key={blog.id}>
                                                 <figure className="post-thumb">
                                                     <Link to={"/blog-details/" + blog.id}>
                                                         <Avatar

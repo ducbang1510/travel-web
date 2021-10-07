@@ -48,7 +48,7 @@ function BlogDetails(props) {
 
         let getComments = async() => {
             try {
-                let res = await API.get(endpoints['comments'](blogId))
+                let res = await API.get(endpoints['blog-comments'](blogId))
                 setListComment(res.data)
             } catch (error) {
                 console.error(error)
@@ -149,7 +149,7 @@ function BlogDetails(props) {
                                     <div className="inner-box">
                                         <div className="lower-content">
                                             <div className="category">
-                                                <Link to="true">
+                                                <Link to="/">
                                                 <span className="post-date">
                                                     <i className="far fa-calendar-alt" />
                                                     {blog.created_date}
@@ -159,15 +159,15 @@ function BlogDetails(props) {
                                             <h2>{blog.title}</h2>
                                             <ul className="post-info clearfix">
                                                 <li>
-                                                    <span>Theo</span> <Link>{blog.author}</Link>
+                                                    <span>Theo</span> <Link to="/">{blog.author}</Link>
                                                 </li>
                                                 <li>-</li>
                                                 <li className="comment">
-                                                    <Link>{listComment.length} Bình luận</Link>
+                                                    <Link to="/">{listComment.length} Bình luận</Link>
                                                 </li>
                                                 <li>-</li>
                                                 <li>
-                                                    <Link>{blog.likes} likes</Link>
+                                                    <Link to="/">{blog.likes} likes</Link>
                                                 </li>
                                             </ul>
                                             <Button onClick={addLike} variant={stylebtLike} startIcon={<ThumbUpIcon />}>
@@ -252,7 +252,7 @@ function BlogDetails(props) {
                                     </div>
                                     <div className="post-inner">
                                         {lastestBlogs.map(blog =>
-                                            <div className="post">
+                                            <div className="post" key={blog.id}>
                                                 <figure className="post-thumb">
                                                     <Link to={"/blog-details/" + blog.id}>
                                                         <Avatar
@@ -263,7 +263,7 @@ function BlogDetails(props) {
                                                     </Link>
                                                 </figure>
                                                 <span className="post-date">{blog.created_date}</span>
-                                                <h4>
+                                                <h4 data-toggle="tooltip" title={blog.title}>
                                                     <Link to={"/blog-details/" + blog.id}>
                                                         {blog.title}
                                                     </Link>
@@ -307,7 +307,6 @@ class CommentItem extends React.Component {
                 </figure>
                 <div className="comment-inner">
                     <div className="comment-info clearfix">
-                        <h5>{this.props.comment.name_author}</h5>
                         <span className="post-date">{this.props.comment.created_date}</span>
                     </div>
                     <p>

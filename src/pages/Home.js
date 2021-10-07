@@ -56,7 +56,7 @@ export default function Home(props) {
                         <h2>Những Tour Phổ Biến</h2>
                     </div>
                     <div className="row clearfix">
-                        {tourList.map(t => <TourItem tour={t} />)}
+                        {tourList.map(t => <TourItem key={t.id} tour={t} />)}
                     </div>
                 </div>
             </section>
@@ -80,7 +80,7 @@ export default function Home(props) {
                         </Link>
                     </div>
                     <div className="row clearfix">
-                        {listBlog.map(b => <BlogItem blog={b} />)}
+                        {listBlog.map(b => <BlogItem key={b.id} blog={b} />)}
                     </div>
                 </div>
             </section>
@@ -109,7 +109,7 @@ class TourItem extends React.Component {
                                         {this.props.tour.rating}
                                     </span>
                                 </div>
-                                <h3>
+                                <h3 data-toggle="tooltip" title={this.props.tour.tour_name}> 
                                     <a href={'/tour-detail/' + this.props.tour.id}>{this.props.tour.tour_name}</a>
                                 </h3>
                                 <h4>

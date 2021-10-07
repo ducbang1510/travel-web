@@ -24,10 +24,10 @@ function Booking1(props) {
         phone: '',
         address: '',
     }])
-    const [payerName, setPayerName] = useState()
-    const [payerMail, setPayerMail] = useState()
-    const [payerPhone, setPayerPhone] = useState()
-    const [payerAddress, setPayerAddress] = useState()
+    const [payerName, setPayerName] = useState("")
+    const [payerMail, setPayerMail] = useState("")
+    const [payerPhone, setPayerPhone] = useState("")
+    const [payerAddress, setPayerAddress] = useState("")
 
     const [count, setCount] = useState(1)
 

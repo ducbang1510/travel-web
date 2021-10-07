@@ -1,4 +1,4 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -94,7 +94,7 @@ function Booking2(props) {
                                             <div className="col-lg-12 col-md-12 col-sm-12 column">
                                                 <div className="form-group">
                                                     <label>Ghi chú</label>
-                                                    <textarea id="message" defaultValue={""} 
+                                                    <textarea id="message"
                                                     value={note} onChange={(event) => setNote(event.target.value)} />
                                                 </div>
                                             </div>
@@ -104,7 +104,6 @@ function Booking2(props) {
                                             <div className="row clearfix">
                                                 <div className="col-lg-6 col-md-6 col-sm-12 column">
                                                     <FormControl component="fieldset">
-                                                    <FormLabel component="legend">Gender</FormLabel>
                                                     <RadioGroup
                                                         aria-label="payment"
                                                         name="radio-buttons-group"

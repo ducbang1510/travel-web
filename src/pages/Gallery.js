@@ -41,7 +41,7 @@ export default function Gallery() {
             <section className="gallery-section">
                 <div className="auto-container">
                     <div className="row clearfix">
-                        {listImages.map(i => <ImageItem image={i} />)}
+                        {listImages.map(i => <ImageItem key={i.id} image={i} />)}
                     </div>
                 </div>
             </section>
