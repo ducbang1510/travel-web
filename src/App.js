@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+// import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -41,6 +42,7 @@ export default function App(props) {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
         </Switch>
+        {/* <MessengerCustomerChat pageId="109975688121009" appId="165936822365195"/> */}
         <Footer />
         <ScrollTop />
       </BrowserRouter>

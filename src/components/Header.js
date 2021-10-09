@@ -60,7 +60,7 @@ export default function Header(props) {
                 {}
                 <div className="header-lower">
                     <div className="outer-box clearfix">
-                        <div div className="nav menu-area pull-left clearfix">
+                        <div className="menu-area pull-left clearfix">
                             <div className="logo-box">
                                 <figure className="logo">
                                     <Link to="/">
@@ -69,7 +69,6 @@ export default function Header(props) {
                                 </figure>
                             </div>
                           {}
-
                           <div className="mobile-nav-toggler" onClick={() => {setIsOpen(!isOpen)}}>
                               <i className="icon-bar" />
                               <i className="icon-bar" />
@@ -102,7 +101,7 @@ export default function Header(props) {
 
                         <ul className="menu-right-content pull-right clearfix">
                             <li className="user-link">
-                                <Link to="/login">
+                                <Link to="/login" toggle="tooltip" title={"Đăng nhập"}>
                                     <i className="far fa-user" />
                                 </Link>
                             </li>
@@ -117,42 +116,32 @@ export default function Header(props) {
             </header>
 
             <div className="mobile-menu">
-                <div class="menu-backdrop" onClick={() => {setIsOpen(!isOpen)}}></div>
+                <div className="menu-backdrop" onClick={() => {setIsOpen(!isOpen)}}></div>
 
                 <div className="nav__mobile-close close-btn" onClick={() => {setIsOpen(!isOpen)}}>
                     <i className="fas fa-times" />
                 </div>
 
-                <nav class="menu-box">
-                    <div class="nav-logo">
-                        <a href="/">
+                <nav className="menu-box">
+                    <div className="nav-logo">
+                        <Link to="/">
                             <img src={logo2} alt="ImageLogo"/>
-                        </a>
+                        </Link>
                     </div>
-                    <div class="menu-outer">
+                    <div className="menu-outer">
                         <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                             <ul className="navigation clearfix">
-                              <li className="dropdown">
-                                <Link to="/">Trang Chủ</Link>
-                              </li>
-                              <li className="dropdown">
-                                <Link to="/tour-list">Tour</Link>
-                              </li>
-                              <li className="dropdown">
-                                <Link to="/blogs">Tin Tức</Link>
-                              </li>
-                              <li>
-                                <Link to="/about-us">Thông Tin</Link>
-                              </li>
-                              <li className="dropdown">
-                                <Link to="/contact">Liên Lạc</Link>
-                              </li>
-                              {r}
+                                <li className="dropdown"><Link to="/">Trang Chủ</Link></li>
+                                <li className="dropdown"><Link to="/tour-list">Tour</Link></li>
+                                <li className="dropdown"><Link to="/blogs">Tin Tức</Link></li>
+                                <li><Link to="/about-us">Thông Tin</Link></li>
+                                <li className="dropdown"><Link to="/contact">Liên Lạc</Link></li>
+                                {r}
                             </ul>
                         </div>
                     </div>
 
-                    <div class="contact-info">
+                    <div className="contact-info">
                         <h4>Thông tin liên lạc</h4>
                         <ul>
                             <li>371 Nguyễn Kiệm, Gò Vấp, Hồ Chí Minh</li>
@@ -160,8 +149,8 @@ export default function Header(props) {
                             <li><Link to="mailto:khoa.lta.30092000@gmail.com">khoa.lta.30092000@gmail.com</Link></li>
                         </ul>
                     </div>
-                    <div class="social-links">
-                        <ul class="clearfix">
+                    <div className="social-links">
+                        <ul className="clearfix">
                             <li><Link to="/"><span className="fab fa-twitter"></span></Link></li>
                             <li><Link to="/"><span className="fab fa-facebook-square"></span></Link></li>
                             <li><Link to="/"><span className="fab fa-pinterest-p"></span></Link></li>
