@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './components/Header'
 import Footer from './components/Footer'
 import ScrollTop from './components/ScrollTop'
-import MobileMenu from './components/MobileMenu';
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home';
@@ -27,7 +26,6 @@ export default function App(props) {
     <div className="boxed_wrapper">
       <BrowserRouter>
         <Header />
-        <MobileMenu />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/tour-list" component={TourList} />
