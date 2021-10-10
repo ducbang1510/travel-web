@@ -30,14 +30,15 @@ function Booking3(props) {
         console.log(location.search)
         let getConfirm = async () => {
             try {
-                let res = await API.get(`${endpoints['confirm-payment']}${location.search}`)
+                let res = await API.get(`${endpoints['momo-confirm-payment']}${location.search}`)
                 console.log(res)
                 setResultCode(res.data.rCode)
             } catch (error) {
                 console.log(error)
             }
         }
-        getConfirm()
+        if (location.search !== "")
+            getConfirm()
     }, [location.search])
 
     let notification = <></>
@@ -60,7 +61,7 @@ function Booking3(props) {
                 </div>
             </div>
         </>
-    } else {
+    } else if (resultCode === 1) {
         notification = <>
             <div className="confirm-box">
                 <h3>Thanh toán thất bại</h3>
@@ -70,7 +71,25 @@ function Booking3(props) {
                     </div>
                     <h3>Vui lòng thử lại</h3>
                     <p>
-                        Vui lòng đảm bảo tài khoản thanh toán có đủ số tiền
+                        Bạn sẽ nhận được email xác nhận trong thời gian ngắn
+                        <br />
+                        <a href="mailto:1851050006bang@ou.edu.vn">
+                            1851050006bang@ou.edu.vn - khoa.lta.30092000@gmail.com
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </>
+    } else if (resultCode === -1) {
+        notification = <>
+            <div className="confirm-box">
+                <h3>Yêu cầu đặt tour đã được ghi nhận lại</h3>
+                <div className="inner-box centred">
+                    <div className="icon-box">
+                        <i style={{ color: 'blue' }} className="far fa-check-circle" />
+                    </div>
+                    <h3>Cảm ơn đã sử dụng dịch vụ của chúng tôi</h3>
+                    <p>
                         <br />
                         <a href="mailto:1851050006bang@ou.edu.vn">
                             1851050006bang@ou.edu.vn - khoa.lta.30092000@gmail.com
@@ -135,6 +154,10 @@ function Booking3(props) {
                                         <li>
                                             <i className="fas fa-user-alt" />
                                             Khách: <span>{payDetails.adults} người lớn, {payDetails.childs} trẻ em</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-user-alt" />
+                                            Chỗ còn lại: <span>{tour.slots}</span>
                                         </li>
                                         <li>
                                             <i className="fas fa-money-bill" />

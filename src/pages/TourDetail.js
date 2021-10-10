@@ -135,14 +135,14 @@ export default function TourDetail() {
                                         <p dangerouslySetInnerHTML={{__html: `${tour.description}`}} />
                                         <ul className="info-list clearfix">
                                             <li><i className="far fa-clock"></i>{tour.duration}</li>
-                                            <li><i className="far fa-user"></i>Age 15+</li>
+                                            <li><i className="far fa-user"></i>Đang cập nhật</li>
                                             <li><i className="far fa-map"></i>Đang cập nhật</li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div className="overview-inner">
                                     <ul className="overview-list clearfix">
-                                        <li><span>Điểm đến:</span>Đang cập nhật</li>
+                                        <li><span>Còn:</span>{tour.slots} xuất</li>
                                         <li><span>Điểm khởi hành:</span>{tour.departure}</li>
                                         <li><span>Thời gian khởi hành:</span>{tour.depart_date}</li>
                                         <li className="clearfix"><span>Bao gồm:</span>

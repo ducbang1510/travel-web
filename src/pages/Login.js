@@ -40,7 +40,6 @@ export default function Login() {
                 "type": "USER_LOGIN",
                 "payload": user.data
             })
-            // history.push("/")
             history.goBack()
 
         } catch (err) {
@@ -81,70 +80,64 @@ export default function Login() {
                 <div className="auto-container">
                     <div className="inner-box">
                         <div className="sec-title centred">
-                            <p>Sign in</p>
+                            <p>Đăng Nhập</p>
                             <h2>Connect with us for Better Tour</h2>
                         </div>
                         <div className="form-inner">
-                            <h3>Sign In with</h3>
+                            <h3>Đăng Nhập với</h3>
                             <ul className="social-links clearfix">
                                 <li>
-                                    <a href="/home.html">
-                                        <span>Sign In with Facebook</span>
+                                    <Link to="/">
+                                        <span>Đăng Nhập với Facebook _</span>
                                         <i className="fab fa-facebook-f" />
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/home.html">
-                                        <span>Sign In with Google</span>
+                                    <Link to="/">
+                                        <span>Đăng Nhập với Google _</span>
                                         <i className="fab fa-google-plus-g" />
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/home.html">
-                                        <span>Sign In with Twitter</span>
-                                        <i className="fab fa-twitter" />
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                             <div className="text">
-                                <span>or</span>
+                                <span>hoặc</span>
                             </div>
                             <form onSubmit={login} className="register-form">
                                 <div className="row clearfix">
                                     <LoginForm
                                         id="username"
-                                        label="Username"
+                                        label="Tên đăng nhập"
                                         field={username}
                                         change={event => setUsername(event.target.value)}
                                         type="text"
-                                        placeholder="Enter Username"
+                                        placeholder="Nhập Tên Đăng Nhập"
                                     />
                                     <LoginForm
                                         id="password"
-                                        label="Password"
+                                        label="Mật khẩu"
                                         field={password}
                                         change={event => setPassword(event.target.value)}
                                         type="password"
-                                        placeholder="Enter Password"
+                                        placeholder="Nhập Mật Khẩu"
                                     />
                                     <div className="col-lg-12 col-md-12 col-sm-12 column">
                                         <div className="form-group">
                                             <div className="forgor-password text-right">
-                                                <a href="/signup.html">Forget Password?</a>
+                                                <Link to="/">Quên mật khẩu?</Link>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-lg-12 col-md-12 col-sm-12 column">
                                         <div className="form-group message-btn">
                                             <button type="submit" className="theme-btn">
-                                                Sign In
+                                                Đăng Nhập
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                             <div className="other-text">
-                                Already have an account? <Link to="/register">Register Now</Link>
+                                Chưa có tài khoản? <Link to="/register">Đăng Kí Ngay</Link>
                             </div>
                         </div>
                     </div>

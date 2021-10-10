@@ -1,6 +1,6 @@
 import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import API, { endpoints } from '../API';
 import PreLoader from '../components/PreLoader';
@@ -9,6 +9,7 @@ import PayContext from '../context/PayContext';
 import pageTitle2 from '../static/image/background/page-title-2.jpg'
 
 function Booking2(props) {
+    const history = useHistory()
     const { tourId } = useParams()
     const payDetails = useContext(PayContext)
     const [tour, setTour] = useState([]);
@@ -23,6 +24,7 @@ function Booking2(props) {
         formData.append('tour_id', tourId)
         formData.append('note', note)
         formData.append('payer_id', payDetails.payerId)
+        formData.append('status_payment', "0")
         let urlPayment = ""
         try {
             await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
@@ -31,17 +33,21 @@ function Booking2(props) {
                 }
             })
             
-            let res = await API.post(endpoints['payment'], formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            urlPayment = res.data.payUrl
+            if (payments === "1") {
+                let res = await API.post(endpoints['momo-payment'], formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                urlPayment = res.data.payUrl
+            }
         } catch (error) {
             console.error(error);
         }
         if (urlPayment !== "")
             window.location.href = urlPayment;
+        else
+            history.push(`/tour-detail/${tourId}/booking-3/`)
     }
 
     useEffect(() => {
@@ -100,7 +106,7 @@ function Booking2(props) {
                                             </div>
                                         </div>
                                         <div className="payment-option">
-                                            <h3>Hình thức thanh toán</h3>
+                                            <h3>Chọn Hình Thức Thanh Toán</h3>
                                             <div className="row clearfix">
                                                 <div className="col-lg-6 col-md-6 col-sm-12 column">
                                                     <FormControl component="fieldset">
@@ -153,6 +159,10 @@ function Booking2(props) {
                                         <li>
                                             <i className="fas fa-user-alt" />
                                             Khách: <span>{payDetails.adults} người lớn, {payDetails.childs} trẻ em</span>
+                                        </li>
+                                        <li>
+                                            <i className="fas fa-user-alt" />
+                                            Chỗ còn lại: <span>{tour.slots}</span>
                                         </li>
                                         <li>
                                             <i className="fas fa-money-bill" />

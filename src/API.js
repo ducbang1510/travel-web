@@ -6,6 +6,7 @@ export let endpoints = {
     'add-comment-tour': (tourId) => `/tours/${tourId}/add-comment/`,
     'tour-comments': (tourId) => `/tours/${tourId}/comments/`,
     'popular-tours': '/tours/popular/',
+    'update-slots': (tourId) => `/tours/${tourId}/update-slots/` ,
     'categories': '/categories/',
     'services': '/services/',
     'tour-images': '/tour-images/',
@@ -23,8 +24,8 @@ export let endpoints = {
     'current-user': '/users/current-user/',
     'login': '/o/token/',
     'oAuthInfo': '/oauth2-info/',
-    'payment': '/payment/',
-    'confirm-payment': '/confirm-payment/',
+    'momo-payment': '/momo-payment/',
+    'momo-confirm-payment': '/momo-confirm-payment/',
 }
 
 export default axios.create({
