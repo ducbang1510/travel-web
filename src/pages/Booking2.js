@@ -19,6 +19,7 @@ function Booking2(props) {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
+        let invId = ""
         const formData = new FormData()
         formData.append('total_amount', payDetails.total)
         formData.append('tour_id', tourId)
@@ -27,11 +28,15 @@ function Booking2(props) {
         formData.append('status_payment', "0")
         let urlPayment = ""
         try {
-            await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
+            let res = await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
+            if(res.data.id !== null) {
+                invId = res.data.id
+                formData.append('invoice_id', res.data.id)
+            }
             
             if (payments === "1") {
                 let res = await API.post(endpoints['momo-payment'], formData, {
@@ -47,7 +52,7 @@ function Booking2(props) {
         if (urlPayment !== "")
             window.location.href = urlPayment;
         else
-            history.push(`/tour-detail/${tourId}/booking-3/`)
+            history.push(`/tour-detail/${tourId}/booking-3/${invId}/confirm`)
     }
 
     useEffect(() => {
@@ -55,7 +60,6 @@ function Booking2(props) {
             try {
                 let res = await API.get(endpoints['tour-details'](tourId))
                 setTour(res.data)
-                console.log(res)
             } catch (error) {
                 console.error(error);
             }
@@ -160,10 +164,10 @@ function Booking2(props) {
                                             <i className="fas fa-user-alt" />
                                             Khách: <span>{payDetails.adults} người lớn, {payDetails.childs} trẻ em</span>
                                         </li>
-                                        <li>
+                                        {/* <li>
                                             <i className="fas fa-user-alt" />
                                             Chỗ còn lại: <span>{tour.slots}</span>
-                                        </li>
+                                        </li> */}
                                         <li>
                                             <i className="fas fa-money-bill" />
                                             Trẻ em: <span>Đang cập nhật</span>

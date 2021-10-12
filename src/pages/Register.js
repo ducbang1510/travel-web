@@ -36,7 +36,7 @@ export default function Register(props) {
                     }
                 })
                 alert('Đăng kí thành công. Hãy đăng nhập để sử dụng tài khoản')
-                history.push("/login")
+                history.push("/")
             } catch (error) {
                 console.error(error)
             }

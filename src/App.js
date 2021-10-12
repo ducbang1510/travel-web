@@ -36,7 +36,7 @@ export default function App(props) {
           <Route exact path="/blog-details/:blogId" component={BlogDetails} />
           <Route exact path="/tour-detail/:tourId/booking-1" component={Booking1} />
           <Route exact path="/tour-detail/:tourId/booking-2" component={Booking2} />
-          <Route exact path="/tour-detail/:tourId/booking-3" component={Booking3} />
+          <Route exact path="/tour-detail/:tourId/booking-3/:invId/confirm" component={Booking3} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/about-us" component={About} />
           <Route exact path="/login" component={Login} />

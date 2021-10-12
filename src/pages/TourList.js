@@ -1,47 +1,86 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import Slider from '@mui/material/Slider';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import API, { endpoints } from '../API';
-import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { makeStyles } from "@mui/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import Slider from '@mui/material/Slider';
+import SearchIcon from '@mui/icons-material/Search';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import { Box } from '@mui/system';
 
 import advice1 from "../static/image/advice/advice-1.jpg"
+import pageTitle2 from "../static/image/background/page-title-2.jpg"
 import PreLoader from "../components/PreLoader"
 
 function valuetext(value) {
     return `${value}°C`;
-  }
+}
+
+const sliderTheme = createTheme({
+    components: {
+        MuiSlider: {
+            styleOverrides: {
+                thumb: {
+                color: "#ff7c5b"
+                },
+                track: {
+                color: "#ff7c5b"
+                },
+                rail: {
+                color: "#ff7c5b"
+                }
+            }
+        }
+    }
+});
+
+const useStyles = makeStyles((theme) => ({
+    ul: {
+        '& .css-ax94ij-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected': {
+            backgroundColor: '#ff7c5b',
+        },
+        '& .Mui-selected': {
+            // backgroundColor: '#ff7c5b',
+            color: '#fff',
+        },
+    }
+})
+);
   
 let beforeChange = null;
 
 export default function TourList() {
+    const location = useLocation()
+    const history = useHistory()
     const [count, setCount] = useState(0)
     const [tourList, setTourList] = useState([])
     const [categories, setCategories] = useState([])
-    const location = useLocation()
 
     const [cName, setcName] = useState('wrapper list')
     const [cList, setcList] = useState('list-view on')
     const [cGrid, setcGrid] = useState('grid-view')
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [searchRes, setSearchRes] = useState([])
+
+    const [page, setPage] = useState(1)
+    const classes = useStyles();
 
     /* Radio Search */
+    const colorRadio = {
+        color: "black",
+        "&.Mui-checked": {
+            color: "#ff7c5b"
+        }
+    };
     const [duration, setDuration] = useState("");
     const [cate, setCate] = useState(null);
     const [rate, setRate] = useState("")
-
-    const handleRadioChange = (event) => {
-        setDuration(event.target.value);
-    };
-    const handleCateChange = (event) => {
-        setCate(Number(event.target.value));
-    };
     /* End Radio Search */
 
     /* Range slider */
     const [value, setValue] = useState([500000, 10000000]);
-    const timeoutRef = useRef(null) // debounce timeout
 
     const handleChange = (event, newValue) => {
         if (!beforeChange) {
@@ -79,90 +118,63 @@ export default function TourList() {
         })
 
         let loadTour = async () => {
-            let res = await API.get(`${endpoints['tours']}${location.search}`)
-            setTourList(res.data.results)
-            setCount(res.data.count)
+            let query = location.search
+            if (query === "")
+                query = `?page=${page}`
+            else
+                query += `&page=${page}`
+
+            try {
+                let res = await API.get(`${endpoints['tours']}${query}`)
+                console.log(res.data)
+
+                setTourList(res.data.results)
+                setCount(res.data.count)
+            } catch (error) {
+                console.error(error)
+            }
         }
         loadTour()
-      }, [location.search])
+      }, [location.search, page])
 
     /* Function Search Tour */
     const searchTour = (event) => {
         event.preventDefault()
-        API.get(`${endpoints['tours']}?q=${searchTerm}`).then(res => {
-            setSearchRes(res.data.results)
-            setCount(res.data.count)
-        })
+        history.push(`/tour-list/?q=${searchTerm}`)
     }
 
-    const [skipFirst, setSkipFirst] = useState(false);
-    useEffect(() => {
-        if (!skipFirst) setSkipFirst(true);
-        if (skipFirst) {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current)
-            }
+    const searchByPrice = async () => {
+        history.push(`/tour-list/?min=${value[0]}&max=${value[1]}`)
+    }
 
-            let searchByPrice = async () => {
-                let res = await API.get(`${endpoints['tours']}?min=${value[0]}&max=${value[1]}`)
-                setSearchRes(res.data.results)
-                setCount(res.data.count)
-            }
-
-            timeoutRef.current = setTimeout(() => {
-                searchByPrice()
-            }, 300)
-        }
-    }, [value])
-
-    useEffect(() => {
+    const handleRadioChange = (event) => {
         let min_d=null;
         let max_d=null;
-        if (duration==="1") { min_d=1; max_d=2;}
-        if (duration==="2") { min_d=2; max_d=3;}
-        if (duration==="3") { min_d=3; max_d=4;}
-        if (duration==="4") { min_d=4; max_d=5;}
-        const searchByDuration = () => {
-            API.get(`${endpoints['tours']}?min_d=${min_d}&max_d=${max_d}`).then(res => {
-                console.info(res.data)
-                setSearchRes(res.data.results)
-                setCount(res.data.count)
-            })
-        }
-        if (duration !== "")
-            searchByDuration()
-    }, [duration])
+        if (event.target.value==="1") { min_d=1; max_d=2;}
+        if (event.target.value==="2") { min_d=2; max_d=3;}
+        if (event.target.value==="3") { min_d=3; max_d=4;}
+        if (event.target.value==="4") { min_d=4; max_d=5;}
 
-    useEffect(() => {
-        const searchByCate = () => {
-            API.get(`${endpoints['tours']}?category_id=${cate}`).then(res => {
-                console.info(res.data)
-                setSearchRes(res.data.results)
-                setCount(res.data.count)
-            })
-        }
-        if (cate !== null)
-            searchByCate()
-    }, [cate])
+        setDuration(event.target.value);
+        history.push(`/tour-list/?min_d=${min_d}&max_d=${max_d}`)
+    };
 
-    useEffect(() => {
-        const searchByRate = () => {
-            API.get(`${endpoints['tours']}?rate=${rate}`).then(res => {
-                console.info(res.data)
-                setSearchRes(res.data.results)
-                setCount(res.data.count)
-            })
-        }
-        if (rate !== "")
-            searchByRate()
-    }, [rate])
+    const handleCateChange = (event) => {
+        setCate(Number(event.target.value));
+        history.push(`/tour-list/?category_id=${Number(event.target.value)}`)
+    };
+
+    const handleRateChange =(event) => {
+        setRate(event.target.value)
+        history.push(`/tour-list/?rate=${event.target.value}`)
+    }
     /* End Function Search Tour */
 
     /* Render tour list */
     let tours = <></>
     let results = <></>
 
-    if (searchRes.length === 0) {
+    if (tourList.length !== 0) {
         tours = <>
             <div className="tour-grid-content">
                 <div className="row clearfix">
@@ -174,26 +186,26 @@ export default function TourList() {
             </div>
         </>
         results = <><h3>Hiển thị {tourList.length} trên {count} kết quả</h3></>
-    } else {
-        tours = <>
-            <div className="tour-grid-content">
-                <div className="row clearfix">
-                    {searchRes.map(t => <TourItem tour={t} key={t.id} />)}
-                </div>
-            </div>
-            <div className="tour-list-content list-item">
-                {searchRes.map(t => <TourItem2 tour={t} key={t.id} />)}
-            </div>
-        </>
-        results = <><h3>Hiển thị {searchRes.length} trên {count} kết quả</h3></>
     }
 
     // Pagination
-    let items = []
-    for (let i = 0; i < Math.ceil(count / 6); i++)
-        items.push(
-            <li key={i}><a href={"/tour-list?page=" + (i + 1)}>{i + 1}</a></li>
-        )
+    const handlePageChange = (event, value) => {
+        setPage(value);
+      };
+
+    let pages = <>
+        <Stack spacing={2}>
+            <Pagination
+            classes={{ ul: classes.ul }}
+            // className={classes.root}
+            // renderItem={(item)=> <PaginationItem {...item} 
+            //                classes={{selected:classes.selected}} />}
+            variant="outlined" 
+            size="large" 
+            count={Math.ceil(count / 6)}
+            onChange={handlePageChange}hidePrevButton hideNextButton />
+        </Stack>
+    </>
     /* End Render */
     if (tourList.length === 0) {
         return <PreLoader />
@@ -202,7 +214,7 @@ export default function TourList() {
     return (
         <>
             <section className="page-title style-two centred"
-                style={{ backgroundImage: "url(./assets/image/background/page-title-2.jpg)" }}>
+                style={{ backgroundImage: `url(${pageTitle2})` }}>
                 <div className="auto-container">
                     <div className="content-box">
                         <h1>Danh Sách Tour</h1>
@@ -246,12 +258,7 @@ export default function TourList() {
                             </div>
                             <div className="pagination-wrapper">
                                 <ul className="pagination clearfix">
-                                    {items}
-                                    <li>
-                                        <Link to="/tour-list">
-                                            <i className="fas fa-long-arrow-alt-right" />
-                                        </Link>
-                                    </li>
+                                    {pages}
                                 </ul>
                             </div>
                         </div>
@@ -283,7 +290,7 @@ export default function TourList() {
                                         <FormControl component="fieldset">
                                             <RadioGroup aria-label="category" name="controlled-radio-buttons-group" value={cate}
                                             onChange={handleCateChange}>
-                                                {categories.map(c => <FormControlLabel key={c.id} value={c.id} control={<Radio />} label={c.name} />)}
+                                                {categories.map(c => <FormControlLabel key={c.id} value={c.id} control={<Radio sx={colorRadio} />} label={c.name} />)}
                                             </RadioGroup>
                                         </FormControl>
                                     </div>
@@ -292,16 +299,20 @@ export default function TourList() {
                                     <div className="widget-title">
                                         <h3>Lọc theo giá</h3>
                                     </div>
-                                    <Slider
-                                        value={value}
-                                        onChange={handleChange}
-                                        onChangeCommitted={handleChangeCommitted}
-                                        valueLabelDisplay="auto"
-                                        aria-labelledby="range-slider"
-                                        getAriaValueText={valuetext}
-                                        min={500000}
-                                        max={10000000}
-                                    />
+                                    <Box>
+                                        <ThemeProvider theme={sliderTheme}>
+                                            <Slider
+                                                value={value}
+                                                onChange={handleChange}
+                                                onChangeCommitted={handleChangeCommitted}
+                                                valueLabelDisplay="auto"
+                                                aria-labelledby="range-slider"
+                                                getAriaValueText={valuetext}
+                                                min={500000}
+                                                max={10000000}
+                                            />
+                                        </ThemeProvider>
+                                    </Box>
                                     <div className="range-slider clearfix">
                                         <div className="value-box clearfix">
                                             <div className="min-value pull-left">
@@ -311,8 +322,12 @@ export default function TourList() {
                                                 <p>10.000.000</p>
                                             </div>
                                         </div>
-                                        <div className="price-range-slider" />
                                     </div>
+                                    <Box>
+                                        <Button color="warning" variant="contained" onClick={searchByPrice} startIcon={<SearchIcon />}>
+                                            Tìm
+                                        </Button>
+                                    </Box>
                                 </div>
                                 <div className="sidebar-widget duration-widget">
                                     <div className="widget-title">
@@ -322,10 +337,10 @@ export default function TourList() {
                                         <FormControl component="fieldset">
                                             <RadioGroup aria-label="duration" name="controlled-radio-buttons-group" value={duration}
                                             onChange={handleRadioChange}>
-                                                <FormControlLabel value="1" control={<Radio />} label="1 - 2 ngày" />
-                                                <FormControlLabel value="2" control={<Radio />} label="2 - 3 ngày" />
-                                                <FormControlLabel value="3" control={<Radio />} label="3 - 4 ngày" />
-                                                <FormControlLabel value="4" control={<Radio />} label="4 - 5 ngày" />
+                                                <FormControlLabel value="1" control={<Radio sx={colorRadio} />} label="1 - 2 ngày" />
+                                                <FormControlLabel value="2" control={<Radio sx={colorRadio} />} label="2 - 3 ngày" />
+                                                <FormControlLabel value="3" control={<Radio sx={colorRadio} />} label="3 - 4 ngày" />
+                                                <FormControlLabel value="4" control={<Radio sx={colorRadio} />} label="4 - 5 ngày" />
                                             </RadioGroup>
                                         </FormControl>
                                     </div>
@@ -338,12 +353,12 @@ export default function TourList() {
                                     <FormControl component="fieldset">
                                             <RadioGroup aria-label="duration" name="controlled-radio-buttons-group" 
                                             value={rate}
-                                            onChange={(event) => setRate(event.target.value)}>
-                                                <FormControlLabel value="1" control={<Radio />} label="1 sao" />
-                                                <FormControlLabel value="2" control={<Radio />} label="2 sao" />
-                                                <FormControlLabel value="3" control={<Radio />} label="3 sao" />
-                                                <FormControlLabel value="4" control={<Radio />} label="4 sao" />
-                                                <FormControlLabel value="5" control={<Radio />} label="5 sao" />
+                                            onChange={handleRateChange}>
+                                                <FormControlLabel value="1" control={<Radio sx={colorRadio} />} label="1 sao" />
+                                                <FormControlLabel value="2" control={<Radio sx={colorRadio} />} label="2 sao" />
+                                                <FormControlLabel value="3" control={<Radio sx={colorRadio} />} label="3 sao" />
+                                                <FormControlLabel value="4" control={<Radio sx={colorRadio} />} label="4 sao" />
+                                                <FormControlLabel value="5" control={<Radio sx={colorRadio} />} label="5 sao" />
                                             </RadioGroup>
                                         </FormControl>
                                     </div>
@@ -408,7 +423,7 @@ class TourItem extends React.Component {
                                 </li>
                             </ul>
                             <p>
-                                {this.props.tour.depart_date}
+                                {this.props.tour.depart_date} <span> | Còn: {this.props.tour.slots} xuất</span>
                             </p>
                             <div className="btn-box">
                                 <Link to={'/tour-detail/' + this.props.tour.id}>Xem chi tiết</Link>
@@ -451,7 +466,7 @@ class TourItem2 extends React.Component {
                         {this.props.tour.price_of_tour.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}<span> / 1 người</span>
                         </h4>
                         <p>
-                            {this.props.tour.depart_date}
+                            {this.props.tour.depart_date} <span> | Còn: {this.props.tour.slots} xuất</span>
                         </p>
                         <div className="btn-box">
                             <Link to={`/tour-detail/${this.props.tour.id}`}>Xem chi tiết</Link>

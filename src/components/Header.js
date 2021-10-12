@@ -37,7 +37,7 @@ export default function Header(props) {
                     <Link to="/">{user.username}</Link>
                 </li>
                 <li>
-                    <Link onClick={logout}>Đăng xuất</Link>
+                    <Link to="/" onClick={logout}>Đăng xuất</Link>
                 </li>
             </>
         );
