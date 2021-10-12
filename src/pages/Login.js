@@ -13,7 +13,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const history = useHistory();
     const dispatch = useDispatch()
-
+    
     const login = async (event) => {
         event.preventDefault();
 
@@ -40,6 +40,7 @@ export default function Login() {
                 "type": "USER_LOGIN",
                 "payload": user.data
             })
+
             history.goBack()
 
         } catch (err) {

@@ -89,7 +89,6 @@ function Booking1(props) {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            console.info(res)
             pId = res.data.id
             payDetails.setPayerId(pId)
             addCustomer(pId)
@@ -128,7 +127,6 @@ function Booking1(props) {
                 if (newInPut.length) {
                     newInPut.forEach(n => {
                         v.push(n)
-                        console.log(n)
                     })
                     setCustomerForms(v)
                 }

@@ -17,7 +17,6 @@ function Blogs(props) {
 
     const loadBlogs = (page = "?page=1") => {
         API.get(`${endpoints['blogs']}${page}`).then(res => {
-            console.info(res.data)
             setListBlog(res.data.results)
             setCount(res.data.count)
         })

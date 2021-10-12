@@ -27,11 +27,9 @@ function Booking3(props) {
     }, [tourId])
 
     useEffect(() => {
-        console.log(location.search)
         let getConfirm = async () => {
             try {
                 let res = await API.get(`${endpoints['momo-confirm-payment']}${location.search}`)
-                console.log(res)
                 setResultCode(res.data.rCode)
             } catch (error) {
                 console.log(error)

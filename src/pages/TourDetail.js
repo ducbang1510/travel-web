@@ -93,7 +93,6 @@ export default function TourDetail() {
                         'Authorization': `Bearer ${cookies.load('access_token')}`
                     }
                 })
-                console.log(res.data)
                 listComment.push(res.data)
                 setListComment(listComment)
                 setCommentChange(listComment.length)
