@@ -1,6 +1,6 @@
 import React from "react";
 
-import banner1 from "../../static/image/banner/banner-1.jpg"
+import banner2 from "../../static/image/banner/banner-2.jpg"
 import shape1 from "../../static/image/shape/shape-1.png"
 
 export default function BannerSection(props) {
@@ -9,7 +9,7 @@ export default function BannerSection(props) {
             <section
                   className="banner-section"
                   style={{
-                      backgroundImage: `url(${banner1})`
+                      backgroundImage: `url(${banner2})`
                   }}
               >
                   <div

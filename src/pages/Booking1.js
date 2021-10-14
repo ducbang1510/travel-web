@@ -6,7 +6,7 @@ import API, { endpoints } from '../API';
 import { v4 as uuidv4 } from 'uuid';
 import PayContext from '../context/PayContext';
 
-import pageTitle2 from '../static/image/background/page-title-2.jpg'
+import pageTitle5 from '../static/image/background/page-title-5.jpg'
 import PreLoader from '../components/PreLoader';
 
 function Booking1(props) {
@@ -151,7 +151,7 @@ function Booking1(props) {
 
     return (
         <>
-            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle2})` }}>
+            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
                     <div className="content-box">
                         <h1>Thông Tin Khách Hàng</h1>

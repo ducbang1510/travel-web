@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import pageTitle6 from "../static/image/background/page-title-6.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
 import PreLoader from "../components/PreLoader"
 
@@ -34,6 +34,10 @@ function Blogs(props) {
     const [lastestBlogs, setLastestBlogs] = useState([])
     const [searchTerm, setSearchTerm] = useState("");
     const [page, setPage] = useState(1)
+
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
 
     useEffect(() => {
         let loadBlogs = async () => {
@@ -104,9 +108,9 @@ function Blogs(props) {
 
     return (
         <>
-            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
+            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle6})` }}>
                 <div className="auto-container">
-                    <div className="content-box">
+                    <div className="content-box wow fadeInDown animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
                         <h1>Trang Tin Tức</h1>
                         <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>

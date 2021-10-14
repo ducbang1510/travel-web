@@ -3,7 +3,7 @@ import API, { endpoints } from '../API';
 import { Link } from 'react-router-dom'
 import { useHistory } from "react-router";
 
-import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import pageTitle9 from "../static/image/background/page-title-9.jpg"
 import shape16 from "../static/image/shape/shape-16.png"
 import shape17 from "../static/image/shape/shape-17.png"
 
@@ -53,7 +53,7 @@ export default function Register(props) {
             <section
                 className="page-title centred"
                 style={{
-                backgroundImage: `url(${pageTitle5})`
+                backgroundImage: `url(${pageTitle9})`
                 }}
             >
                 <div className="auto-container">
@@ -80,12 +80,12 @@ export default function Register(props) {
                 </div>
                 <div className="auto-container">
                     <div className="inner-box">
-                        <div className="sec-title centred">
-                            <p>Đăng Kí</p>
+                        <div className="sec-title centred wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
+                            <p>Đăng Ký</p>
                             <h2>Connect with us for Better Tour</h2>
                         </div>
                         <div className="form-inner">
-                            <h3>Đăng kí với</h3>
+                            <h3>Đăng ký với</h3>
                             <ul className="social-links clearfix">
                                 <li>
                                     <Link to="/">

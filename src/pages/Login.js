@@ -138,7 +138,7 @@ export default function Login() {
                                 </div>
                             </form>
                             <div className="other-text">
-                                Chưa có tài khoản? <Link to="/register">Đăng Kí Ngay</Link>
+                                Chưa có tài khoản? <Link to="/register">Đăng Ký Ngay</Link>
                             </div>
                         </div>
                     </div>

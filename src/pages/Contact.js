@@ -1,14 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import WOW from 'wowjs';
 
-import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import pageTitle4 from "../static/image/background/page-title-4.jpg"
 import shape3 from "../static/image/shape/shape-3.png"
 
 export default class Contact extends React.Component {
+    componentDidMount() {
+        new WOW.WOW({
+            live: false
+        }).init();
+    }
     render() {
         return (
             <>
-                <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
+                <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle4})` }}>
                     <div className="auto-container">
                         <div className="content-box">
                             <h1>Liên Lạc</h1>
@@ -24,6 +30,11 @@ export default class Contact extends React.Component {
 }
 
 class ContactInfoSection extends React.Component {
+    componentDidMount() {
+        new WOW.WOW({
+            live: false
+        }).init();
+    }
     render() {
         return (
             <section className="contact-info-section bg-color-1">

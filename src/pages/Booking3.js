@@ -4,7 +4,7 @@ import API, { endpoints } from '../API';
 import PreLoader from '../components/PreLoader';
 import PayContext from '../context/PayContext';
 
-import pageTitle2 from '../static/image/background/page-title-2.jpg'
+import pageTitle5 from '../static/image/background/page-title-5.jpg'
 
 function Booking3(props) {
     const { tourId } = useParams()
@@ -104,7 +104,7 @@ function Booking3(props) {
 
     return (
         <>
-            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle2})` }}>
+            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
                     <div className="content-box">
                         <h1>Xác Nhận</h1>

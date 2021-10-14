@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import WOW from 'wowjs';
 import API, { endpoints } from "../API";
 
 import pageTitle from "../static/image/background/page-title.jpg"
@@ -9,6 +10,9 @@ export default function Gallery() {
     const [listImages, setListImages] = useState([])
 
     const {tourId} = useParams()
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
 
     useEffect(() => {
         let getImages = async () => {
@@ -31,7 +35,7 @@ export default function Gallery() {
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle})` }}>
                 <div className="auto-container">
-                    <div className="content-box">
+                    <div className="content-box wow fadeInDown animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
                         <h1>Bộ Sưu Tập</h1>
                         <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
@@ -50,10 +54,17 @@ export default function Gallery() {
 }
 
 class ImageItem extends React.Component {
+    componentDidMount() {
+        new WOW.WOW({
+            live: false
+        }).init();
+    }
     render() {
         return (
             <>
-                <div className="col-lg-4 col-md-6 col-sm-12 gallery-block">
+                <div className="col-lg-4 col-md-6 col-sm-12 gallery-block wow fadeInUp animated animated"
+                        data-wow-delay="00ms"
+                        data-wow-duration="1500ms">
                     <div className="gallery-block-one">
                         <div className="inner-box">
                             <figure className="image-box">

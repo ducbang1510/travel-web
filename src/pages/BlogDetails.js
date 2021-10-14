@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { Avatar, Button } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
-import pageTitle5 from "../static/image/background/page-title-5.jpg"
+import pageTitle10 from "../static/image/background/page-title-10.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
 import PreLoader from "../components/PreLoader"
 
@@ -131,7 +131,7 @@ function BlogDetails(props) {
 
     return (
         <>
-            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
+            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle10})` }}>
                 <div className="auto-container">
                     <div className="content-box">
                         <h1>Chi Tiết</h1>
@@ -312,8 +312,8 @@ class CommentItem extends React.Component {
                     <p>
                         {this.props.comment.content}
                     </p>
-                    <div>
-                        Bình luận bởi: {this.props.comment.user.username}
+                    <div className="author-comment">
+                        <span>Bình luận bởi:</span> {this.props.comment.user.username}
                     </div>
                 </div>
             </div>

@@ -9,6 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Box } from '@mui/system';
+import WOW from 'wowjs';
 
 import advice1 from "../static/image/advice/advice-1.jpg"
 import pageTitle2 from "../static/image/background/page-title-2.jpg"
@@ -233,7 +234,9 @@ export default function TourList() {
             <section className="page-title style-two centred"
                 style={{ backgroundImage: `url(${pageTitle2})` }}>
                 <div className="auto-container">
-                    <div className="content-box">
+                    <div className="content-box wow fadeInDown animated animated"
+                        data-wow-delay="00ms"
+                        data-wow-duration="1500ms">
                         <h1>Danh Sách Tour</h1>
                         <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
@@ -401,6 +404,9 @@ export default function TourList() {
                                         </FormControl>
                                     </div>
                                 </div>
+                                {/* <div className="sidebar-widget">
+
+                                </div> */}
                                 <div className="advice-widget">
                                     <div className="inner-box"
                                         style={{
@@ -425,9 +431,16 @@ export default function TourList() {
 }
 
 class TourItem extends React.Component {
+    componentDidMount() {
+        new WOW.WOW({
+            live: false
+        }).init();
+    }
     render() {
         return (
-            <div className="col-lg-6 col-md-6 col-sm-12 tour-block">
+            <div className="col-lg-6 col-md-6 col-sm-12 tour-block wow fadeInUp animated animated"
+                    data-wow-delay="00ms"
+                    data-wow-duration="1500ms">
                 <div className="tour-block-one">
                     <div className="inner-box">
                         <figure className="image-box">
@@ -475,9 +488,17 @@ class TourItem extends React.Component {
 }
 
 class TourItem2 extends React.Component {
+    componentDidMount() {
+        new WOW.WOW({
+            live: false
+        }).init();
+    }
     render() {
         return (
-            <div className="tour-block-two">
+            <div className="tour-block-two wow fadeInUp animated animated"
+                data-wow-delay="00ms"
+                data-wow-duration="1500ms"
+            >
                 <div className="inner-box">
                     <figure className="image-box">
                         <img style={{ width: '190px', height: '227px' }}
