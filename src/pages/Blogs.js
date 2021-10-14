@@ -1,39 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import API, { endpoints } from '../API';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
+import WOW from 'wowjs';
+import { makeStyles } from "@mui/styles";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
 import PreLoader from "../components/PreLoader"
 
+const useStyles = makeStyles((theme) => ({
+    ul: {
+        '& .css-ax94ij-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected': {
+            backgroundColor: '#ff7c5b',
+        },
+        '& .Mui-selected': {
+            color: '#fff',
+        },
+    }
+})
+);
+
 function Blogs(props) {
+    const classes = useStyles();
+    let location = useLocation();
+    const history = useHistory();
+
     const [count, setCount] = useState(1)
     const [listBlog, setListBlog] = useState([])
     const [lastestBlogs, setLastestBlogs] = useState([])
     const [searchTerm, setSearchTerm] = useState("");
-    const [searchRes, setSearchRes] = useState([])
+    const [page, setPage] = useState(1)
 
-    const loadBlogs = (page = "?page=1") => {
-        API.get(`${endpoints['blogs']}${page}`).then(res => {
-            setListBlog(res.data.results)
-            setCount(res.data.count)
-        })
-    }
+    useEffect(() => {
+        let loadBlogs = async () => {
+            let query = location.search
+            if (query === "")
+                query = `?page=${page}`
+            else
+                query += `&page=${page}`
+
+            try {
+                let res = await API.get(`${endpoints['blogs']}${query}`)
+                console.log(res.data)
+
+                setListBlog(res.data.results)
+                setCount(res.data.count)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        loadBlogs()
+    }, [location.search, page])
 
     const searchBlog = (event, search = `?q=${searchTerm}`) => {
         event.preventDefault()
-        API.get(`${endpoints['blogs']}${search}`).then(res => {
-            setSearchRes(res.data.results)
-            setCount(res.data.count)
-        })
+        history.push(`/blogs/?q=${searchTerm}`)
     }
-
-    let location = useLocation()
-    useEffect(() => {
-        loadBlogs(location.search)
-    }, [location.search])
 
     useEffect(() => {
         let loadNewestBlogs = async () => {
@@ -50,21 +76,27 @@ function Blogs(props) {
 
     let blogs = <></>
 
-    if (searchRes.length === 0) {
+    if (listBlog.length !== 0) {
         blogs = <>
             {listBlog.map(b => <BlogItem key={b.id} blog={b} />)}
         </>
-    } else {
-        blogs = <>
-            {searchRes.map(b => <BlogItem key={b.id} blog={b} />)}
-        </>
     }
 
-    let items = []
-    for(let i = 0; i < Math.ceil(count/5); i++)
-        items.push(
-            <li key={i}><Link to={"/blogs?page=" + (i + 1)} className="current">{i + 1}</Link></li>
-        )
+    // Pagination
+    const handlePageChange = (event, value) => {
+        setPage(value);
+      };
+
+    let pages = <>
+        <Stack spacing={2}>
+            <Pagination
+            classes={{ ul: classes.ul }}
+            variant="outlined" 
+            size="large" 
+            count={Math.ceil(count / 5)}
+            onChange={handlePageChange} />
+        </Stack>
+    </>
 
     if (listBlog.length === 0){
         return <PreLoader />
@@ -89,12 +121,7 @@ function Blogs(props) {
                                 {blogs}
                                 <div className="pagination-wrapper">
                                     <ul className="pagination clearfix">
-                                        {items}
-                                        <li>
-                                            <Link to="/blog.html">
-                                                <i className="fas fa-long-arrow-alt-right" />
-                                            </Link>
-                                        </li>
+                                        {pages}
                                     </ul>
                                 </div>
                             </div>
@@ -199,6 +226,11 @@ function Blogs(props) {
 export default Blogs;
 
 class BlogItem extends React.Component {
+    componentDidMount() {
+        new WOW.WOW({
+            live: false
+        }).init();
+    }
     render() {
         return (
             <>

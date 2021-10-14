@@ -12,7 +12,7 @@ import PreLoader from '../components/PreLoader';
 export default function Home(props) {
     const [tourList, setTourList] = useState([])
     const [listBlog, setListBlog] = useState([])
-
+    
     useEffect(() => {
         let loadPopularTour = async () => {
             try {

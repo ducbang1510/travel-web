@@ -233,7 +233,6 @@ function Booking1(props) {
                                                                 name="gender"
                                                                 value={customerForm.gender}
                                                                 onChange={event => handleCustomerChange(customerForm.id, event)}
-                                                                label="Giới tính"
                                                                 displayEmpty
                                                                 inputProps={{ 'aria-label': 'Without label' }}
                                                             >

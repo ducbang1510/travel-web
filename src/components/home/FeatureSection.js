@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import WOW from 'wowjs';
 
 import feature1 from "../../static/image/feature/feature-1.jpg"
 import feature2 from "../../static/image/feature/feature-2.jpg"
@@ -10,6 +11,9 @@ import experience from "../../static/image/feature/experience.png"
 import motivation from "../../static/image/feature/motivation.png"
 
 export default function FeatureSection() {
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
     return (
         <>
             <section className="feature-section centred bg-color-1 sec-pad">

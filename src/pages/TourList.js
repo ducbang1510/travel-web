@@ -3,7 +3,7 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import API, { endpoints } from '../API';
 import { makeStyles } from "@mui/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from '@mui/material';
 import Slider from '@mui/material/Slider';
 import SearchIcon from '@mui/icons-material/Search';
 import Pagination from '@mui/material/Pagination';
@@ -36,13 +36,27 @@ const sliderTheme = createTheme({
     }
 });
 
+const buttonTheme = createTheme({
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontSize: '15px',
+                    backgroundColor: "#ff7c5b",
+                    width: '110px',
+                    height: '45px',
+                },
+            },
+        },
+    },
+});
+
 const useStyles = makeStyles((theme) => ({
     ul: {
         '& .css-ax94ij-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected': {
             backgroundColor: '#ff7c5b',
         },
         '& .Mui-selected': {
-            // backgroundColor: '#ff7c5b',
             color: '#fff',
         },
     }
@@ -63,6 +77,7 @@ export default function TourList() {
     const [cGrid, setcGrid] = useState('grid-view')
 
     const [searchTerm, setSearchTerm] = useState("");
+    const [sort, setSort] = useState("")
 
     const [page, setPage] = useState(1)
     const classes = useStyles();
@@ -138,6 +153,11 @@ export default function TourList() {
       }, [location.search, page])
 
     /* Function Search Tour */
+    const handleSortChange = (event) => {
+        setSort(event.target.value)
+        history.push(`/tour-list/?sort=${event.target.value}`)
+    }
+
     const searchTour = (event) => {
         event.preventDefault()
         history.push(`/tour-list/?q=${searchTerm}`)
@@ -197,13 +217,10 @@ export default function TourList() {
         <Stack spacing={2}>
             <Pagination
             classes={{ ul: classes.ul }}
-            // className={classes.root}
-            // renderItem={(item)=> <PaginationItem {...item} 
-            //                classes={{selected:classes.selected}} />}
             variant="outlined" 
             size="large" 
             count={Math.ceil(count / 6)}
-            onChange={handlePageChange}hidePrevButton hideNextButton />
+            onChange={handlePageChange} />
         </Stack>
     </>
     /* End Render */
@@ -233,7 +250,26 @@ export default function TourList() {
                                 </div>
                                 <div className="right-column pull-right clearfix">
                                     <div className="short-box clearfix">
-                                        <div className="select-box">
+                                        <FormControl sx={{ m: 0, minWidth: 140 }}>
+                                            <InputLabel id="select-sort-label">Sắp xếp theo</InputLabel>
+                                            <Select
+                                            labelId="select-sort-label"
+                                            id="sort-select"
+                                            value={sort}
+                                            onChange={handleSortChange}
+                                            autoWidth
+                                            lable='Sắp xếp theo'
+                                            >
+                                                <MenuItem value="">
+                                                    <em>Sắp xếp theo</em>
+                                                </MenuItem>
+                                                <MenuItem value={1}>Name (a - z)</MenuItem>
+                                                <MenuItem value={2}>Giá tăng dần</MenuItem>
+                                                <MenuItem value={3}>Giá giảm dần</MenuItem>
+                                                <MenuItem value={4}>Rating</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        {/* <div className="select-box">
                                             <select className="wide">
                                                 <option data-display="Sort by">Sort by</option>
                                                 <option value={1}>Name (a - z)</option>
@@ -241,7 +277,7 @@ export default function TourList() {
                                                 <option value={3}>Price Down</option>
                                                 <option value={3}>Rating</option>
                                             </select>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="menu-box">
                                         <button className={cList} onClick={listOn}>
@@ -272,7 +308,7 @@ export default function TourList() {
                                         <div className="form-group">
                                             <input
                                                 type="search"
-                                                placeholder="Search"
+                                                placeholder="Nhập từ khoá"
                                                 value={searchTerm}
                                                 onChange={event => setSearchTerm(event.target.value)}
                                             />
@@ -324,9 +360,11 @@ export default function TourList() {
                                         </div>
                                     </div>
                                     <Box>
-                                        <Button color="warning" variant="contained" onClick={searchByPrice} startIcon={<SearchIcon />}>
-                                            Tìm
-                                        </Button>
+                                        <ThemeProvider theme={buttonTheme}>
+                                            <Button color="warning" variant="contained" onClick={searchByPrice} startIcon={<SearchIcon />}>
+                                                Tìm
+                                            </Button>
+                                        </ThemeProvider>
                                     </Box>
                                 </div>
                                 <div className="sidebar-widget duration-widget">
