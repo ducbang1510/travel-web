@@ -275,8 +275,7 @@ class CommentItem extends React.Component {
                             sx={{ width: 52, height: 52 }}
                         />
                     </ListItemAvatar>
-                    <ListItemText style={{ paddingLeft: 20 }}
-                        // primary={this.props.comment.user.username}
+                    <ListItemText
                         primary={
                             <React.Fragment>
                               <Typography
