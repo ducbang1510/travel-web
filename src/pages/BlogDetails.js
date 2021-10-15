@@ -6,6 +6,7 @@ import cookies from 'react-cookies'
 import { Link } from 'react-router-dom';
 import { Avatar, Button } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import WOW from 'wowjs';
 
 import pageTitle10 from "../static/image/background/page-title-10.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
@@ -26,6 +27,10 @@ function BlogDetails(props) {
     const { blogId } = useParams()
 
     let user = useSelector(state => state.user.user)
+
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
 
     useEffect(() => {
         let getBlog = async() => {
@@ -133,7 +138,7 @@ function BlogDetails(props) {
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle10})` }}>
                 <div className="auto-container">
-                    <div className="content-box">
+                    <div className="content-box wow fadeInDown animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
                         <h1>Chi Tiết</h1>
                         <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
@@ -302,7 +307,7 @@ class CommentItem extends React.Component {
                     <Avatar
                         alt="ImageComment"
                         src={this.props.comment.user.avatar_url}
-                        sx={{ width: 70, height: 70 }}
+                        sx={{ width: 52, height: 52 }}
                     />
                 </figure>
                 <div className="comment-inner">

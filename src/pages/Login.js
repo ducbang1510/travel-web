@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import API, { endpoints } from '../API';
 import cookies from 'react-cookies'
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import WOW from 'wowjs';
 
 import pageTitle5 from "../static/image/background/page-title-5.jpg"
 import shape16 from "../static/image/shape/shape-16.png"
@@ -13,6 +14,10 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const history = useHistory();
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
     
     const login = async (event) => {
         event.preventDefault();
@@ -50,14 +55,11 @@ export default function Login() {
 
     return (
         <>
-            <section
-                className="page-title centred"
-                style={{
-                    backgroundImage: `url(${pageTitle5})`
-                }}
-            >
+            <section className="page-title centred"style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
-                    <div className="content-box">
+                    <div className="content-box wow fadeInDown animated animated"
+                        data-wow-delay="00ms"
+                        data-wow-duration="1500ms">
                         <h1>Đăng Nhập</h1>
                         <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>

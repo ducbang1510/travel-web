@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import API, { endpoints } from '../API';
 import { v4 as uuidv4 } from 'uuid';
 import PayContext from '../context/PayContext';
+import WOW from 'wowjs';
 
 import pageTitle5 from '../static/image/background/page-title-5.jpg'
 import PreLoader from '../components/PreLoader';
@@ -30,6 +31,10 @@ function Booking1(props) {
     const [payerAddress, setPayerAddress] = useState("")
 
     const [count, setCount] = useState(1)
+
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
 
     useEffect(() => {
         let getTour = async () => {
@@ -153,7 +158,9 @@ function Booking1(props) {
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
-                    <div className="content-box">
+                    <div className="content-box wow fadeInDown animated animated"
+                        data-wow-delay="00ms"
+                        data-wow-duration="1500ms">
                         <h1>Thông Tin Khách Hàng</h1>
                         <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>
@@ -234,7 +241,7 @@ function Booking1(props) {
                                                                 value={customerForm.gender}
                                                                 onChange={event => handleCustomerChange(customerForm.id, event)}
                                                                 displayEmpty
-                                                                inputProps={{ 'aria-label': 'Without label' }}
+                                                                inputProps={{ 'aria-label': 'Without label', MenuProps: {disableScrollLock: true} }}
                                                             >
                                                                 <MenuItem value={"Nam"}>Nam</MenuItem>
                                                                 <MenuItem value={"Nữ"}>Nữ</MenuItem>

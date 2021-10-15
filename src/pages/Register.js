@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import API, { endpoints } from '../API';
 import { Link } from 'react-router-dom'
 import { useHistory } from "react-router";
+import WOW from 'wowjs';
 
 import pageTitle9 from "../static/image/background/page-title-9.jpg"
 import shape16 from "../static/image/shape/shape-16.png"
@@ -16,6 +17,10 @@ export default function Register(props) {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const avatar = useRef();
+
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
 
     const register = (event) => {
         event.preventDefault()
@@ -50,14 +55,9 @@ export default function Register(props) {
     
     return (
         <>
-            <section
-                className="page-title centred"
-                style={{
-                backgroundImage: `url(${pageTitle9})`
-                }}
-            >
+            <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle9})` }}>
                 <div className="auto-container">
-                <div className="content-box">
+                <div className="content-box wow fadeInDown animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
                     <h1>Đăng Kí</h1>
                     <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                 </div>
@@ -65,18 +65,8 @@ export default function Register(props) {
             </section>
             <section className="register-section sec-pad">
                 <div className="anim-icon">
-                    <div
-                        className="icon anim-icon-1"
-                        style={{
-                            backgroundImage: `url(${shape16})`
-                        }}
-                    />
-                    <div
-                        className="icon anim-icon-2"
-                        style={{
-                            backgroundImage: `url(${shape17})`
-                        }}
-                    />
+                    <div className="icon anim-icon-1" style={{ backgroundImage: `url(${shape16})` }}/>
+                    <div className="icon anim-icon-2" style={{ backgroundImage: `url(${shape17})` }}/>
                 </div>
                 <div className="auto-container">
                     <div className="inner-box">
@@ -126,7 +116,7 @@ export default function Register(props) {
                                     <div className="col-lg-12 col-md-12 col-sm-12 column">
                                         <div className="form-group message-btn">
                                             <button type="submit" className="theme-btn">
-                                                Đăng kí
+                                                Đăng ký
                                             </button>
                                         </div>
                                     </div>

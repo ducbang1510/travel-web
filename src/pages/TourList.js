@@ -3,11 +3,12 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import API, { endpoints } from '../API';
 import { makeStyles } from "@mui/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from '@mui/material';
-import Slider from '@mui/material/Slider';
+import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Slider, Pagination, Stack, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+import viLocale from 'date-fns/locale/vi';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
 import { Box } from '@mui/system';
 import WOW from 'wowjs';
 
@@ -69,7 +70,7 @@ let beforeChange = null;
 export default function TourList() {
     const location = useLocation()
     const history = useHistory()
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(-1)
     const [tourList, setTourList] = useState([])
     const [categories, setCategories] = useState([])
 
@@ -79,6 +80,7 @@ export default function TourList() {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [sort, setSort] = useState("")
+    const [departDate, setDepartDate] = useState(new Date());
 
     const [page, setPage] = useState(1)
     const classes = useStyles();
@@ -154,6 +156,16 @@ export default function TourList() {
       }, [location.search, page])
 
     /* Function Search Tour */
+    const handleDepartDateChange = (newValue) => {
+        setDepartDate(newValue)
+        console.log(newValue)
+        let year = newValue.getFullYear()
+        let month = newValue.getMonth() + 1
+        let date = newValue.getDate()
+
+        history.push(`/tour-list/?depart_date=${year}-${month}-${date}`)
+    }
+
     const handleSortChange = (event) => {
         setSort(event.target.value)
         history.push(`/tour-list/?sort=${event.target.value}`)
@@ -195,7 +207,7 @@ export default function TourList() {
     let tours = <></>
     let results = <></>
 
-    if (tourList.length !== 0) {
+    if (count > 0) {
         tours = <>
             <div className="tour-grid-content">
                 <div className="row clearfix">
@@ -207,6 +219,9 @@ export default function TourList() {
             </div>
         </>
         results = <><h3>Hiển thị {tourList.length} trên {count} kết quả</h3></>
+    }
+    else if (count === 0) {
+        results = <><h3>Không có kết quả</h3></>
     }
 
     // Pagination
@@ -225,7 +240,7 @@ export default function TourList() {
         </Stack>
     </>
     /* End Render */
-    if (tourList.length === 0) {
+    if (tourList.length === 0 && count === -1){
         return <PreLoader />
     }
 
@@ -262,6 +277,7 @@ export default function TourList() {
                                             onChange={handleSortChange}
                                             autoWidth
                                             lable='Sắp xếp theo'
+                                            inputProps={{MenuProps: {disableScrollLock: true}}}
                                             >
                                                 <MenuItem value="">
                                                     <em>Sắp xếp theo</em>
@@ -272,15 +288,6 @@ export default function TourList() {
                                                 <MenuItem value={4}>Rating</MenuItem>
                                             </Select>
                                         </FormControl>
-                                        {/* <div className="select-box">
-                                            <select className="wide">
-                                                <option data-display="Sort by">Sort by</option>
-                                                <option value={1}>Name (a - z)</option>
-                                                <option value={2}>Price Up</option>
-                                                <option value={3}>Price Down</option>
-                                                <option value={3}>Rating</option>
-                                            </select>
-                                        </div> */}
                                     </div>
                                     <div className="menu-box">
                                         <button className={cList} onClick={listOn}>
@@ -404,9 +411,16 @@ export default function TourList() {
                                         </FormControl>
                                     </div>
                                 </div>
-                                {/* <div className="sidebar-widget">
-
-                                </div> */}
+                                <div className="sidebar-widget">
+                                    <LocalizationProvider dateAdapter={AdapterDateFns} locale={viLocale}>
+                                        <DatePicker
+                                            label="Ngày khởi hành"
+                                            value={departDate}
+                                            onChange={handleDepartDateChange}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </div>
                                 <div className="advice-widget">
                                     <div className="inner-box"
                                         style={{
@@ -444,7 +458,7 @@ class TourItem extends React.Component {
                 <div className="tour-block-one">
                     <div className="inner-box">
                         <figure className="image-box">
-                            <img style={{ width: '370px', height: '270px' }} src={this.props.tour.image} alt="ImageTour" />
+                            <img src={this.props.tour.image} alt="ImageTour" />
                             <Link to={'/tour-detail/' + this.props.tour.id} >
                                 <i className="fas fa-link" />
                             </Link>

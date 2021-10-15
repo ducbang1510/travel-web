@@ -57,7 +57,7 @@
 }
 
 .tour-block-one .inner-box .image-box:before {
-    background: #ff7c5b;
+    background: rgba(255, 255, 255,.2);
 }
 
 .tour-block-one .inner-box .lower-content .rating span i {
@@ -104,7 +104,7 @@
 }
 
 .news-block-one .inner-box .image-box {
-    background: #ff7c5b;
+    background: rgba(255, 255, 255,.2);
 }
 
 .news-block-one .inner-box .image-box .post-date i {
@@ -136,7 +136,7 @@
 }
 
 .footer-top .gallery-widget .image-list li .image-box {
-    background: #ff7c5b;
+    background: rgba(255, 255, 255,.2);
 }
 
 .footer-top .contact-widget .info-list li i {
@@ -197,7 +197,7 @@
 }
 
 .tour-block-two .inner-box .image-box:before {
-    background: #ff7c5b;
+    background: rgba(255, 255, 255,.2);
 }
 
 .tour-block-two .inner-box .content-box .rating span i {
@@ -258,7 +258,7 @@
 }
 
 .default-sidebar .post-widget .post .post-thumb {
-    background: #ff7c5b;
+    background: rgba(255, 255, 255,.2);
 }
 
 .default-sidebar .post-widget .post h4 a:hover {

@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router';
 import API, { endpoints } from '../API';
 import PreLoader from '../components/PreLoader';
 import PayContext from '../context/PayContext';
+import WOW from 'wowjs';
 
 import pageTitle5 from '../static/image/background/page-title-5.jpg'
 
@@ -13,6 +14,10 @@ function Booking3(props) {
     const payDetails = React.useContext(PayContext)
 
     const location = useLocation()
+
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
 
     useEffect(() => {
         let getTour = async () => {
@@ -106,7 +111,9 @@ function Booking3(props) {
         <>
             <section className="page-title centred" style={{ backgroundImage: `url(${pageTitle5})` }}>
                 <div className="auto-container">
-                    <div className="content-box">
+                    <div className="content-box wow fadeInDown animated animated"
+                        data-wow-delay="00ms"
+                        data-wow-duration="1500ms">
                         <h1>Xác Nhận</h1>
                         <p>Khám phá cuộc phiêu lưu tuyệt vời tiếp theo của bạn</p>
                     </div>

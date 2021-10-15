@@ -19,34 +19,36 @@ import About from './pages/About'
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import { PayProvider } from './context/PayContext'
+import ScrollTopLoad from './components/ScrollTopLoad';
 
 export default function App(props) {
-
-  return (
-    <PayProvider>
-    <div className="boxed_wrapper">
-      <BrowserRouter>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/tour-list" component={TourList} />
-          <Route exact path="/tour-detail/:tourId" component={TourDetail} />
-          <Route exact path="/tour-detail/:tourId/gallery" component={Gallery} />
-          <Route exact path="/blogs" component={Blogs} />
-          <Route exact path="/blog-details/:blogId" component={BlogDetails} />
-          <Route exact path="/tour-detail/:tourId/booking-1" component={Booking1} />
-          <Route exact path="/tour-detail/:tourId/booking-2" component={Booking2} />
-          <Route exact path="/tour-detail/:tourId/booking-3/:invId/confirm" component={Booking3} />
-          <Route exact path="/contact" component={Contact} />
-          <Route exact path="/about-us" component={About} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-        </Switch>
-        {/* <MessengerCustomerChat pageId="109975688121009" appId="165936822365195"/> */}
-        <Footer />
-        <ScrollTop />
-      </BrowserRouter>
-    </div>
-    </PayProvider>
-  );
+    return (
+        <PayProvider>
+            <div className="boxed_wrapper">
+                <BrowserRouter>
+                    <ScrollTopLoad>
+                        <Header />
+                        <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/tour-list" component={TourList} />
+                        <Route exact path="/tour-detail/:tourId" component={TourDetail} />
+                        <Route exact path="/tour-detail/:tourId/gallery" component={Gallery} />
+                        <Route exact path="/blogs" component={Blogs} />
+                        <Route exact path="/blog-details/:blogId" component={BlogDetails} />
+                        <Route exact path="/tour-detail/:tourId/booking-1" component={Booking1} />
+                        <Route exact path="/tour-detail/:tourId/booking-2" component={Booking2} />
+                        <Route exact path="/tour-detail/:tourId/booking-3/:invId/confirm" component={Booking3} />
+                        <Route exact path="/contact" component={Contact} />
+                        <Route exact path="/about-us" component={About} />
+                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/register" component={Register} />
+                        </Switch>
+                        {/* <MessengerCustomerChat pageId="109975688121009" appId="165936822365195"/> */}
+                        <Footer />
+                        <ScrollTop />
+                    </ScrollTopLoad>
+                </BrowserRouter>
+            </div>
+        </PayProvider>
+    );
 }

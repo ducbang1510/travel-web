@@ -97,7 +97,7 @@ class TourItem extends React.Component {
                     <div className="tour-block-one wow fadeInUp animated animated" data-wow-delay="600ms" data-wow-duration="1500ms">
                         <div className="inner-box">
                             <figure className="image-box">
-                                <img style={{ width: '370px', height: '270px' }} src={this.props.tour.image} alt="ImageTour" />
+                                <img src={this.props.tour.image} alt="ImageTour" />
                                 <a href={'/tour-detail/' + this.props.tour.id}>
                                     <i className="fas fa-link" />
                                 </a>
@@ -144,7 +144,7 @@ class BlogItem extends React.Component {
                     <div className="inner-box">
                         <figure className="image-box">
                             <Link to={"/blog-details/" + this.props.blog.id}>
-                                <img style={{ width: '370px', height: '270px' }} src={this.props.blog.image} alt="" />
+                                <img src={this.props.blog.image} alt="" />
                             </Link>
                             <span className="post-date">
                                 <i className="far fa-calendar-alt" />{this.props.blog.created_date}

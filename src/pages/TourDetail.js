@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import API, { endpoints } from "../API";
 import cookies from 'react-cookies'
+import WOW from 'wowjs';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Rating, Typography } from "@mui/material";
 
-import pageTitle3 from "../static/image/background/page-title-3.jpg"
 import advice1 from "../static/image/advice/advice-1.jpg"
 import PreLoader from "../components/PreLoader"
 
@@ -24,6 +24,10 @@ export default function TourDetail() {
     const { tourId } = useParams()
 
     let user = useSelector(state => state.user.user)
+
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
 
     useEffect(() => {
         let getTour = async() => {
@@ -113,9 +117,9 @@ export default function TourDetail() {
 
     return (
         <>
-            <section className="page-title style-three" style={{ backgroundImage: `url(${pageTitle3})` }}>
+            <section className="page-title style-three" style={{ backgroundImage: `url(${tour.banner})` }}>
                 <div className="auto-container">
-                    <div className="inner-box">
+                    <div className="inner-box wow fadeInDown animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
                         <div className="rating"><span><i className="fas fa-star"></i>{tour.rating}</span></div>
                         <h2 style={{ width: "750px" }}>{tour.tour_name}</h2>
                         <h3>{tour.price_of_tour}đ<span> / 1 người</span></h3>
@@ -268,7 +272,7 @@ class CommentItem extends React.Component {
                     <Avatar
                             alt="ImageComment"
                             src={this.props.comment.user.avatar_url}
-                            sx={{ width: 70, height: 70 }}
+                            sx={{ width: 52, height: 52 }}
                         />
                     </ListItemAvatar>
                     <ListItemText style={{ paddingLeft: 20 }}

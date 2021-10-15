@@ -3,6 +3,19 @@ import { Link } from "react-router-dom";
 import cookies from "react-cookies";
 import { useSelector, useDispatch } from "react-redux";
 
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import LoginIcon from '@mui/icons-material/Login';
+// import PersonAdd from '@mui/icons-material/PersonAdd';
+// import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+
 import logo from "../static/image/logo-3.png";
 import logo2 from '../static/image/logo-2.png'
 
@@ -17,12 +30,23 @@ export default function Header(props) {
         cookies.remove("user");
         cookies.remove("access_token");
         dispatch({
-          type: "USER_LOGIN",
-          payload: null,
+            type: "USER_LOGIN",
+            payload: null,
         });
     };
 
-    let r = (
+    let menuAccount = (
+        <MenuItem>
+            <ListItemIcon>
+                <LoginIcon fontSize="small" />
+            </ListItemIcon>
+            <Link to="/register" style={{ color: 'black' }}>
+                Đăng Ký
+            </Link>
+        </MenuItem>
+    );
+
+    let mobileMenuAccount = (
         <>
             <li>
                 <Link to="/register">Đăng kí</Link>
@@ -30,8 +54,34 @@ export default function Header(props) {
         </>
     );
 
+    let infoAccount = (
+        <MenuItem>
+            <Avatar /> Khách
+        </MenuItem>
+    );
+
     if (user !== null && user !== undefined) {
-        r = (
+        infoAccount = (
+            <MenuItem>
+                <Avatar 
+                    alt="ImageComment"
+                    src={user.avatar_url}
+                    sx={{ width: 32, height: 32 }}
+                /> 
+                {user.username}
+            </MenuItem>
+        )
+
+        menuAccount = (
+            <MenuItem onClick={logout}>
+                <ListItemIcon>
+                    <Logout fontSize="small" />
+                </ListItemIcon>
+                Đăng Xuất
+            </MenuItem>
+        );
+
+        mobileMenuAccount = (
             <>
                 <li>
                     <Link to="/">{user.username}</Link>
@@ -43,10 +93,20 @@ export default function Header(props) {
         );
     }
 
+    // Style sticky header
     const sticky_header = {
         backgroundColor: "#fff",
         position: "fixed",
         boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 10px",
+    };
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
     };
     
     // add and remove class mobile-menu from <body></body>
@@ -68,48 +128,84 @@ export default function Header(props) {
                                     </Link>
                                 </figure>
                             </div>
-                          {}
-                          <div className="mobile-nav-toggler" onClick={() => {setIsOpen(!isOpen)}}>
-                              <i className="icon-bar" />
-                              <i className="icon-bar" />
-                              <i className="icon-bar" />
-                          </div>
+                            {}
+                            <div className="mobile-nav-toggler" onClick={() => {setIsOpen(!isOpen)}}>
+                                <i className="icon-bar" />
+                                <i className="icon-bar" />
+                                <i className="icon-bar" />
+                            </div>
 
                             <nav className="main-menu navbar-expand-md navbar-light">
                                 <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                                     <ul className="navigation clearfix">
-                                        <li className="dropdown">
-                                            <Link to="/">Trang Chủ</Link>
-                                        </li>
-                                        <li className="dropdown">
-                                            <Link to="/tour-list">Tour</Link>
-                                        </li>
-                                        <li className="dropdown">
-                                            <Link to="/blogs">Tin Tức</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/about-us">Thông Tin</Link>
-                                        </li>
-                                        <li className="dropdown">
-                                            <Link to="/contact">Liên Lạc</Link>
-                                        </li>
-                                        {r}
+                                        <li className="dropdown"><Link to="/">Trang Chủ</Link></li>
+                                        <li className="dropdown"><Link to="/tour-list">Tour</Link></li>
+                                        <li className="dropdown"><Link to="/blogs">Tin Tức</Link></li>
+                                        <li className="dropdown"><Link to="/about-us">Thông Tin</Link></li>
+                                        <li className="dropdown"><Link to="/contact">Liên Lạc</Link></li>
                                     </ul>
                                 </div>
                             </nav>
                         </div>
 
                         <ul className="menu-right-content pull-right clearfix">
-                            <li className="user-link">
-                                <Link to="/login" toggle="tooltip" title={"Đăng nhập"}>
-                                    <i className="far fa-user" />
-                                </Link>
+                            <li className="search-box-outer">
+                                <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                                    <Tooltip title="Tài Khoản">
+                                        <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+                                            <Avatar sx={{ width: 56, height: 56 }}><i className="far fa-user" /></Avatar>
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
                             </li>
-                            <li className="btn-box">
-                                <Link to="/tour-list" className="theme-btn">
-                                    Đặt Tour
-                                </Link>
-                            </li>
+
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                onClick={handleClose}
+                                PaperProps={{
+                                    elevation: 0,
+                                    sx: {
+                                        overflow: 'visible',
+                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                        mt: 1.5,
+                                        '& .MuiAvatar-root': {
+                                            width: 32,
+                                            height: 32,
+                                            ml: -0.5,
+                                            mr: 1,
+                                        },
+                                        '&:before': {
+                                            content: '""',
+                                            display: 'block',
+                                            position: 'absolute',
+                                            top: 0,
+                                            right: 14,
+                                            width: 10,
+                                            height: 10,
+                                            bgcolor: 'background.paper',
+                                            transform: 'translateY(-50%) rotate(45deg)',
+                                            zIndex: 0,
+                                        },
+                                    },
+                                }}
+                                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                disableScrollLock={ true }
+                            >
+                                {infoAccount}
+                                <Divider/>
+                                <MenuItem>
+                                    <ListItemIcon>
+                                        <LoginIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <Link to="/login" style={{ color: 'black' }}>    
+                                        Đăng Nhập
+                                    </Link>
+                                </MenuItem>
+                                {menuAccount}
+                            </Menu>
                         </ul>
                     </div>
                 </div>
@@ -134,9 +230,9 @@ export default function Header(props) {
                                 <li className="dropdown"><Link to="/">Trang Chủ</Link></li>
                                 <li className="dropdown"><Link to="/tour-list">Tour</Link></li>
                                 <li className="dropdown"><Link to="/blogs">Tin Tức</Link></li>
-                                <li><Link to="/about-us">Thông Tin</Link></li>
+                                <li className="dropdown"><Link to="/about-us">Thông Tin</Link></li>
                                 <li className="dropdown"><Link to="/contact">Liên Lạc</Link></li>
-                                {r}
+                                {mobileMenuAccount}
                             </ul>
                         </div>
                     </div>

@@ -14,6 +14,7 @@ export default function FeatureSection() {
     useEffect(() => {
         new WOW.WOW({live: false}).init();
     }, [])
+    
     return (
         <>
             <section className="feature-section centred bg-color-1 sec-pad">
