@@ -93,13 +93,6 @@ export default function Header(props) {
         );
     }
 
-    // Style sticky header
-    const sticky_header = {
-        backgroundColor: "#fff",
-        position: "fixed",
-        boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 10px",
-    };
-
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -116,7 +109,7 @@ export default function Header(props) {
 
     return (
         <>
-            <header style={sticky_header} className="main-header style-three">
+            <header className="main-header style-three">
                 {}
                 <div className="header-lower">
                     <div className="outer-box clearfix">
@@ -181,7 +174,7 @@ export default function Header(props) {
                                             display: 'block',
                                             position: 'absolute',
                                             top: 0,
-                                            right: 14,
+                                            right: 26,
                                             width: 10,
                                             height: 10,
                                             bgcolor: 'background.paper',
@@ -192,7 +185,6 @@ export default function Header(props) {
                                 }}
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                                disableScrollLock={ true }
                             >
                                 {infoAccount}
                                 <Divider/>
@@ -207,6 +199,44 @@ export default function Header(props) {
                                 {menuAccount}
                             </Menu>
                         </ul>
+                    </div>
+                </div>
+
+                <div className="sticky-header">
+                    <div className="auto-container">
+                        <div className="outer-box">
+                            <div className="logo-box">
+                                <figure className="logo">
+                                    <a href="/home.html">
+                                        <img src="./assets/image/logo.png" alt="ImageLogo" />
+                                    </a>
+                                </figure>
+                            </div>
+                            <div className="menu-area">
+                                <nav className="main-menu clearfix">
+                                    <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
+                                        <ul className="navigation clearfix">
+                                            <li className="dropdown"><Link to="/">Trang Chủ</Link></li>
+                                            <li className="dropdown"><Link to="/tour-list">Tour</Link></li>
+                                            <li className="dropdown"><Link to="/blogs">Tin Tức</Link></li>
+                                            <li className="dropdown"><Link to="/about-us">Thông Tin</Link></li>
+                                            <li className="dropdown"><Link to="/contact">Liên Lạc</Link></li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </div>
+                            <ul className="menu-right-content clearfix">
+                                <li className="search-box-outer">
+                                    <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                                        <Tooltip title="Tài Khoản">
+                                            <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+                                                <Avatar sx={{ width: 56, height: 56 }}><i className="far fa-user" /></Avatar>
+                                            </IconButton>
+                                        </Tooltip>
+                                    </Box>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </header>

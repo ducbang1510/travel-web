@@ -1478,12 +1478,11 @@ div#mCSB_1_container {
 
 .banner-section {
     position: relative;
-    padding: 120px 0px 230px 0px;
+    padding: 216px 0px 270px 0px;
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    margin-top: 100px;
 }
 
 .banner-section:before {
@@ -4792,7 +4791,6 @@ div#mCSB_1_container {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    margin-top: 100px;
 }
 
 .page-title:before {

@@ -271,13 +271,12 @@ export default function TourList() {
                                         <FormControl sx={{ m: 0, minWidth: 140 }}>
                                             <InputLabel id="select-sort-label">Sắp xếp theo</InputLabel>
                                             <Select
-                                            labelId="select-sort-label"
-                                            id="sort-select"
-                                            value={sort}
-                                            onChange={handleSortChange}
-                                            autoWidth
-                                            lable='Sắp xếp theo'
-                                            inputProps={{MenuProps: {disableScrollLock: true}}}
+                                                labelId="select-sort-label"
+                                                id="sort-select"
+                                                value={sort}
+                                                onChange={handleSortChange}
+                                                autoWidth
+                                                lable='Sắp xếp theo'
                                             >
                                                 <MenuItem value="">
                                                     <em>Sắp xếp theo</em>
