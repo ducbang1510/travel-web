@@ -329,6 +329,9 @@ export default function TourList() {
                                     </form>
                                 </div>
                                 <div className="sidebar-widget">
+                                    <div className="widget-title">
+                                        <h3>Ngày khởi hành</h3>
+                                    </div>
                                     <LocalizationProvider dateAdapter={AdapterDateFns} locale={viLocale}>
                                         <DatePicker
                                             label="Ngày khởi hành"
