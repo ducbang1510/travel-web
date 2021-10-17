@@ -64,36 +64,6 @@ Reset
 
 ***/
 
-/* .checkout-button {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ae2070;
-    padding: 5px;
-    border-radius: 5px
-}
-
-.checkout-button img {
-    padding-left: 10px;
-    height: 50px;
-    width: 50px;
-}
-
-.content{
-    padding-left: 15px;
-}
-.content .checkout-title{
-    color: #000;
-    font-size: 13pt;
-    font-weight: 600;
-}
-.content .description{
-    color: #666
-}
-
-input[type="radio"]:hover{
-    cursor: pointer;
-} */
-
 body {
     font-size: 16px;
     color: #808080;
@@ -839,7 +809,7 @@ img {
     position: relative;
     display: block;
     text-align: center;
-    font-size: 17px;
+    font-size: 18px;
     line-height: 30px;
     font-family: 'Work Sans', sans-serif;
     font-weight: 500;
@@ -2820,6 +2790,8 @@ div#mCSB_1_container {
     border-radius: 25px;
     padding: 5px 20px 3px 55px;
     box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.5);
+    transform: translate(0px);
+    transition: transform 500ms ease;
 }
 
 .news-block-one .inner-box .image-box .post-date i {
@@ -7547,27 +7519,29 @@ body::-webkit-scrollbar-thumb:hover {
     transform: scale(1);
 }
 
-.feature-block-one .inner-box:hover .lower-content .icon-box .icon-feature {
+.feature-block-one .inner-box:hover .lower-content .icon-box .icon-feature,
+.content_block_5 .content-box .social-links li:hover a,
+.single-info-box .inner-box:hover .icon-box,
+.blog-details-content .post-share-option .social-links li:hover a,
+.footer-top .logo-widget .social-links li:hover a,
+.team-block-one .inner-box .lower-content .social-links li:hover a,
+.news-block-one .inner-box:hover .image-box .post-date i {
     transform: rotate(360deg);
     transition: transform 500ms ease;
 }
 
-.content_block_5 .content-box .social-links li:hover a {
-    transform: rotate(360deg);
-    transition: transform 500ms ease;
+.photo-gallery-link {
+    color: #061a3a;
+    font-size: 30px;
+    font-weight: 600;
 }
 
-.single-info-box .inner-box:hover .icon-box {
-    transform: rotate(360deg);
-    transition: transform 500ms ease;
+.photo-gallery-link:hover {
+    color: #ff7c5b;
+    padding-left: 30px;
 }
 
-.blog-details-content .post-share-option .social-links li:hover a {
-    transform: rotate(360deg);
-    transition: transform 500ms ease;
-}
-
-.footer-top .logo-widget .social-links li:hover a {
-    transform: rotate(360deg);
+.news-block-one .inner-box:hover .image-box .post-date {
+    transform: translate(20px);
     transition: transform 500ms ease;
 }

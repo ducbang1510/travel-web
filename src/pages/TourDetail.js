@@ -163,7 +163,7 @@ export default function TourDetail() {
                                 </div>
                                 <div className="photo-gallery">
                                     <div className="text">
-                                        <Link style={{color: "#061a3a", fontSize: "30px", fontWeight: "600"}} to={"/tour-detail/" + tourId + "/gallery"}>
+                                        <Link className="photo-gallery-link" to={"/tour-detail/" + tourId + "/gallery"}>
                                             Bộ sưu tập ảnh <span> </span>
                                             <i className="fas fa-arrow-right"></i>
                                         </Link>
