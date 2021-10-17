@@ -7545,3 +7545,7 @@ body::-webkit-scrollbar-thumb:hover {
     transform: translate(20px);
     transition: transform 500ms ease;
 }
+
+.is-current {
+    color: #ff7c5b !important;
+}

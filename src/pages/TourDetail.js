@@ -205,6 +205,14 @@ export default function TourDetail() {
                         <div className="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                             <div className="default-sidebar tour-sidebar ml-20">
                                 <div className="sidebar-widget downloads-widget">
+                                    <div className="form-widget">
+                                        <div className="widget-title">
+                                            <h3>Đặt Tour</h3>
+                                        </div>
+                                        <Link to={"/tour-detail/" + tourId + "/booking-1"} style={{ color: "#fff" }}>
+                                            <button type="submit" className="theme-btn">Nhấn vào đây</button>
+                                        </Link>
+                                    </div>
                                     <div className="widget-title">
                                         <h3>Tải xuống</h3>
                                     </div>
@@ -235,14 +243,6 @@ export default function TourDetail() {
                                             <h2>Get <br />25% Off <br />On New York Tours</h2>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="form-widget">
-                                    <div className="widget-title">
-                                        <h3>Đặt Tour</h3>
-                                    </div>
-                                    <Link to={"/tour-detail/" + tourId + "/booking-1"} style={{ color: "#fff" }}>
-                                        <button type="submit" className="theme-btn">Nhấn vào đây</button>
-                                    </Link>
                                 </div>
                             </div>
                         </div>

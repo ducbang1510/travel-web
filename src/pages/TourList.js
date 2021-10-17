@@ -277,6 +277,7 @@ export default function TourList() {
                                                 onChange={handleSortChange}
                                                 autoWidth
                                                 lable='Sắp xếp theo'
+                                                inputProps={{ MenuProps: {disableScrollLock: true} }}
                                             >
                                                 <MenuItem value="">
                                                     <em>Sắp xếp theo</em>
@@ -326,6 +327,16 @@ export default function TourList() {
                                             </button>
                                         </div>
                                     </form>
+                                </div>
+                                <div className="sidebar-widget">
+                                    <LocalizationProvider dateAdapter={AdapterDateFns} locale={viLocale}>
+                                        <DatePicker
+                                            label="Ngày khởi hành"
+                                            value={departDate}
+                                            onChange={handleDepartDateChange}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
                                 </div>
                                 <div className="sidebar-widget category-widget">
                                     <div className="widget-title">
@@ -409,16 +420,6 @@ export default function TourList() {
                                             </RadioGroup>
                                         </FormControl>
                                     </div>
-                                </div>
-                                <div className="sidebar-widget">
-                                    <LocalizationProvider dateAdapter={AdapterDateFns} locale={viLocale}>
-                                        <DatePicker
-                                            label="Ngày khởi hành"
-                                            value={departDate}
-                                            onChange={handleDepartDateChange}
-                                            renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
                                 </div>
                                 <div className="advice-widget">
                                     <div className="inner-box"

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import cookies from "react-cookies";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -18,7 +18,7 @@ import logo from "../static/image/logo-3.png";
 import logo2 from '../static/image/logo-2.png'
 
 export default function Header(props) {
-    const [isOpen, setIsOpen] = React.useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
@@ -33,21 +33,43 @@ export default function Header(props) {
         });
     };
 
+    /* Account Menu */
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    let btMenuAccount = (
+        <>
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                <Tooltip title="Tài Khoản">
+                    <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+                        <Avatar sx={{ width: 56, height: 56 }}><i className="far fa-user" /></Avatar>
+                    </IconButton>
+                </Tooltip>
+            </Box>
+        </>
+    )
+
     let menuAccount = (
         <MenuItem>
             <ListItemIcon>
                 <LoginIcon fontSize="small" />
             </ListItemIcon>
-            <Link to="/register" style={{ color: 'black' }}>
+            <NavLink activeClassName='is-current' to="/register" style={{ color: 'black' }}>
                 Đăng Ký
-            </Link>
+            </NavLink>
         </MenuItem>
     );
 
     let mobileMenuAccount = (
         <>
-            <li>
-                <Link to="/register">Đăng kí</Link>
+            <li className="dropdown">
+                <NavLink activeClassName='is-current' to="/register">Đăng kí</NavLink>
             </li>
         </>
     );
@@ -58,18 +80,8 @@ export default function Header(props) {
         </MenuItem>
     );
 
+    // When user is logged
     if (user !== null && user !== undefined) {
-        infoAccount = (
-            <MenuItem>
-                <Avatar 
-                    alt="Avatar"
-                    src={user.avatar_url}
-                    sx={{ width: 32, height: 32 }}
-                /> 
-                {user.username}
-            </MenuItem>
-        )
-
         menuAccount = (
             <MenuItem onClick={logout}>
                 <ListItemIcon>
@@ -81,26 +93,40 @@ export default function Header(props) {
 
         mobileMenuAccount = (
             <>
-                <li>
+                <li className="dropdown">
                     <Link to="/">{user.username}</Link>
                 </li>
-                <li>
+                <li className="dropdown">
                     <Link to="/" onClick={logout}>Đăng xuất</Link>
                 </li>
             </>
         );
-    }
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+        infoAccount = (
+            <MenuItem>
+                <Avatar 
+                    alt="Avatar"
+                    src={user.avatar_url}
+                    sx={{ width: 32, height: 32 }}
+                /> 
+                {user.username}
+            </MenuItem>
+        )
+    }
+    /* End Account Menu */
+
+    // Menu Header
+    let menuHeader = (
+        <>
+            <li className="dropdown"><NavLink activeClassName='is-current' to="/" exact={true}>Trang Chủ</NavLink></li>
+            <li className="dropdown"><NavLink activeClassName='is-current' to="/tour-list">Tour</NavLink></li>
+            <li className="dropdown"><NavLink activeClassName='is-current' to="/blogs">Tin Tức</NavLink></li>
+            <li className="dropdown"><NavLink activeClassName='is-current' to="/about-us">Thông Tin</NavLink></li>
+            <li className="dropdown"><NavLink activeClassName='is-current' to="/contact">Liên Lạc</NavLink></li>
+        </>
+    )
     
-    // add and remove class mobile-menu from <body></body>
+    // Add and Remove class mobile-menu from <body></body>
     useEffect(() => {
         document.body.classList.toggle('mobile-menu-visible', isOpen);
     }, [isOpen])
@@ -129,11 +155,7 @@ export default function Header(props) {
                             <nav className="main-menu navbar-expand-md navbar-light">
                                 <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                                     <ul className="navigation clearfix">
-                                        <li className="dropdown"><Link to="/">Trang Chủ</Link></li>
-                                        <li className="dropdown"><Link to="/tour-list">Tour</Link></li>
-                                        <li className="dropdown"><Link to="/blogs">Tin Tức</Link></li>
-                                        <li className="dropdown"><Link to="/about-us">Thông Tin</Link></li>
-                                        <li className="dropdown"><Link to="/contact">Liên Lạc</Link></li>
+                                        {menuHeader}
                                     </ul>
                                 </div>
                             </nav>
@@ -141,13 +163,7 @@ export default function Header(props) {
 
                         <ul className="menu-right-content pull-right clearfix">
                             <li className="search-box-outer">
-                                <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                                    <Tooltip title="Tài Khoản">
-                                        <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                                            <Avatar sx={{ width: 56, height: 56 }}><i className="far fa-user" /></Avatar>
-                                        </IconButton>
-                                    </Tooltip>
-                                </Box>
+                                {btMenuAccount}
                             </li>
 
                             <Menu
@@ -183,6 +199,7 @@ export default function Header(props) {
                                 }}
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                disableScrollLock= {true}
                             >
                                 {infoAccount}
                                 <Divider/>
@@ -190,9 +207,9 @@ export default function Header(props) {
                                     <ListItemIcon>
                                         <LoginIcon fontSize="small" />
                                     </ListItemIcon>
-                                    <Link to="/login" style={{ color: 'black' }}>    
+                                    <NavLink activeClassName='is-current' to="/login" style={{ color: 'black' }}>    
                                         Đăng Nhập
-                                    </Link>
+                                    </NavLink>
                                 </MenuItem>
                                 {menuAccount}
                             </Menu>
@@ -214,24 +231,14 @@ export default function Header(props) {
                                 <nav className="main-menu clearfix">
                                     <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                                         <ul className="navigation clearfix">
-                                            <li className="dropdown"><Link to="/">Trang Chủ</Link></li>
-                                            <li className="dropdown"><Link to="/tour-list">Tour</Link></li>
-                                            <li className="dropdown"><Link to="/blogs">Tin Tức</Link></li>
-                                            <li className="dropdown"><Link to="/about-us">Thông Tin</Link></li>
-                                            <li className="dropdown"><Link to="/contact">Liên Lạc</Link></li>
+                                            {menuHeader}
                                         </ul>
                                     </div>
                                 </nav>
                             </div>
                             <ul className="menu-right-content clearfix">
                                 <li className="search-box-outer">
-                                    <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                                        <Tooltip title="Tài Khoản">
-                                            <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                                                <Avatar sx={{ width: 56, height: 56 }}><i className="far fa-user" /></Avatar>
-                                            </IconButton>
-                                        </Tooltip>
-                                    </Box>
+                                    {btMenuAccount}
                                 </li>
                             </ul>
                         </div>
@@ -255,11 +262,7 @@ export default function Header(props) {
                     <div className="menu-outer">
                         <div className="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
                             <ul className="navigation clearfix">
-                                <li className="dropdown"><Link to="/">Trang Chủ</Link></li>
-                                <li className="dropdown"><Link to="/tour-list">Tour</Link></li>
-                                <li className="dropdown"><Link to="/blogs">Tin Tức</Link></li>
-                                <li className="dropdown"><Link to="/about-us">Thông Tin</Link></li>
-                                <li className="dropdown"><Link to="/contact">Liên Lạc</Link></li>
+                                {menuHeader}
                                 {mobileMenuAccount}
                             </ul>
                         </div>
