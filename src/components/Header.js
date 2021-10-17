@@ -12,8 +12,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import LoginIcon from '@mui/icons-material/Login';
-// import PersonAdd from '@mui/icons-material/PersonAdd';
-// import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
 import logo from "../static/image/logo-3.png";
@@ -64,7 +62,7 @@ export default function Header(props) {
         infoAccount = (
             <MenuItem>
                 <Avatar 
-                    alt="ImageComment"
+                    alt="Avatar"
                     src={user.avatar_url}
                     sx={{ width: 32, height: 32 }}
                 /> 
@@ -207,9 +205,9 @@ export default function Header(props) {
                         <div className="outer-box">
                             <div className="logo-box">
                                 <figure className="logo">
-                                    <a href="/home.html">
-                                        <img src="./assets/image/logo.png" alt="ImageLogo" />
-                                    </a>
+                                    <Link to="/">
+                                        <img src={logo2} alt="ImageLogo" />
+                                    </Link>
                                 </figure>
                             </div>
                             <div className="menu-area">
