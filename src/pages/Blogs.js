@@ -29,7 +29,7 @@ function Blogs(props) {
     let location = useLocation();
     const history = useHistory();
 
-    const [count, setCount] = useState(1)
+    const [count, setCount] = useState(-1)
     const [listBlog, setListBlog] = useState([])
     const [lastestBlogs, setLastestBlogs] = useState([])
     const [searchTerm, setSearchTerm] = useState("");
@@ -102,7 +102,7 @@ function Blogs(props) {
         </Stack>
     </>
 
-    if (listBlog.length === 0){
+    if (listBlog.length === 0 && count === -1) {
         return <PreLoader />
     }
 

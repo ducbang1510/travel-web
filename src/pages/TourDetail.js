@@ -5,7 +5,7 @@ import cookies from 'react-cookies'
 import WOW from 'wowjs';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Rating, Typography } from "@mui/material";
+import { Avatar, Rating } from "@mui/material";
 
 import advice1 from "../static/image/advice/advice-1.jpg"
 import PreLoader from "../components/PreLoader"
@@ -196,9 +196,9 @@ export default function TourDetail() {
                                         <h2>{listComment.length} Bình luận</h2>
                                     </div>
 
-                                    <List sx={{ width: '100%',maxWidth: 800, bgcolor: 'background.paper', }}>
+                                    <div className="comment-box-content">
                                         {listComment.map(c => <CommentItem key={c.id} comment={c} />)}
-                                    </List>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -256,52 +256,26 @@ class CommentItem extends React.Component {
     render() {
         return (
             <>
-                <Divider component="li" />
-                <li>
-                    <Typography
-                    sx={{ mt: 0.5, ml: 13 }}
-                    color="text.primary"
-                    display="block"
-                    variant="caption"
-                    >
-                    {this.props.comment.created_date}
-                    </Typography>
-                </li>
-                <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                    <Avatar
+                <div className="comment">
+                    <figure className="thumb-box">
+                        <Avatar
                             alt="ImageComment"
                             src={this.props.comment.user.avatar_url}
                             sx={{ width: 52, height: 52 }}
                         />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={
-                            <React.Fragment>
-                              <Typography
-                                sx={{ display: 'inline' }}
-                                component="span"
-                                variant="body1"
-                                color="text.primary"
-                              >
-                                {this.props.comment.user.username}
-                              </Typography>
-                            </React.Fragment>
-                        }
-                        secondary={
-                            <React.Fragment>
-                              <Typography
-                                sx={{ display: 'inline' }}
-                                component="span"
-                                variant="body1"
-                                color="text.primary"
-                              >
-                                {this.props.comment.content}
-                              </Typography>
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
+                    </figure>
+                    <div className="comment-inner">
+                        <div className="comment-info clearfix">
+                            <span className="post-date">{this.props.comment.created_date}</span>
+                        </div>
+                        <p>
+                            {this.props.comment.content}
+                        </p>
+                        <div className="author-comment">
+                            <span>Bình luận bởi:</span> {this.props.comment.user.username}
+                        </div>
+                    </div>
+                </div>
             </>
         )
     }

@@ -7546,6 +7546,31 @@ body::-webkit-scrollbar-thumb:hover {
     transition: transform 500ms ease;
 }
 
+.tour-details-content .comment-box .comment-box-content .comment {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 0 12px 0;
+    border-bottom: 1px solid #e5e7ec;
+    margin-bottom: 12px;
+}
+
+.tour-details-content .comment-box .comment-box-content .comment .comment-inner {
+    margin-left: 20px;
+    background-color: #f5f6f6;
+    border: 1px solid #e6ebeb;
+    border-radius: 4px;
+    padding: 4px 16px;
+    flex: 1;
+}
+
+.tour-details-content .comment-box .comment-box-content .comment .comment-inner .comment-info .post-date {
+    position: relative;
+    display: block;
+    font-size: 15px;
+    line-height: 24px;
+}
+
 .is-current {
     color: #ff7c5b !important;
 }
