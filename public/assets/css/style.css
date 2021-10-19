@@ -7549,7 +7549,7 @@ body::-webkit-scrollbar-thumb:hover {
 .tour-details-content .comment-box .comment-box-content .comment {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     padding: 0 0 12px 0;
     border-bottom: 1px solid #e5e7ec;
     margin-bottom: 12px;

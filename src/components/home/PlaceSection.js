@@ -34,7 +34,7 @@ export default function PlaceSection() {
                                 </figure>
                                 <div className="text">
                                     <h3>
-                                        <Link to="/tour-list">New York City</Link>
+                                        <Link to="/tour-list">Phú Quốc</Link>
                                     </h3>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@ export default function PlaceSection() {
                                 </figure>
                                 <div className="text">
                                     <h3>
-                                        <Link to="/tour-list">Norway Lake</Link>
+                                        <Link to="/tour-list">Vịnh Hạ Long</Link>
                                     </h3>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@ export default function PlaceSection() {
                                 </figure>
                                 <div className="text">
                                     <h3>
-                                        <Link to="/tour-list">Affrican Park</Link>
+                                        <Link to="/tour-list">Nha Trang</Link>
                                     </h3>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@ export default function PlaceSection() {
                                 </figure>
                                 <div className="text">
                                     <h3>
-                                        <Link to="/tour-list">Vietnam</Link>
+                                        <Link to="/tour-list">Phong Nha</Link>
                                     </h3>
                                 </div>
                             </div>
