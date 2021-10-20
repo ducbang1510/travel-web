@@ -32,24 +32,27 @@ export default function Login() {
                 'grant_type': 'password'
             });
 
-            cookies.save("access_token", res.data.access_token);
+            if (res.status === 200) {
+                alert ('Đăng nhập thành công !')
+                cookies.save("access_token", res.data.access_token);
 
-            let user = await API.get(endpoints['current-user'], {
-                headers: {
-                    'Authorization': `Bearer ${cookies.load('access_token')}`
-                }
-            })
-            cookies.save("user", user.data)
-
-            dispatch({
-                "type": "USER_LOGIN",
-                "payload": user.data
-            })
-
-            history.goBack()
-
+                let user = await API.get(endpoints['current-user'], {
+                    headers: {
+                        'Authorization': `Bearer ${cookies.load('access_token')}`
+                    }
+                })
+                cookies.save("user", user.data)
+    
+                dispatch({
+                    "type": "USER_LOGIN",
+                    "payload": user.data
+                })
+    
+                history.goBack()
+            }
         } catch (err) {
             console.error(err)
+            alert('Sai tên tài khoản hoặc mật khẩu. Đảm bảo nhập đúng tên tài khoản và mật khẩu !')
         }
     }
 
@@ -126,7 +129,7 @@ export default function Login() {
                                     <div className="col-lg-12 col-md-12 col-sm-12 column">
                                         <div className="form-group">
                                             <div className="forgor-password text-right">
-                                                <Link to="/">Quên mật khẩu?</Link>
+                                                <Link to="/forgot-password">Quên mật khẩu?</Link>
                                             </div>
                                         </div>
                                     </div>

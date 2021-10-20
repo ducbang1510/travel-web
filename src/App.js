@@ -21,6 +21,9 @@ import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import Page404 from './pages/Page404'
 import ScrollTopLoad from './components/ScrollTopLoad';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import ChangePassword from './pages/ChangePassword';
 
 export default function App(props) {
     return (
@@ -43,6 +46,9 @@ export default function App(props) {
                             <Route exact path="/about-us" component={About} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/register" component={Register} />
+                            <Route exact path="/change-password" component={ChangePassword} />
+                            <Route exact path="/forgot-password" component={ForgotPassword} />
+                            <Route exact path="/reset-password/:token" component={ResetPassword} />
                             <Route path="" component={Page404} />
                         </Switch>
                         {/* <MessengerCustomerChat pageId="109975688121009" appId="165936822365195"/> */}

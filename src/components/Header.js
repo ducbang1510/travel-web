@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import LoginIcon from '@mui/icons-material/Login';
 import Logout from '@mui/icons-material/Logout';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 import logo from "../static/image/logo-3.png";
 import logo2 from '../static/image/logo-2.png'
@@ -212,6 +213,14 @@ export default function Header(props) {
                                     </NavLink>
                                 </MenuItem>
                                 {menuAccount}
+                                <MenuItem>
+                                    <ListItemIcon>
+                                        <ChangeCircleIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <NavLink activeClassName='is-current' to="/change-password" style={{ color: 'black' }}>
+                                        Đổi mật khẩu
+                                    </NavLink>
+                                </MenuItem>
                             </Menu>
                         </ul>
                     </div>
