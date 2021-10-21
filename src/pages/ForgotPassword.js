@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import API, { endpoints } from '../API';
 import { Link } from 'react-router-dom';
 import WOW from 'wowjs';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 import pageTitle9 from "../static/image/background/page-title-9.jpg"
 import shape16 from "../static/image/shape/shape-16.png"
 import shape17 from "../static/image/shape/shape-17.png"
+import { Fade, Typography } from '@mui/material';
 
 export default function ForgotPassword(props) {
     const [email, setEmail] = useState('');
+    const [status, setStatus] = useState('');
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -16,6 +20,7 @@ export default function ForgotPassword(props) {
 
     const sendMailResetPass = async (event) => {
         event.preventDefault()
+        setStatus('progress');
 
         const formData = new FormData()
         formData.append("email", email);
@@ -27,10 +32,11 @@ export default function ForgotPassword(props) {
                 }
             })
             if (res.status === 200) {
-                alert('Đã gửi yêu cầu. Vui lòng kiểm tra mail')
+                setStatus('success')
             }
         } catch (error) {
             console.error(error)
+            setStatus('success')
         }
     }
 
@@ -82,9 +88,26 @@ export default function ForgotPassword(props) {
                                     <div className="col-lg-12 col-md-12 col-sm-12 column">
                                         <div className="form-group message-btn">
                                             <button type="submit" className="theme-btn">
-                                                Xác nhận
+                                                Gửi
                                             </button>
                                         </div>
+                                    </div>
+                                    <div className="col-lg-12 col-md-12 col-sm-12 column">
+                                        <Box sx={{ height: 40 }}>
+                                            {status === 'success' ? (
+                                                <Typography>Hãy kiểm tra email! Nếu chưa nhận được hãy ấn gửi lại</Typography>
+                                            ) : (
+                                                <Fade
+                                                    in={status === 'progress'}
+                                                    style={{
+                                                        transitionDelay: status === 0 ? '800ms' : '0ms',
+                                                    }}
+                                                    unmountOnExit
+                                                >
+                                                    <CircularProgress color="inherit" />
+                                                </Fade>
+                                            )}
+                                        </Box>
                                     </div>
                                 </div>
                             </form>
