@@ -30,6 +30,8 @@ export let endpoints = {
     'oAuthInfo': '/oauth2-info/',
     'momo-payment': '/momo-payment/',
     'momo-confirm-payment': '/momo-confirm-payment/',
+    'zalopay-payment': '/zalopay-payment/',
+    'zalopay-confirm': '/zalopay-confirm/',
 }
 
 export default axios.create({

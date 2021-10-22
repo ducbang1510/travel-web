@@ -8,7 +8,7 @@ import WOW from 'wowjs';
 import pageTitle5 from '../static/image/background/page-title-5.jpg'
 
 function Booking3(props) {
-    const { tourId } = useParams()
+    const { tourId, payType } = useParams()
     const [tour, setTour] = useState([])
     const [resultCode, setResultCode] = useState(-1)
     const payDetails = React.useContext(PayContext)
@@ -33,8 +33,14 @@ function Booking3(props) {
 
     useEffect(() => {
         let getConfirm = async () => {
+            let res = null
             try {
-                let res = await API.get(`${endpoints['momo-confirm-payment']}${location.search}`)
+                if (payType === '1') {
+                    res = await API.get(`${endpoints['momo-confirm-payment']}${location.search}`)
+                } else if (payType === '3') {
+                    res = await API.get(`${endpoints['zalopay-confirm']}${location.search}`)
+                    console.log(res)
+                }
                 setResultCode(res.data.rCode)
             } catch (error) {
                 console.log(error)
@@ -42,7 +48,7 @@ function Booking3(props) {
         }
         if (location.search !== "")
             getConfirm()
-    }, [location.search])
+    }, [location.search, payType])
 
     let notification = <></>
     if (resultCode === 0) {

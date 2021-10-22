@@ -51,13 +51,22 @@ function Booking2(props) {
                 })
                 urlPayment = res.data.payUrl
             }
+
+            if (payments === "3") {
+                let res = await API.post(endpoints['zalopay-payment'], formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                urlPayment = res.data.orderUrl
+            }
         } catch (error) {
             console.error(error);
         }
         if (urlPayment !== "")
             window.location.href = urlPayment;
         else
-            history.push(`/tour-detail/${tourId}/booking-3/${invId}/confirm`)
+            history.push(`/tour-detail/${tourId}/booking-3/${invId}/${2}/confirm`)
     }
 
     useEffect(() => {
@@ -127,8 +136,9 @@ function Booking2(props) {
                                                         value={payments}
                                                         onChange={(event) => setPayments(event.target.value)}
                                                     >
-                                                        <FormControlLabel value="1" control={<Radio />} label="Momo" />
                                                         <FormControlLabel value="2" control={<Radio />} label="Tiền mặt" />
+                                                        <FormControlLabel value="1" control={<Radio />} label="Momo" />
+                                                        <FormControlLabel value="3" control={<Radio />} label="ZaloPay" />
                                                     </RadioGroup>
                                                     </FormControl>
                                                 </div>

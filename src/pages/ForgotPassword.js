@@ -93,9 +93,9 @@ export default function ForgotPassword(props) {
                                         </div>
                                     </div>
                                     <div className="col-lg-12 col-md-12 col-sm-12 column">
-                                        <Box sx={{ height: 40 }}>
+                                        <Box sx={{ display: 'flex' }}>
                                             {status === 'success' ? (
-                                                <Typography>Hãy kiểm tra email! Nếu chưa nhận được hãy ấn gửi lại</Typography>
+                                                <Typography>Hãy kiểm tra email ! Nếu chưa nhận được hãy ấn gửi lại</Typography>
                                             ) : (
                                                 <Fade
                                                     in={status === 'progress'}
