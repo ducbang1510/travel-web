@@ -21,52 +21,61 @@ function Booking2(props) {
         new WOW.WOW({live: false}).init();
     }, [])
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault()
 
-        let invId = ""
-        const formData = new FormData()
-        formData.append('total_amount', payDetails.total)
-        formData.append('tour_id', tourId)
-        formData.append('note', note)
-        formData.append('payer_id', payDetails.payerId)
-        formData.append('status_payment', "0")
-        let urlPayment = ""
-        try {
-            let res = await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            if(res.data.id !== null) {
-                invId = res.data.id
-                formData.append('invoice_id', res.data.id)
-            }
-            
-            if (payments === "1") {
-                let res = await API.post(endpoints['momo-payment'], formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                urlPayment = res.data.payUrl
-            }
+        const submitPayment = async () => {
+            const formData = new FormData()
+            formData.append('total_amount', payDetails.total)
+            formData.append('tour_id', tourId)
+            formData.append('note', note)
+            formData.append('payer_id', payDetails.payerId)
+            formData.append('status_payment', "0")
+            let invId = ""
+            let urlPayment = ""
+            let paymentType = ""
 
-            if (payments === "3") {
-                let res = await API.post(endpoints['zalopay-payment'], formData, {
+            try {
+                let res = await API.post(`${endpoints['payers']}${payDetails.payerId}/add-invoice/`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                urlPayment = res.data.orderUrl
+                if(res.data.id !== null) {
+                    invId = res.data.id
+                    formData.append('invoice_id', res.data.id)
+                }
+
+                if (payments === "1") { 
+                    paymentType = 'momo-payment'
+                } else if (payments === "3") {
+                    paymentType = 'zalopay-payment'
+                }
+
+                if (paymentType !== "") {
+                    let res = await API.post(endpoints[paymentType], formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    urlPayment = res.data.orderUrl
+                }
+
+                if (urlPayment !== "") {
+                    window.location.href = urlPayment;
+                } else {
+                    history.push(`/tour-detail/${tourId}/booking-3/${invId}/${2}/confirm`)
+                }
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
         }
-        if (urlPayment !== "")
-            window.location.href = urlPayment;
-        else
-            history.push(`/tour-detail/${tourId}/booking-3/${invId}/${2}/confirm`)
+
+        if (payments !== "") {
+            submitPayment()
+        } else {
+            alert('Vui lòng chọn phương thức thanh toán !')
+        }
     }
 
     useEffect(() => {

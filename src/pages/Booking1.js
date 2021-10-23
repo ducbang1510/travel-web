@@ -208,6 +208,7 @@ function Booking1(props) {
                                                     <input id="children" type="text" value={payDetails.childs} onKeyPress={numberValidate}
                                                         onChange={event => payDetails.setChilds(event.target.value)} required/>
                                                 </div>
+                                                <i style={{color: "#ff7c5b", fontSize:"13px"}}>(*) Trẻ em dưới 10 tuổi.</i>
                                             </div>
                                         </div>
                                     </form>
