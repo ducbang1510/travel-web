@@ -80,7 +80,7 @@ function Booking3(props) {
                     </div>
                     <h3>Vui lòng thử lại</h3>
                     <p>
-                        Bạn sẽ nhận được email xác nhận trong thời gian ngắn
+                        Thắc mắc liên hệ tại
                         <br />
                         <a href="mailto:1851050006bang@ou.edu.vn">
                             1851050006bang@ou.edu.vn - khoa.lta.30092000@gmail.com
