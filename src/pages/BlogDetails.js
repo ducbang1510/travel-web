@@ -66,28 +66,32 @@ function BlogDetails(props) {
     
     /* Handle like function */
     const addLike = async (event) => {
-        let type = 0
-        if (actionType === 2 || actionType === -1 || actionType === null) {
-            type = 1
-            setstylebtLike("contained")
-        }
-        else {
-            type = 2
-            setstylebtLike("outlined")
-        }
+        if (user != null) {
+            let type = 0
+            if (actionType === 2 || actionType === -1 || actionType === null) {
+                type = 1
+                setstylebtLike("contained")
+            }
+            else {
+                type = 2
+                setstylebtLike("outlined")
+            }
 
-        try {
-            await API.post(endpoints['like'](blogId), {
-                "type": type
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${cookies.load('access_token')}`
-                }
-            })
-            setActionType(type)
-            setLikesChange(type)
-        } catch (error) {
-            console.error(error)
+            try {
+                await API.post(endpoints['like'](blogId), {
+                    "type": type
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${cookies.load('access_token')}`
+                    }
+                })
+                setActionType(type)
+                setLikesChange(type)
+            } catch (error) {
+                console.error(error)
+            }
+        } else {
+            alert("Hãy đăng nhập để có like")
         }
     }
     /* End Like Function */
