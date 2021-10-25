@@ -146,9 +146,21 @@ function Booking2(props) {
                                                         value={payments}
                                                         onChange={(event) => setPayments(event.target.value)}
                                                     >
-                                                        <FormControlLabel value="2" control={<Radio />} label="Thanh toán tiền mặt tại quầy" />
-                                                        <FormControlLabel value="1" control={<Radio />} label={<>Thanh toán bằng Ví <img style={{width: '30px'}} src="https://developers.momo.vn/images/logo.png" alt=""/></>} />
-                                                        <FormControlLabel value="3" control={<Radio />} label={<>Thanh toán bằng Ví <img src={logoZaloPay} alt=""/></>} />
+                                                        <FormControlLabel 
+                                                            value="2" 
+                                                            control={<Radio />} 
+                                                            label="Thanh toán tiền mặt tại quầy" 
+                                                        />
+                                                        <FormControlLabel 
+                                                            value="1" 
+                                                            control={<Radio />} 
+                                                            label={<>Thanh toán bằng Ví <img style={{width: '30px'}} src="https://developers.momo.vn/images/logo.png" alt=""/></>} 
+                                                        />
+                                                        <FormControlLabel 
+                                                            value="3" 
+                                                            control={<Radio />} 
+                                                            label={<>Thanh toán bằng Ví <img src={logoZaloPay} alt=""/></>} 
+                                                        />
                                                     </RadioGroup>
                                                     </FormControl>
                                                 </div>
