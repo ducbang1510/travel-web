@@ -8,6 +8,7 @@ import PayContext from '../context/PayContext';
 import WOW from 'wowjs';
 
 import pageTitle5 from '../static/image/background/page-title-5.jpg'
+import logoZaloPay from '../static/image/card/logo-zalopay.svg'
 
 function Booking2(props) {
     const history = useHistory()
@@ -145,9 +146,9 @@ function Booking2(props) {
                                                         value={payments}
                                                         onChange={(event) => setPayments(event.target.value)}
                                                     >
-                                                        <FormControlLabel value="2" control={<Radio />} label="Tiền mặt" />
-                                                        <FormControlLabel value="1" control={<Radio />} label="Momo" />
-                                                        <FormControlLabel value="3" control={<Radio />} label="ZaloPay" />
+                                                        <FormControlLabel value="2" control={<Radio />} label="Thanh toán tiền mặt tại quầy" />
+                                                        <FormControlLabel value="1" control={<Radio />} label={<>Thanh toán bằng Ví <img style={{width: '30px'}} src="https://developers.momo.vn/images/logo.png" alt=""/></>} />
+                                                        <FormControlLabel value="3" control={<Radio />} label={<>Thanh toán bằng Ví <img src={logoZaloPay} alt=""/></>} />
                                                     </RadioGroup>
                                                     </FormControl>
                                                 </div>
