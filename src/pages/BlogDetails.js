@@ -42,7 +42,7 @@ function BlogDetails(props) {
                 })
                 setBlog(res.data)
                 setActionType(res.data.type)
-                if (res.data.type === 1)
+                if (res.data.type === 0)
                     setstylebtLike("contained")
                 else
                     setstylebtLike("outlined")
@@ -67,13 +67,13 @@ function BlogDetails(props) {
     /* Handle like function */
     const addLike = async (event) => {
         if (user != null) {
-            let type = 0
-            if (actionType === 2 || actionType === -1 || actionType === null) {
-                type = 1
+            let type = null
+            if (actionType === 1 || actionType === null) {
+                type = 0
                 setstylebtLike("contained")
             }
             else {
-                type = 2
+                type = 1
                 setstylebtLike("outlined")
             }
 

@@ -76,7 +76,7 @@ export default function PlaceSection() {
                                 </figure>
                                 <div className="text">
                                     <h3>
-                                        <Link to="/tour-list">Phong Nha</Link>
+                                        <Link to="/tour-list">Phong Nha Kẻ Bàng</Link>
                                     </h3>
                                 </div>
                             </div>

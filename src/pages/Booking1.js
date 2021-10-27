@@ -12,25 +12,26 @@ import PreLoader from '../components/PreLoader';
 
 function Booking1(props) {
     const history = useHistory()
+    const { tourId } = useParams()
     const payDetails = React.useContext(PayContext)
     const [tour, setTour] = useState([]);
 
-    const { tourId } = useParams()
+    const [payerName, setPayerName] = useState("")
+    const [payerMail, setPayerMail] = useState("")
+    const [payerPhone, setPayerPhone] = useState("")
+    const [payerAddress, setPayerAddress] = useState("")
+    const [count, setCount] = useState(1)
+
     const [customerForms, setCustomerForms] = useState([{
         id: uuidv4(),
         name: '',
+        age: 'Người lớn',
         gender: '',
         date_of_birth: '',
         email: '',
         phone: '',
         address: '',
     }])
-    const [payerName, setPayerName] = useState("")
-    const [payerMail, setPayerMail] = useState("")
-    const [payerPhone, setPayerPhone] = useState("")
-    const [payerAddress, setPayerAddress] = useState("")
-
-    const [count, setCount] = useState(1)
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -124,8 +125,31 @@ function Booking1(props) {
             setCount(Number(payDetails.adults) + Number(payDetails.childs))
 
             if (count !== Number(payDetails.adults) + Number(payDetails.childs)) {
-                for (let i = 0; i < (Number(payDetails.adults) + Number(payDetails.childs)); i++) {
-                    newInPut = [...newInPut, { id: uuidv4(), name: '', gender: '', date_of_birth: '', email: '', phone: '', address: '' }]
+                for (let i = 0; i < (Number(payDetails.adults)); i++) {
+                    newInPut = [...newInPut, 
+                        { id: uuidv4(), 
+                            name: '', 
+                            age: 'Người lớn', 
+                            gender: '', 
+                            date_of_birth: '', 
+                            email: '', 
+                            phone: '', 
+                            address: '' 
+                        }
+                    ]
+                }
+
+                for (let i = 0; i < (Number(payDetails.childs)); i++) {
+                    newInPut = [...newInPut, 
+                        { id: uuidv4(), 
+                            name: '', 
+                            age: 'Trẻ em', 
+                            gender: '', 
+                            date_of_birth: '', 
+                            email: '', phone: '', 
+                            address: '' 
+                        }
+                    ]
                 }
 
                 let v = []
@@ -233,7 +257,7 @@ function Booking1(props) {
                                                 <div className="row clearfix">
                                                     <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Họ và tên" type="text" name="name"
                                                         field={customerForm.name} change={event => handleCustomerChange(customerForm.id, event)} />
-                                                    <div className="col-lg-6 col-md-6 col-sm-12 column">
+                                                    <div className="col-lg-3 col-md-6 col-sm-12 column">
                                                         <div className="form-group">
                                                         <FormControl required sx={{ m:0, minWidth: 120 }}>
                                                             <label>Giới tính</label>
@@ -250,6 +274,8 @@ function Booking1(props) {
                                                         </FormControl>
                                                         </div>
                                                     </div>
+                                                    <CustomeInput classname="col-lg-3 col-md-6 col-sm-12 column" label="Độ tuổi" type="text" name="age"
+                                                        field={customerForm.age} disabled={true}/>
                                                     <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Email" type="text" name="email"
                                                         field={customerForm.email} change={event => handleCustomerChange(customerForm.id, event)} />
                                                     <CustomeInput classname="col-lg-6 col-md-6 col-sm-12 column" label="Điện thoại" type="text" name="phone"
@@ -336,7 +362,10 @@ class CustomeInput extends React.Component {
                             name={this.props.name}
                             value={this.props.field}
                             onChange={this.props.change}
-                            onKeyPress={this.props.keyPress} required/>
+                            onKeyPress={this.props.keyPress}
+                            disabled = {(this.props.disabled)? "disabled" : ""} 
+                            required
+                        />
                     </div>
                 </div>
             </>

@@ -154,7 +154,7 @@ function Booking2(props) {
                                                         <FormControlLabel 
                                                             value="1" 
                                                             control={<Radio />} 
-                                                            label={<>Thanh toán bằng Ví <img style={{width: '30px'}} src="https://developers.momo.vn/images/logo.png" alt=""/></>} 
+                                                            label={<>Thanh toán bằng Ví <img style={{width: '30px'}} src="https://developers.momo.vn/v2/images/logo.svg" alt=""/></>} 
                                                         />
                                                         <FormControlLabel 
                                                             value="3" 
