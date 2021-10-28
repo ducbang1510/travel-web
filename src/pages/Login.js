@@ -5,15 +5,33 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import WOW from 'wowjs';
 
-import pageTitle5 from "../static/image/background/page-title-5.jpg"
-import shape16 from "../static/image/shape/shape-16.png"
-import shape17 from "../static/image/shape/shape-17.png"
+import pageTitle5 from "../static/image/background/page-title-5.jpg";
+import shape16 from "../static/image/shape/shape-16.png";
+import shape17 from "../static/image/shape/shape-17.png";
+import MessageSnackbar from '../components/MessageSnackbar';
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const history = useHistory();
     const dispatch = useDispatch()
+
+    // State of message
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState('')
+    const [typeMsg, setTypeMsg] = useState('')
+    const [titleMsg, setTitleMsg] = useState('')
+
+    const handleMessageClose = () => {
+        setOpen(false);
+    };
+
+    const createMessage = (title, msg, type) => {
+        setMsg(msg)
+        setTitleMsg(title)
+        setTypeMsg(type)
+    }
+    // End message
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -33,7 +51,8 @@ export default function Login() {
             });
 
             if (res.status === 200) {
-                alert ('Đăng nhập thành công !')
+                setOpen(true)
+                createMessage('Thành công', 'Đăng nhập thành công !', 'success')
                 cookies.save("access_token", res.data.access_token);
 
                 let user = await API.get(endpoints['current-user'], {
@@ -52,7 +71,9 @@ export default function Login() {
             }
         } catch (err) {
             console.error(err)
-            alert('Sai tên tài khoản hoặc mật khẩu. Đảm bảo nhập đúng tên tài khoản và mật khẩu !')
+
+            setOpen(true)
+            createMessage('Lỗi', 'Sai tên tài khoản hoặc mật khẩu. Đảm bảo nhập đúng tên tài khoản và mật khẩu !', 'error')
         }
     }
 
@@ -149,6 +170,14 @@ export default function Login() {
                     </div>
                 </div>
             </section>
+
+            <MessageSnackbar
+                handleClose={handleMessageClose}
+                isOpen={open}
+                msg={msg}
+                type={typeMsg}
+                title={titleMsg}
+            />
         </>
     )
 }

@@ -9,6 +9,7 @@ import { Avatar, Rating } from "@mui/material";
 
 import advice1 from "../static/image/advice/advice-1.jpg"
 import PreLoader from "../components/PreLoader"
+import MessageSnackbar from "../components/MessageSnackbar";
 
 
 export default function TourDetail() {
@@ -24,6 +25,23 @@ export default function TourDetail() {
     const { tourId } = useParams()
 
     let user = useSelector(state => state.user.user)
+
+    // State of message
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState('')
+    const [typeMsg, setTypeMsg] = useState('')
+    const [titleMsg, setTitleMsg] = useState('')
+
+    const handleMessageClose = () => {
+        setOpen(false);
+    };
+
+    const createMessage = (title, msg, type) => {
+        setMsg(msg)
+        setTitleMsg(title)
+        setTypeMsg(type)
+    }
+    // End message
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -73,14 +91,19 @@ export default function TourDetail() {
                             'Authorization': `Bearer ${cookies.load('access_token')}`
                         }
                     })
-                    if (res.status === 200 || res.status === 201)
-                        alert("Cảm ơn đã đánh giá tour")
+                    if (res.status === 200 || res.status === 201) {
+                        setOpen(true)
+                        createMessage('Thành công', 'Đánh giá tour thành công !', 'success')
+                    }
                 } catch (error) {
+                    setOpen(true)
+                    createMessage('Lỗi', 'Đánh giá tour thất bại !', 'error')
                     console.error(error)
                 }
             }
         }else {
-            alert("Hãy đăng nhập để có thể đánh giá")
+            setOpen(true)
+            createMessage('Cảnh báo', 'Hãy đăng nhập để có thể đánh giá !', 'warning')
         }
         setRating(newValue);
     }
@@ -97,17 +120,25 @@ export default function TourDetail() {
                         'Authorization': `Bearer ${cookies.load('access_token')}`
                     }
                 })
-                listComment.push(res.data)
-                setListComment(listComment)
-                setCommentChange(listComment.length)
-                if (res.status === 201)
-                    alert("Cảm ơn đã để lại bình luận về tour")
+                
+                if (res.status === 201) {
+                    listComment.push(res.data)
+                    setListComment(listComment)
+                    setCommentChange(listComment.length)
+                    setComment('')
+
+                    setOpen(true)
+                    createMessage('Thành công', 'Đăng bình luận tour thành công !', 'success')
+                }
             } catch (error) {
                 console.error(error)
+                setOpen(true)
+                createMessage('Lỗi', 'Đăng bình luận tour thất bại !', 'error')
             }
         }
         else {
-            alert("Hãy đăng nhập để có thể bình luận")
+            setOpen(true)
+            createMessage('Cảnh báo', 'Hãy đăng nhập để có thể bình luận !', 'warning')
         }
     }
     /* End Comment Function */
@@ -249,6 +280,14 @@ export default function TourDetail() {
                     </div>
                 </div>
             </section>
+
+            <MessageSnackbar
+                handleClose={handleMessageClose}
+                isOpen={open}
+                msg={msg}
+                type={typeMsg}
+                title={titleMsg}
+            />
         </>
     )
 }

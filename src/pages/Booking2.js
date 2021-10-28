@@ -9,6 +9,7 @@ import WOW from 'wowjs';
 
 import pageTitle5 from '../static/image/background/page-title-5.jpg'
 import logoZaloPay from '../static/image/card/logo-zalopay.svg'
+import MessageSnackbar from '../components/MessageSnackbar';
 
 function Booking2(props) {
     const history = useHistory()
@@ -17,6 +18,23 @@ function Booking2(props) {
     const [tour, setTour] = useState([]);
     const [note, setNote] = useState("");
     const [payments, setPayments] = useState("")
+
+    // State of message
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState('')
+    const [typeMsg, setTypeMsg] = useState('')
+    const [titleMsg, setTitleMsg] = useState('')
+
+    const handleMessageClose = () => {
+        setOpen(false);
+    };
+
+    const createMessage = (title, msg, type) => {
+        setMsg(msg)
+        setTitleMsg(title)
+        setTypeMsg(type)
+    }
+    // End message
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -75,7 +93,8 @@ function Booking2(props) {
         if (payments !== "") {
             submitPayment()
         } else {
-            alert('Vui lòng chọn phương thức thanh toán !')
+            setOpen(true)
+            createMessage('Cảnh báo', 'Vui lòng chọn phương thức thanh toán !', 'warning')
         }
     }
 
@@ -229,6 +248,14 @@ function Booking2(props) {
                     </div>
                 </div>
             </section>
+
+            <MessageSnackbar
+                handleClose={handleMessageClose}
+                isOpen={open}
+                msg={msg}
+                type={typeMsg}
+                title={titleMsg}
+            />
         </>
     );
 }

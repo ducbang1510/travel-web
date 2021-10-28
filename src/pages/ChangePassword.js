@@ -9,6 +9,7 @@ import WOW from 'wowjs';
 import pageTitle9 from "../static/image/background/page-title-9.jpg"
 import shape16 from "../static/image/shape/shape-16.png"
 import shape17 from "../static/image/shape/shape-17.png"
+import MessageSnackbar from '../components/MessageSnackbar';
 
 export default function ChangePassword(props) {
     const history = useHistory()
@@ -17,6 +18,23 @@ export default function ChangePassword(props) {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     let user = useSelector(state => state.user.user)
+
+    // State of message
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState('')
+    const [typeMsg, setTypeMsg] = useState('')
+    const [titleMsg, setTitleMsg] = useState('')
+
+    const handleMessageClose = () => {
+        setOpen(false);
+    };
+
+    const createMessage = (title, msg, type) => {
+        setMsg(msg)
+        setTitleMsg(title)
+        setTypeMsg(type)
+    }
+    // End message
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -39,17 +57,20 @@ export default function ChangePassword(props) {
                             }
                         })
                         if (res.status === 200) {
-                            alert('Đổi mật khẩu thành công !')
+                            setOpen(true)
+                            createMessage('Thành công', 'Đổi mật khẩu thành công !', 'success')
                             history.push("/")
                         }
                     } catch (error) {
                         console.error(error)
                     }
             } else {
-                alert('Mật khẩu xác nhận không chính xác !')
+                setOpen(true)
+                createMessage('Lỗi', 'Mật khẩu xác nhận không chính xác !', 'error')
             }
         } else {
-            alert('Hãy đăng nhập để đổi mật khẩu !')
+            setOpen(true)
+            createMessage('Cảnh báo', 'Hãy đăng nhập để đổi mật khẩu !', 'warning')
         }
     }
 
@@ -118,6 +139,14 @@ export default function ChangePassword(props) {
                     </div>
                 </div>
             </section>
+
+            <MessageSnackbar
+                handleClose={handleMessageClose}
+                isOpen={open}
+                msg={msg}
+                type={typeMsg}
+                title={titleMsg}
+            />
         </>
     )
 }

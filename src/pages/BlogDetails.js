@@ -8,15 +8,16 @@ import { Avatar, Button } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import WOW from 'wowjs';
 
-import pageTitle10 from "../static/image/background/page-title-10.jpg"
-import advice1 from "../static/image/advice/advice-1.jpg"
-import PreLoader from "../components/PreLoader"
+import pageTitle10 from "../static/image/background/page-title-10.jpg";
+import advice1 from "../static/image/advice/advice-1.jpg";
+import PreLoader from "../components/PreLoader";
+import MessageSnackbar from '../components/MessageSnackbar';
 
 function BlogDetails(props) {
     const [blog, setBlog] = useState([])
     const [lastestBlogs, setLastestBlogs] = useState([])
 
-    const [actionType, setActionType] = useState(null)
+    const [actionType, setActionType] = useState(1)
     const [stylebtLike, setstylebtLike] = useState(null)
     const [likesChange, setLikesChange] = useState(null)
 
@@ -28,6 +29,23 @@ function BlogDetails(props) {
 
     let user = useSelector(state => state.user.user)
 
+    // State of message
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState('')
+    const [typeMsg, setTypeMsg] = useState('')
+    const [titleMsg, setTitleMsg] = useState('')
+
+    const handleMessageClose = () => {
+        setOpen(false);
+    };
+
+    const createMessage = (title, msg, type) => {
+        setMsg(msg)
+        setTitleMsg(title)
+        setTypeMsg(type)
+    }
+    // End message
+    
     useEffect(() => {
         new WOW.WOW({live: false}).init();
     }, [])
@@ -42,10 +60,10 @@ function BlogDetails(props) {
                 })
                 setBlog(res.data)
                 setActionType(res.data.type)
-                if (res.data.type === 0)
-                    setstylebtLike("contained")
-                else
+                if (res.data.type === 1 || res.data.type === -1)
                     setstylebtLike("outlined")
+                else
+                    setstylebtLike("contained")
             } catch (error) {
                 console.error(error)
             }
@@ -68,7 +86,7 @@ function BlogDetails(props) {
     const addLike = async (event) => {
         if (user != null) {
             let type = null
-            if (actionType === 1 || actionType === null) {
+            if (actionType === 1 || actionType === -1) {
                 type = 0
                 setstylebtLike("contained")
             }
@@ -91,7 +109,8 @@ function BlogDetails(props) {
                 console.error(error)
             }
         } else {
-            alert("Hãy đăng nhập để có like")
+            setOpen(true)
+            createMessage('Cảnh báo', 'Hãy đăng nhập để có thể like', 'warning')
         }
     }
     /* End Like Function */
@@ -109,15 +128,25 @@ function BlogDetails(props) {
                         'Authorization': `Bearer ${cookies.load('access_token')}`
                     }
                 })
-                listComment.push(res.data)
-                setListComment(listComment)
-                setCommentChange(listComment.length)
+                
+                if (res.status === 201) {
+                    setOpen(true)
+                    createMessage('Thành công', "Đăng bình luận thành công", 'success')
+
+                    listComment.push(res.data)
+                    setListComment(listComment)
+                    setCommentChange(listComment.length)
+                    setComment('')
+                }
             } catch (error) {
                 console.error(error)
+                setOpen(true)
+                createMessage('Lỗi', "Đăng bình luận thất bại", 'error')
             }
         }
         else {
-            alert("Hãy đăng nhập để có thể bình luận")
+            setOpen(true)
+            createMessage('Cảnh báo', "Hãy đăng nhập để có thể bình luận", 'warning')
         }
     }
     /* End Comment Function */
@@ -297,6 +326,14 @@ function BlogDetails(props) {
                     </div>
                 </div>
             </section>
+
+            <MessageSnackbar
+                handleClose={handleMessageClose}
+                isOpen={open}
+                msg={msg}
+                type={typeMsg}
+                title={titleMsg}
+            />
         </>
     );
 }

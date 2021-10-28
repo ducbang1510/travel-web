@@ -4,7 +4,7 @@ const PayContext = createContext();
 
 export const PayProvider = ({ children }) => {
     const [childs, setChilds] = useState(0);
-    const [adults, setAdults] = useState(1);
+    const [adults, setAdults] = useState(0);
     const [rooms, setRooms] = useState(1);
     const [total, setTotal] = useState(0);
     const [payerId, setPayerId] = useState(0)

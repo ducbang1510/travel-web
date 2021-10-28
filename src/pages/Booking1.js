@@ -9,8 +9,9 @@ import WOW from 'wowjs';
 
 import pageTitle5 from '../static/image/background/page-title-5.jpg'
 import PreLoader from '../components/PreLoader';
+import MessageSnackbar from '../components/MessageSnackbar';
 
-function Booking1(props) {
+export default function Booking1(props) {
     const history = useHistory()
     const { tourId } = useParams()
     const payDetails = React.useContext(PayContext)
@@ -20,18 +21,26 @@ function Booking1(props) {
     const [payerMail, setPayerMail] = useState("")
     const [payerPhone, setPayerPhone] = useState("")
     const [payerAddress, setPayerAddress] = useState("")
-    const [count, setCount] = useState(1)
+    const [count, setCount] = useState(0)
 
-    const [customerForms, setCustomerForms] = useState([{
-        id: uuidv4(),
-        name: '',
-        age: 'Người lớn',
-        gender: '',
-        date_of_birth: '',
-        email: '',
-        phone: '',
-        address: '',
-    }])
+    const [customerForms, setCustomerForms] = useState([])
+
+    // State of message
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState('')
+    const [typeMsg, setTypeMsg] = useState('')
+    const [titleMsg, setTitleMsg] = useState('')
+
+    const handleMessageClose = () => {
+        setOpen(false);
+    };
+
+    const createMessage = (title, msg, type) => {
+        setMsg(msg)
+        setTitleMsg(title)
+        setTypeMsg(type)
+    }
+    // End message
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -82,30 +91,40 @@ function Booking1(props) {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        let pId;
-        const formPayer = new FormData()
-        formPayer.append("name", payerName)
-        formPayer.append("email", payerMail)
-        formPayer.append("phone", payerPhone)
-        formPayer.append("address", payerAddress)
+        if (count < 1) {
+            setOpen(true)
+            createMessage('Lỗi', 'Vui lòng nhập số lượng khách tối thiểu 1', 'error')
+        }
+        else if (payDetails.rooms < 1) {
+            setOpen(true)
+            createMessage('Lỗi', 'Vui lòng nhập số lượng phòng tối thiểu 1', 'error')
+        }
+        else {
+            let pId;
+            const formPayer = new FormData()
+            formPayer.append("name", payerName)
+            formPayer.append("email", payerMail)
+            formPayer.append("phone", payerPhone)
+            formPayer.append("address", payerAddress)
 
-        try {
-            let res = await API.post(endpoints['payers'], formPayer, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            pId = res.data.id
-            payDetails.setPayerId(pId)
-            addCustomer(pId)
+            try {
+                let res = await API.post(endpoints['payers'], formPayer, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                pId = res.data.id
+                payDetails.setPayerId(pId)
+                addCustomer(pId)
 
-            await API.post(endpoints['update-slots'](tourId), {
-                "count": count
-            })
+                await API.post(endpoints['update-slots'](tourId), {
+                    "count": count
+                })
 
-            history.push(`/tour-detail/${tourId}/booking-2`)
-        } catch (error) {
-            console.error(error)
+                history.push(`/tour-detail/${tourId}/booking-2`)
+            } catch (error) {
+                console.error(error)
+            }
         }
     }
 
@@ -116,9 +135,12 @@ function Booking1(props) {
 
     useEffect(() => {
         if (Number(payDetails.adults) + Number(payDetails.childs) > Number(tour.slots)) {
-            alert("Vượt quá số lượng còn lại. Hãy nhập lại")
-            payDetails.setAdults("1")
+            setOpen(true)
+            createMessage('Lỗi', 'Vượt quá số lượng chỗ còn lại. Hãy nhập lại', 'error')
+
+            payDetails.setAdults("0")
             payDetails.setChilds("0")
+            setCustomerForms([])
         }
         else {
             let newInPut = []
@@ -344,12 +366,18 @@ function Booking1(props) {
                         </div>
                     </div>
                 </div>
+
+                <MessageSnackbar
+                    handleClose={handleMessageClose}
+                    isOpen={open}
+                    msg={msg}
+                    type={typeMsg}
+                    title={titleMsg}
+                />
             </section>
         </>
     );
 }
-
-export default Booking1;
 
 class CustomeInput extends React.Component {
     render() {

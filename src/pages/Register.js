@@ -7,6 +7,7 @@ import WOW from 'wowjs';
 import pageTitle9 from "../static/image/background/page-title-9.jpg"
 import shape16 from "../static/image/shape/shape-16.png"
 import shape17 from "../static/image/shape/shape-17.png"
+import MessageSnackbar from '../components/MessageSnackbar';
 
 export default function Register(props) {
     const history = useHistory()
@@ -17,6 +18,23 @@ export default function Register(props) {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const avatar = useRef();
+
+    // State of message
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState('')
+    const [typeMsg, setTypeMsg] = useState('')
+    const [titleMsg, setTitleMsg] = useState('')
+
+    const handleMessageClose = () => {
+        setOpen(false);
+    };
+
+    const createMessage = (title, msg, type) => {
+        setMsg(msg)
+        setTitleMsg(title)
+        setTypeMsg(type)
+    }
+    // End message
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -40,10 +58,13 @@ export default function Register(props) {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                alert('Đăng kí thành công. Hãy đăng nhập để sử dụng tài khoản')
+                setOpen(true)
+                createMessage('Thành công', 'Đăng kí thành công. Hãy đăng nhập để sử dụng tài khoản', 'success')
                 history.push("/")
             } catch (error) {
                 console.error(error)
+                setOpen(true)
+                createMessage('Lỗi', 'Đăng kí thất bại.', 'error')
             }
         }
 
@@ -129,6 +150,14 @@ export default function Register(props) {
                     </div>
                 </div>
             </section>
+
+            <MessageSnackbar
+                handleClose={handleMessageClose}
+                isOpen={open}
+                msg={msg}
+                type={typeMsg}
+                title={titleMsg}
+            />
         </>
     )
 }

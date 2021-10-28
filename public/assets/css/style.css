@@ -508,7 +508,7 @@ img {
 }
 
 .scroll-top.open {
-    bottom: 50px;
+    bottom: 100px;
     opacity: 0.9;
 }
 

@@ -7,6 +7,7 @@ import WOW from 'wowjs';
 import pageTitle9 from "../static/image/background/page-title-9.jpg"
 import shape16 from "../static/image/shape/shape-16.png"
 import shape17 from "../static/image/shape/shape-17.png"
+import MessageSnackbar from '../components/MessageSnackbar';
 
 export default function ResetPassword(props) {
     const history = useHistory()
@@ -14,6 +15,23 @@ export default function ResetPassword(props) {
     const [confirmPassword, setConfirmPassword] = useState('');
     const { token }= useParams()
     const [isValid, setIsValid] = useState(false)
+
+    // State of message
+    const [open, setOpen] = React.useState(false);
+    const [msg, setMsg] = useState('')
+    const [typeMsg, setTypeMsg] = useState('')
+    const [titleMsg, setTitleMsg] = useState('')
+
+    const handleMessageClose = () => {
+        setOpen(false);
+    };
+
+    const createMessage = (title, msg, type) => {
+        setMsg(msg)
+        setTitleMsg(title)
+        setTypeMsg(type)
+    }
+    // End message
 
     useEffect(() => {
         new WOW.WOW({live: false}).init();
@@ -35,14 +53,18 @@ export default function ResetPassword(props) {
                 })
                 console.log(res)
                 if (res.status === 200) {
-                    alert('Đặt lại mật khẩu thành công. Hãy đăng nhập để sử dụng tài khoản')
+                    setOpen(true)
+                    createMessage('Thành công', 'Đặt lại mật khẩu thành công. Hãy đăng nhập để sử dụng tài khoản', 'success')
                     history.push("/")
                 }
             } catch (error) {
+                setOpen(true)
+                createMessage('Lỗi', 'Đặt lại mật khẩu thất bại', 'error')
                 console.error(error)
             }
         } else {
-            alert('Mật khẩu xác nhận không chính xác')
+            setOpen(true)
+            createMessage('Cảnh báo', 'Mật khẩu xác nhận không chính xác', 'warning')
         }
     }
 
@@ -140,6 +162,14 @@ export default function ResetPassword(props) {
                     </div>
                 </div>
             </section>
+
+            <MessageSnackbar
+                handleClose={handleMessageClose}
+                isOpen={open}
+                msg={msg}
+                type={typeMsg}
+                title={titleMsg}
+            />
         </>
     )
 }
