@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
+import WOW from 'wowjs';
 
 import animicon1 from "../../static/image/icon/anim-icon-1.png"
 import shape3 from "../../static/image/shape/shape-3.png"
@@ -9,6 +10,9 @@ import place3 from "../../static/image/place/place-3.jpg"
 import place4 from "../../static/image/place/place-4.jpg"
 
 export default function PlaceSection() {
+    useEffect(() => {
+        new WOW.WOW({live: false}).init();
+    }, [])
     return (
         <section className="place-section sec-pad">
             <div className="anim-icon">
@@ -28,7 +32,9 @@ export default function PlaceSection() {
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-12 place-block">
                         <div className="place-block-one">
-                            <div className="inner-box">
+                            <div className="inner-box wow fadeInDown animated animated"
+                                    data-wow-delay="00ms"
+                                    data-wow-duration="1500ms">
                                 <figure className="image-box">
                                     <img src={place1} alt="ImagePlace"/>
                                 </figure>
@@ -42,7 +48,9 @@ export default function PlaceSection() {
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-12 place-block">
                         <div className="place-block-one">
-                            <div className="inner-box">
+                            <div className="inner-box wow fadeInDown animated animated"
+                                    data-wow-delay="00ms"
+                                    data-wow-duration="1500ms">
                                 <figure className="image-box">
                                     <img src={place2} alt="ImagePlace"/>
                                 </figure>
@@ -56,7 +64,9 @@ export default function PlaceSection() {
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-12 place-block">
                         <div className="place-block-one">
-                            <div className="inner-box">
+                            <div className="inner-box wow fadeInUp animated animated"
+                                    data-wow-delay="00ms"
+                                    data-wow-duration="1500ms">
                                 <figure className="image-box">
                                     <img src={place3} alt="ImagePlace"/>
                                 </figure>
@@ -70,20 +80,24 @@ export default function PlaceSection() {
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-12 place-block">
                         <div className="place-block-one">
-                            <div className="inner-box">
+                            <div className="inner-box wow fadeInUp animated animated"
+                                    data-wow-delay="00ms"
+                                    data-wow-duration="1500ms">
                                 <figure className="image-box">
                                     <img src={place4} alt="ImagePlace"/>
                                 </figure>
                                 <div className="text">
                                     <h3>
-                                        <Link to="/tour-list">Phong Nha Kẻ Bàng</Link>
+                                        <Link to="/tour-list">Động Phong Nha</Link>
                                     </h3>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-12 link-column">
-                        <div className="link-box centred">
+                        <div className="link-box centred wow fadeInRight animated animated"
+                                    data-wow-delay="00ms"
+                                    data-wow-duration="1500ms">
                             <h3>
                                 Tìm Tất Cả <br />
                                 Điểm Đến
