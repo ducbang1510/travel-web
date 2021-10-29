@@ -59,7 +59,8 @@ export default function Booking1(props) {
     }, [tourId])
 
     useEffect(() => {
-        payDetails.setTotal(parseFloat(tour.price_of_tour) * (parseInt(payDetails.adults) + parseInt(payDetails.childs) * (75 / 100))
+        payDetails.setTotal(parseFloat(tour.price_of_tour) * parseInt(payDetails.adults)
+            + parseFloat(tour.price_of_tour_child) * parseInt(payDetails.childs)
             + parseFloat(tour.price_of_room) * payDetails.rooms)
     }, [payDetails, tour])
 
@@ -347,7 +348,7 @@ export default function Booking1(props) {
                                         </li>
                                         <li>
                                             <i className="fas fa-money-bill" />
-                                            Trẻ em: <span>{parseFloat(tour.price_of_tour) * (75 / 100)} đ</span>
+                                            Trẻ em: <span>{tour.price_of_tour_child} đ</span>
                                         </li>
                                         <li>
                                             <i className="fas fa-money-bill" />

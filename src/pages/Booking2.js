@@ -228,7 +228,7 @@ function Booking2(props) {
                                         </li> */}
                                         <li>
                                             <i className="fas fa-money-bill" />
-                                            Trẻ em: <span>Đang cập nhật</span>
+                                            Trẻ em: <span>{tour.price_of_tour_child}</span>
                                         </li>
                                         <li>
                                             <i className="fas fa-money-bill" />
