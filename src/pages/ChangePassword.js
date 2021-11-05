@@ -40,33 +40,61 @@ export default function ChangePassword(props) {
         new WOW.WOW({live: false}).init();
     }, [])
 
-    const changePassword = async (event) => {
+    const changePassword = (event) => {
         event.preventDefault()
 
-        if (user != null) {
-            if (newPassword === confirmPassword) {
-                const formData = new FormData()
-                formData.append("old_password", oldPassword);
-                formData.append("new_password", newPassword);
-                
-                    try {
-                        let res = await API.post(endpoints['change-password'], formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data',
-                                'Authorization': `Bearer ${cookies.load('access_token')}`
-                            }
-                        })
-                        if (res.status === 200) {
-                            setOpen(true)
-                            createMessage('Thành công', 'Đổi mật khẩu thành công !', 'success')
-                            history.push("/")
-                        }
-                    } catch (error) {
-                        console.error(error)
+        let changeNewPassword = async () => {
+            const formData = new FormData()
+            formData.append("old_password", oldPassword);
+            formData.append("new_password", newPassword);
+
+            try {
+                let res = await API.post(endpoints['change-password'], formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${cookies.load('access_token')}`
                     }
+                })
+                if (res.status === 200) {
+                    setOpen(true)
+                    createMessage('Thành công', 'Đổi mật khẩu thành công !', 'success')
+                    history.push("/")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        let alphabet_count = 0;
+        let number_count = 0;
+        for (let i = 0; i < newPassword.length; i++) {
+            let c = newPassword.charAt(i);
+
+            if ('A' <= c && c <= 'Z') {
+                alphabet_count += 1;
+            } else if ('a' <= c && c <= 'z') {
+                alphabet_count += 1;
+            } else if ('0' <= c && c <= '9') {
+                number_count += 1;
+            }
+        }
+
+        if (user != null) { 
+            if (newPassword.length > 7) {
+                if (alphabet_count === 0 || number_count === 0) {
+                    setOpen(true)
+                    createMessage('Invalid Password', 'Hãy đặt mật khẩu có cả kí tự chữ và số !', 'warning')
+                } else {
+                    if (newPassword === confirmPassword) {
+                        changeNewPassword()
+                    } else {
+                        setOpen(true)
+                        createMessage('Cảnh báo', 'Mật khẩu xác nhận không chính xác', 'warning')
+                    }
+                }
             } else {
                 setOpen(true)
-                createMessage('Lỗi', 'Mật khẩu xác nhận không chính xác !', 'error')
+                createMessage('Invalid Password', 'Hãy đặt mật khẩu tối thiểu 8 kí tự !', 'warning')
             }
         } else {
             setOpen(true)

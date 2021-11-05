@@ -68,8 +68,35 @@ export default function Register(props) {
             }
         }
 
-        if (password === confirmPassword) {
-            registerUser()
+        let alphabet_count = 0;
+        let number_count = 0;
+        for (let i = 0; i < password.length; i++) {
+            let c = password.charAt(i);
+
+            if ('A' <= c && c <= 'Z') {
+                alphabet_count += 1;
+            } else if ('a' <= c && c <= 'z') {
+                alphabet_count += 1;
+            } else if ('0' <= c && c <= '9') {
+                number_count += 1;
+            }
+        }
+
+        if (password.length > 7) {
+            if (alphabet_count === 0 || number_count === 0) {
+                setOpen(true)
+                createMessage('Invalid Password', 'Hãy đặt mật khẩu có cả kí tự chữ và số !', 'warning')
+            } else {
+                if (password === confirmPassword) {
+                    registerUser()
+                } else {
+                    setOpen(true)
+                    createMessage('Cảnh báo', 'Mật khẩu xác nhận không chính xác', 'warning')
+                }
+            }
+        } else {
+            setOpen(true)
+            createMessage('Invalid Password', 'Hãy đặt mật khẩu tối thiểu 8 kí tự !', 'warning')
         }
     }
 
