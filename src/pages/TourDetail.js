@@ -81,7 +81,7 @@ export default function TourDetail() {
     }
 
     const addRating = async (event, newValue) => {
-        if (user !== null) {
+        if (user != null) {
             if (window.confirm("Bạn xác nhận đánh giá tour này ?") === true) {
                 try {
                     let res = await API.post(endpoints['rating'](tourId), {
@@ -94,6 +94,7 @@ export default function TourDetail() {
                     if (res.status === 200 || res.status === 201) {
                         setOpen(true)
                         createMessage('Thành công', 'Đánh giá tour thành công !', 'success')
+                        setRating(newValue);
                     }
                 } catch (error) {
                     setOpen(true)
@@ -101,11 +102,10 @@ export default function TourDetail() {
                     console.error(error)
                 }
             }
-        }else {
+        } else {
             setOpen(true)
             createMessage('Cảnh báo', 'Hãy đăng nhập để có thể đánh giá !', 'warning')
         }
-        setRating(newValue);
     }
     
 
