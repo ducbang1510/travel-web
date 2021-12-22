@@ -64,8 +64,6 @@ const useStyles = makeStyles((theme) => ({
     }
 })
 );
-  
-let beforeChange = null;
 
 export default function TourList() {
     const location = useLocation()
@@ -100,21 +98,13 @@ export default function TourList() {
     /* Range slider */
     const [value, setValue] = useState([500000, 10000000]);
 
-    const handleChange = (event, newValue) => {
-        if (!beforeChange) {
-            beforeChange = [...value];
-        }
-
-        if (beforeChange[0] !== newValue[0] && beforeChange[1] !== newValue[1]) {
-            return;
-        }
-
-        setValue(newValue);
+    const handleChange = (event) => {
+        setValue(event.target.value);
     };
 
-    const handleChangeCommitted = () => {
-        beforeChange = null;
-    };
+    // const handleChangeCommitted = () => {
+    //     console.log(value);
+    // };
     /* End Range Slider */
 
     /* Classname List and Grid view for page tour list */
@@ -363,7 +353,7 @@ export default function TourList() {
                                             <Slider
                                                 value={value}
                                                 onChange={handleChange}
-                                                onChangeCommitted={handleChangeCommitted}
+                                                // onChangeCommitted={handleChangeCommitted}
                                                 valueLabelDisplay="auto"
                                                 aria-labelledby="range-slider"
                                                 getAriaValueText={valuetext}
